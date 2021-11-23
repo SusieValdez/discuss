@@ -1,5 +1,8 @@
 import { useState } from "react";
-import "./App.css";
+// Components
+import Messages from "./components/Messages";
+// Styles
+import { Container } from "./App.styles";
 
 const ws = new WebSocket(`ws://${window.location.hostname}:8080`);
 
@@ -35,18 +38,9 @@ function App() {
   };
 
   return (
-    <div className="App">
-      <header className="App-header">
-        {messages.map((message, i) => (
-          <p key={i}>{message}</p>
-        ))}
-        <input
-          value={newMessage}
-          onChange={onChangeNewMessage}
-          onKeyDown={onKeyDownNewMessage}
-        />
-      </header>
-    </div>
+    <Container>
+      <Messages />;
+    </Container>
   );
 }
 
