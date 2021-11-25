@@ -1,4 +1,6 @@
 import React from "react";
+import { formatRelative } from "date-fns";
+
 // Styles
 import {
   Container,
@@ -19,7 +21,7 @@ const Message = ({ avatarUrl, username, timestamp, text }) => {
       <div>
         <Header>
           <Username>{username}</Username>
-          <Timestamp>{timestamp}</Timestamp>
+          <Timestamp>{formatRelative(timestamp, Date.now())}</Timestamp>
         </Header>
         <Content>{text}</Content>
       </div>

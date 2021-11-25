@@ -1,7 +1,10 @@
 import { WebSocketServer } from "ws";
+import { nanoid } from "nanoid";
+
 const wss = new WebSocketServer({ port: 8080 });
 
 wss.on("connection", (ws) => {
+  const userId = nanoid();
   ws.on("message", (data) => {
     const action = JSON.parse(data);
     console.log(action);
@@ -11,9 +14,9 @@ wss.on("connection", (ws) => {
           kind: "NEW_MESSAGE",
           payload: {
             message: {
-              username: "Tom",
-              avatarUrl: "https://i.pravatar.cc/300?u=5",
-              timestamp: "Today at 1:52 PM",
+              username: `User: ${userId}`,
+              avatarUrl: `https://i.pravatar.cc/300?u=${userId}`,
+              timestamp: Date.now(),
               text: action.payload.text,
             },
           },

@@ -1,6 +1,7 @@
 {
   "type": "module",
   "dependencies": {
+    "nanoid": "^3.1.30",
     "ws": "^8.2.3"
   }
 }
