@@ -3,8 +3,21 @@ import { nanoid } from "nanoid";
 
 const wss = new WebSocketServer({ port: 8080 });
 
+const state = {
+  messages: [],
+};
+
 wss.on("connection", (ws) => {
   const userId = nanoid();
+
+  const event = {
+    kind: "SET_STATE",
+    payload: {
+      state,
+    },
+  };
+  ws.send(JSON.stringify(event));
+
   ws.on("message", (data) => {
     const action = JSON.parse(data);
     console.log(action);
@@ -21,6 +34,7 @@ wss.on("connection", (ws) => {
             },
           },
         };
+        state.messages.push(event.payload.message);
         wss.clients.forEach((client) => {
           client.send(JSON.stringify(event));
         });

@@ -29,6 +29,9 @@ function App() {
       case "NEW_MESSAGE":
         addMessage(event.payload.message);
         break;
+      case "SET_STATE":
+        setMessages(event.payload.state.messages);
+        break;
       default:
         console.error("unexpected event: " + JSON.stringify(event));
     }
