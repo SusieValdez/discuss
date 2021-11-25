@@ -7,8 +7,19 @@ wss.on("connection", (ws) => {
     console.log(action);
     switch (action.kind) {
       case "NEW_MESSAGE":
+        const event = {
+          kind: "NEW_MESSAGE",
+          payload: {
+            message: {
+              username: "Tom",
+              avatarUrl: "https://i.pravatar.cc/300?u=5",
+              timestamp: "Today at 1:52 PM",
+              text: action.payload.text,
+            },
+          },
+        };
         wss.clients.forEach((client) => {
-          client.send(JSON.stringify(action));
+          client.send(JSON.stringify(event));
         });
         break;
       default:
