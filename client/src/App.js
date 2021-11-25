@@ -1,10 +1,31 @@
 import { useState } from "react";
 // Components
 import Messages from "./components/Messages";
-// Styles
+//styles
 import { Container } from "./App.styles";
 
 const ws = new WebSocket(`ws://${window.location.hostname}:8080`);
+
+const fakeMessages = [
+  {
+    username: "Pepa",
+    avatarUrl: "https://i.pravatar.cc/300?u=1",
+    timestamp: "Today at 10:00 AM",
+    text: "Hello World",
+  },
+  {
+    username: "Nachita",
+    avatarUrl: "https://i.pravatar.cc/300?u=2",
+    timestamp: "Today at 10:00 AM",
+    text: "Hello World 2",
+  },
+  {
+    username: "Popeye",
+    avatarUrl: "https://i.pravatar.cc/300?u=3",
+    timestamp: "Today at 10:00 AM",
+    text: "Hello World 3",
+  },
+];
 
 function App() {
   const [messages, setMessages] = useState([]);
@@ -39,7 +60,7 @@ function App() {
 
   return (
     <Container>
-      <Messages />;
+      <Messages messages={fakeMessages} />
     </Container>
   );
 }
