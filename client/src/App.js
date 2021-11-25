@@ -1,6 +1,7 @@
 import { useState } from "react";
 // Components
 import Messages from "./components/Messages";
+import NewMessageInput from "./components/NewMessageInput";
 //styles
 import { Container } from "./App.styles";
 
@@ -25,6 +26,102 @@ const fakeMessages = [
     timestamp: "Today at 10:00 AM",
     text: "Hello World 3",
   },
+  {
+    username: "Popeye",
+    avatarUrl: "https://i.pravatar.cc/300?u=3",
+    timestamp: "Today at 10:00 AM",
+    text: "Hello World 3",
+  },
+  {
+    username: "Popeye",
+    avatarUrl: "https://i.pravatar.cc/300?u=3",
+    timestamp: "Today at 10:00 AM",
+    text: "Hello World 3",
+  },
+  {
+    username: "Popeye",
+    avatarUrl: "https://i.pravatar.cc/300?u=3",
+    timestamp: "Today at 10:00 AM",
+    text: "Hello World 3",
+  },
+  {
+    username: "Popeye",
+    avatarUrl: "https://i.pravatar.cc/300?u=3",
+    timestamp: "Today at 10:00 AM",
+    text: "Hello World 3",
+  },
+  {
+    username: "Popeye",
+    avatarUrl: "https://i.pravatar.cc/300?u=3",
+    timestamp: "Today at 10:00 AM",
+    text: "Hello World 3",
+  },
+  // {
+  //   username: "Popeye",
+  //   avatarUrl: "https://i.pravatar.cc/300?u=3",
+  //   timestamp: "Today at 10:00 AM",
+  //   text: "Hello World 3",
+  // },
+  // {
+  //   username: "Popeye",
+  //   avatarUrl: "https://i.pravatar.cc/300?u=3",
+  //   timestamp: "Today at 10:00 AM",
+  //   text: "Hello World 3",
+  // },
+  // {
+  //   username: "Popeye",
+  //   avatarUrl: "https://i.pravatar.cc/300?u=3",
+  //   timestamp: "Today at 10:00 AM",
+  //   text: "Hello World 3",
+  // },
+  // {
+  //   username: "Popeye",
+  //   avatarUrl: "https://i.pravatar.cc/300?u=3",
+  //   timestamp: "Today at 10:00 AM",
+  //   text: "Hello World 3",
+  // },
+  // {
+  //   username: "Popeye",
+  //   avatarUrl: "https://i.pravatar.cc/300?u=3",
+  //   timestamp: "Today at 10:00 AM",
+  //   text: "Hello World 3",
+  // },
+  // {
+  //   username: "Popeye",
+  //   avatarUrl: "https://i.pravatar.cc/300?u=3",
+  //   timestamp: "Today at 10:00 AM",
+  //   text: "Hello World 3",
+  // },
+  // {
+  //   username: "Popeye",
+  //   avatarUrl: "https://i.pravatar.cc/300?u=3",
+  //   timestamp: "Today at 10:00 AM",
+  //   text: "Hello World 3",
+  // },
+  // {
+  //   username: "Popeye",
+  //   avatarUrl: "https://i.pravatar.cc/300?u=3",
+  //   timestamp: "Today at 10:00 AM",
+  //   text: "Hello World 3",
+  // },
+  // {
+  //   username: "Popeye",
+  //   avatarUrl: "https://i.pravatar.cc/300?u=3",
+  //   timestamp: "Today at 10:00 AM",
+  //   text: "Hello World 3",
+  // },
+  // {
+  //   username: "Popeye",
+  //   avatarUrl: "https://i.pravatar.cc/300?u=3",
+  //   timestamp: "Today at 10:00 AM",
+  //   text: "Hello World 3",
+  // },
+  // {
+  //   username: "Popeye",
+  //   avatarUrl: "https://i.pravatar.cc/300?u=3",
+  //   timestamp: "Today at 10:00 AM",
+  //   text: "Hello World 3",
+  // },
 ];
 
 function App() {
@@ -61,6 +158,7 @@ function App() {
   return (
     <Container>
       <Messages messages={fakeMessages} />
+      <NewMessageInput />
     </Container>
   );
 }
