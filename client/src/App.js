@@ -1,8 +1,8 @@
 import { useState } from "react";
 // Components
-import Messages from "./components/Messages";
-import NewMessageInput from "./components/NewMessageInput";
-//styles
+import Chat from "./components/Chat";
+import Sidebar from "./components/Sidebar";
+// Styles
 import { Container } from "./App.styles";
 
 const ws = new WebSocket(`ws://${window.location.hostname}:8080`);
@@ -39,8 +39,8 @@ function App() {
 
   return (
     <Container>
-      <Messages messages={messages} />
-      <NewMessageInput onNewMessage={onNewMessage} />
+      <Sidebar />
+      <Chat messages={messages} onNewMessage={onNewMessage} />;
     </Container>
   );
 }
