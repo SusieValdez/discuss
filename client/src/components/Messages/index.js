@@ -6,8 +6,9 @@ import { Container } from "./Messages.styles.js";
 
 const Messages = ({ messages }) => (
   <Container>
-    {messages.map((message) => (
+    {messages.map((message, i) => (
       <Message
+        key={i}
         avatarUrl={message.avatarUrl}
         username={message.username}
         timestamp={message.timestamp}
