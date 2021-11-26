@@ -31,7 +31,6 @@ export const Header = styled.div``;
 
 export const Username = styled.span`
    {
-    color: rgb(155, 89, 182);
     font-size: 1rem;
     font-weight: 500;
     line-height: 1.375rem;

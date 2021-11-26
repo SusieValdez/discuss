@@ -5,10 +5,13 @@ const wss = new WebSocketServer({ port: 8080 });
 
 const state = {
   messages: [],
+  roles: {},
 };
 
 wss.on("connection", (ws) => {
   const userId = nanoid();
+
+  state.roles[userId] = getRandomColor();
 
   const event = {
     kind: "SET_STATE",
@@ -31,6 +34,7 @@ wss.on("connection", (ws) => {
               avatarUrl: `https://i.pravatar.cc/300?u=${userId}`,
               timestamp: Date.now(),
               text: action.payload.text,
+              roleColor: state.roles[userId],
             },
           },
         };
@@ -44,3 +48,12 @@ wss.on("connection", (ws) => {
     }
   });
 });
+
+function getRandomColor() {
+  var letters = "0123456789ABCDEF";
+  var color = "#";
+  for (var i = 0; i < 6; i++) {
+    color += letters[Math.floor(Math.random() * 16)];
+  }
+  return color;
+}

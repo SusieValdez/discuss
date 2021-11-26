@@ -12,7 +12,7 @@ import {
   Content,
 } from "./Message.styles";
 
-const Message = ({ avatarUrl, username, timestamp, text }) => {
+const Message = ({ avatarUrl, username, timestamp, text, roleColor }) => {
   return (
     <Container>
       <Col>
@@ -20,7 +20,7 @@ const Message = ({ avatarUrl, username, timestamp, text }) => {
       </Col>
       <div>
         <Header>
-          <Username>{username}</Username>
+          <Username style={{ color: roleColor }}>{username}</Username>
           <Timestamp>{formatRelative(timestamp, Date.now())}</Timestamp>
         </Header>
         <Content>{text}</Content>

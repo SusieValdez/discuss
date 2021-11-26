@@ -18,13 +18,7 @@ const Messages = ({ messages }) => {
     <Container>
       <Content ref={messagesRef}>
         {messages.map((message, i) => (
-          <Message
-            key={i}
-            avatarUrl={message.avatarUrl}
-            username={message.username}
-            timestamp={message.timestamp}
-            text={message.text}
-          />
+          <Message key={i} {...message} />
         ))}
       </Content>
     </Container>
