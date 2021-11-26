@@ -23,4 +23,5 @@ export const Content = styled.div`
   -webkit-box-flex: 1;
   flex-direction: column;
   overflow-y: scroll;
+  padding: 0 0 10px 0;
 `;

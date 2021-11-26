@@ -4,7 +4,6 @@ export const Container = styled.div`
   display: flex;
   margin-top: 1rem;
   padding-left: 2rem;
-  flex-direction: column-reverse;
 `;
 
 export const Col = styled.div`
