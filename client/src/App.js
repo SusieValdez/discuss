@@ -40,7 +40,7 @@ function App() {
   return (
     <Container>
       <Sidebar />
-      <Chat messages={messages} onNewMessage={onNewMessage} />;
+      <Chat messages={messages} onNewMessage={onNewMessage} />
     </Container>
   );
 }
