@@ -19,6 +19,7 @@ const NewMessageInput = ({ onNewMessage }) => {
   return (
     <Container>
       <Input
+        autoFocus
         type="text"
         placeholder="Message #general"
         value={newMessage}
