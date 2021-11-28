@@ -13,6 +13,7 @@ const NewMessageInput = ({ onNewMessage }) => {
     if (e.key === "Enter") {
       onNewMessage(newMessage);
       setNewMessage("");
+      e.preventDefault();
     }
   };
 

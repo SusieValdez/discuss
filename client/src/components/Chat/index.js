@@ -1,18 +1,16 @@
 import React from "react";
-// import { AccessAlarm, ThreeDRotation } from "@mui/icons-material";
 // Components
 import Messages from "../Messages";
 import NewMessageInput from "../NewMessageInput";
+import UsersSidebar from "../UsersSidebar";
 // Styles
-import { Container, Title, Children } from "./Chat.styles";
+import { Container, Title } from "./Chat.styles";
 
 const Chat = ({ messages, onNewMessage }) => {
   return (
     <Container>
       <Title>
-        <Children>
-          <h3>Discuss #General</h3>
-        </Children>
+        <h3>Discuss #General</h3>
       </Title>
       <Messages messages={messages} />
       <NewMessageInput onNewMessage={onNewMessage} />

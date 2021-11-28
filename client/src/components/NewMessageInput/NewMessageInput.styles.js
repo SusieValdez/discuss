@@ -1,17 +1,18 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
-  background-color: #36393f;
+  width: 100%;
+  display: flex;
 `;
 
-export const Input = styled.input`
-  align-content: flex-end;
+export const Input = styled.textarea`
   background-color: #40444b;
   border: none;
+  outline: none;
   border-radius: 5px;
   color: #dcddde;
-  display: flex;
-  margin: 0.5vw;
-  padding: 15px;
-  width: 95%;
+  padding: 10px;
+  margin: 0 20px 20px 20px;
+  width: 100%;
+  height: 44px;
 `;

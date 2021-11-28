@@ -4,10 +4,8 @@ import { formatRelative } from "date-fns";
 // Styles
 import {
   Container,
-  Header,
   Username,
   Timestamp,
-  Col,
   Avatar,
   Content,
 } from "./Message.styles";
@@ -15,14 +13,12 @@ import {
 const Message = ({ avatarUrl, username, timestamp, text, roleColor }) => {
   return (
     <Container>
-      <Col>
-        <Avatar src={avatarUrl}></Avatar>
-      </Col>
+      <Avatar src={avatarUrl}></Avatar>
       <div>
-        <Header>
+        <div>
           <Username style={{ color: roleColor }}>{username}</Username>
           <Timestamp>{formatRelative(timestamp, Date.now())}</Timestamp>
-        </Header>
+        </div>
         <Content>{text}</Content>
       </div>
     </Container>

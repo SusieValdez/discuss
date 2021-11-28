@@ -3,7 +3,7 @@ import { useEffect } from "react";
 // Components
 import Message from "../Message";
 // Styles
-import { Container, Content } from "./Messages.styles.js";
+import { Container } from "./Messages.styles.js";
 
 const Messages = ({ messages }) => {
   const messagesRef = useRef(null);
@@ -15,12 +15,10 @@ const Messages = ({ messages }) => {
     });
   }, [messages]);
   return (
-    <Container>
-      <Content ref={messagesRef}>
-        {messages.map((message, i) => (
-          <Message key={i} {...message} />
-        ))}
-      </Content>
+    <Container ref={messagesRef}>
+      {messages.map((message, i) => (
+        <Message key={i} {...message} />
+      ))}
     </Container>
   );
 };
