@@ -22,3 +22,17 @@ export const Title = styled.div`
   font-size: 14px;
   line-height: 20px;
 `;
+
+export const Content = styled.div`
+  display: flex;
+  flex-direction: row;
+  overflow-y: hidden;
+  height: 100vh;
+`;
+
+export const ChatArea = styled.div`
+  display: flex;
+  flex-direction: column;
+  overflow-y: hidden;
+  width: 100%;
+`;

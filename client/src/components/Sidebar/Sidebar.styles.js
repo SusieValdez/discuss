@@ -1,10 +1,9 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
-  flex: 1 1 auto;
   display: flex;
   flex-direction: column;
-  width: 240px;
+  min-width: 240px;
   background-color: #2f3136;
 `;
 

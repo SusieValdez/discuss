@@ -4,7 +4,7 @@ import Messages from "../Messages";
 import NewMessageInput from "../NewMessageInput";
 import UsersSidebar from "../UsersSidebar";
 // Styles
-import { Container, Title } from "./Chat.styles";
+import { Container, Title, Content, ChatArea } from "./Chat.styles";
 
 const Chat = ({ messages, onNewMessage }) => {
   return (
@@ -12,8 +12,13 @@ const Chat = ({ messages, onNewMessage }) => {
       <Title>
         <h3>Discuss #General</h3>
       </Title>
-      <Messages messages={messages} />
-      <NewMessageInput onNewMessage={onNewMessage} />
+      <Content>
+        <ChatArea>
+          <Messages messages={messages} />
+          <NewMessageInput onNewMessage={onNewMessage} />
+        </ChatArea>
+        <UsersSidebar />
+      </Content>
     </Container>
   );
 };

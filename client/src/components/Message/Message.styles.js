@@ -5,7 +5,7 @@ export const Container = styled.div`
   margin-bottom: 1rem;
   line-height: 1.375rem;
   padding: 0.125rem 20px;
-  
+
   :hover {
     background-color: rgba(4, 4, 5, 0.07);
   }
