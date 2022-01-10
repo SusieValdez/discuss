@@ -6,6 +6,62 @@ const wss = new WebSocketServer({ port: 8080 });
 const state = {
   messages: [],
   roles: {},
+  categories: [
+    {
+      id: nanoid(),
+      name: "General",
+      channels: [
+        {
+          id: nanoid(),
+          name: "Chat",
+        },
+        {
+          id: nanoid(),
+          name: "Suggestions",
+        },
+        {
+          id: nanoid(),
+          name: "Promos",
+        },
+      ],
+    },
+    {
+      id: nanoid(),
+      name: "Media",
+      channels: [
+        {
+          id: nanoid(),
+          name: "Pictures",
+        },
+        {
+          id: nanoid(),
+          name: "Videos",
+        },
+        {
+          id: nanoid(),
+          name: "Music",
+        },
+      ],
+    },
+    {
+      id: nanoid(),
+      name: "🐸 ┃ Memes",
+      channels: [
+        {
+          id: nanoid(),
+          name: "Dank",
+        },
+        {
+          id: nanoid(),
+          name: "Wholesome",
+        },
+        {
+          id: nanoid(),
+          name: "Blursed",
+        },
+      ],
+    },
+  ],
 };
 
 wss.on("connection", (ws) => {

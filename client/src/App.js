@@ -9,6 +9,7 @@ const ws = new WebSocket(`ws://${window.location.hostname}:8080`);
 
 function App() {
   const [messages, setMessages] = useState([]);
+  const [categories, setCategories] = useState([]);
 
   const addMessage = (message) => {
     setMessages(() => [...messages, message]);
@@ -30,7 +31,15 @@ function App() {
         addMessage(event.payload.message);
         break;
       case "SET_STATE":
-        setMessages(event.payload.state.messages);
+        setMessages(() => event.payload.state.messages);
+        setCategories(() =>
+          event.payload.state.categories.map((cat) => ({
+            ...cat,
+            channels: cat.channels.map((c) =>
+              c.name.toLowerCase() === "chat" ? { ...c, isActive: true } : c
+            ),
+          }))
+        );
         break;
       default:
         console.error("unexpected event: " + JSON.stringify(event));
@@ -39,7 +48,7 @@ function App() {
 
   return (
     <Container>
-      <Sidebar />
+      <Sidebar categories={categories} />
       <Chat messages={messages} onNewMessage={onNewMessage} />
     </Container>
   );
