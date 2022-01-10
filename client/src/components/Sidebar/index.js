@@ -10,15 +10,23 @@ const Sidebar = () => {
       <Header>Server Name</Header>
       <ChannelCategory
         name="General"
-        channels={["Chat", "Suggestions", "Promo"]}
+        channels={[
+          { name: "Chat", isActive: true },
+          { name: "Suggestions" },
+          { name: "Promo" },
+        ]}
       />
       <ChannelCategory
         name="Media"
-        channels={["Pictures", "Videos", "Music"]}
+        channels={[{ name: "Pictures" }, { name: "Videos" }, { name: "Music" }]}
       />
       <ChannelCategory
         name="Memes"
-        channels={["Dank", "Wholesome", "Blursed"]}
+        channels={[
+          { name: "Dank" },
+          { name: "Wholesome" },
+          { name: "Blursed" },
+        ]}
       />
     </Container>
   );

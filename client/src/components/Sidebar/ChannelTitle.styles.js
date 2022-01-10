@@ -7,6 +7,16 @@ export const Title = styled.div`
   text-overflow: ellipsis;
   cursor: pointer;
 
+  color: ${(props) => (props.isActive ? "#e1e2e3" : "default")};
+  background-color: ${(props) => (props.isActive ? "#393c42" : "none")};
+  border-radius: 3px;
+
+  :hover {
+    color: #e1e2e3;
+    background-color: #393c42;
+    border-radius: 3px;
+  }
+
   img {
     width: 15px;
     height: 15px;
