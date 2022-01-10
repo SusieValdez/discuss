@@ -6,7 +6,7 @@ import hashtag from "../../assets/hashtag-solid.svg";
 
 const ChannelTitle = ({ name, isActive }) => (
   <Title isActive={isActive}>
-    <img src={hashtag} />
+    <img src={hashtag} alt="" />
     {name}
   </Title>
 );

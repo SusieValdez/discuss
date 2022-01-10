@@ -9,7 +9,7 @@ const ChannelCategory = ({ name, channels }) => {
   return (
     <Category>
       <div className="category-header" onClick={toggleShowChannels}>
-        <img src={chevronDown} />
+        <img src={chevronDown} alt="" />
         {name}
       </div>
       <div>
