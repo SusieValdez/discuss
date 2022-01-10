@@ -6,11 +6,11 @@ import UsersSidebar from "../UsersSidebar";
 // Styles
 import { Container, Title, Content, ChatArea } from "./Chat.styles";
 
-const Chat = ({ messages, onNewMessage }) => {
+const Chat = ({ activeChannelName, messages, onNewMessage }) => {
   return (
     <Container>
       <Title>
-        <h3>Discuss #General</h3>
+        <h3>Discuss #{activeChannelName}</h3>
       </Title>
       <Content>
         <ChatArea>

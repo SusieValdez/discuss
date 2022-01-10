@@ -4,10 +4,10 @@ import ChannelCategory from "./ChannelCategory";
 // Styles
 import { Container, Header } from "./Sidebar.styles";
 
-const Sidebar = ({ categories }) => {
+const Sidebar = ({ serverName, categories }) => {
   return (
     <Container>
-      <Header>Server Name</Header>
+      <Header>{serverName}</Header>
       {categories.map((c) => (
         <ChannelCategory key={c.id} {...c} />
       ))}

@@ -6,6 +6,7 @@ const wss = new WebSocketServer({ port: 8080 });
 const state = {
   messages: [],
   roles: {},
+  name: "Server Name",
   categories: [
     {
       id: nanoid(),

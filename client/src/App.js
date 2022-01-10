@@ -10,6 +10,8 @@ const ws = new WebSocket(`ws://${window.location.hostname}:8080`);
 function App() {
   const [messages, setMessages] = useState([]);
   const [categories, setCategories] = useState([]);
+  const [serverName, setServerName] = useState(undefined);
+  const activeChannelName = "chat";
 
   const addMessage = (message) => {
     setMessages(() => [...messages, message]);
@@ -40,6 +42,7 @@ function App() {
             ),
           }))
         );
+        setServerName(event.payload.state.name);
         break;
       default:
         console.error("unexpected event: " + JSON.stringify(event));
@@ -48,8 +51,12 @@ function App() {
 
   return (
     <Container>
-      <Sidebar categories={categories} />
-      <Chat messages={messages} onNewMessage={onNewMessage} />
+      <Sidebar serverName={serverName} categories={categories} />
+      <Chat
+        activeChannelName={activeChannelName}
+        messages={messages}
+        onNewMessage={onNewMessage}
+      />
     </Container>
   );
 }
