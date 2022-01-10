@@ -21,7 +21,7 @@ const Sidebar = () => {
         channels={[{ name: "Pictures" }, { name: "Videos" }, { name: "Music" }]}
       />
       <ChannelCategory
-        name="Memes"
+        name="🐸 ┃ memes"
         channels={[
           { name: "Dank" },
           { name: "Wholesome" },

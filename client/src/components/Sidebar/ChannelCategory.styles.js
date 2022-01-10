@@ -1,13 +1,13 @@
 import styled from "styled-components";
 
 export const Category = styled.div`
-  font-size: 16px;
-  text-transform: uppercase;
-  padding: 10px;
   color: #8e9297;
-  cursor: pointer;
+  padding: 10px;
 
   .category-header {
+    text-transform: uppercase;
+    cursor: pointer;
+    font-size: 14px;
     padding: 5px;
 
     :hover {

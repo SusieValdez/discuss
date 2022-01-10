@@ -2,10 +2,10 @@ import styled from "styled-components";
 
 export const Title = styled.div`
   padding: 5px 0px 5px 25px;
-  font-size: 16px;
   font-weight: 500;
   text-overflow: ellipsis;
   cursor: pointer;
+  text-transform: lowercase;
 
   color: ${(props) => (props.isActive ? "#e1e2e3" : "default")};
   background-color: ${(props) => (props.isActive ? "#393c42" : "none")};
