@@ -12,12 +12,12 @@ const state = {
     [adminRoleId]: {
       id: adminRoleId,
       name: "Server President",
-      color: getRandomColor(),
+      color: "#7471DC",
     },
     [memberRoleId]: {
       id: memberRoleId,
       name: "Member",
-      color: getRandomColor(),
+      color: "#5C26B9",
     },
   },
   name: "Server Name",
@@ -152,12 +152,3 @@ wss.on("connection", (ws) => {
     }
   });
 });
-
-function getRandomColor() {
-  var letters = "0123456789ABCDEF";
-  var color = "#";
-  for (var i = 0; i < 6; i++) {
-    color += letters[Math.floor(Math.random() * 16)];
-  }
-  return color;
-}
