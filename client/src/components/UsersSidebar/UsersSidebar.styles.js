@@ -52,7 +52,7 @@ export const UserContent = styled.div`
 `;
 
 export const Username = styled.span`
-  color: rgb(210, 14, 211);
+  color: ${(props) => props.color};
   justify-content: flex-start;
   align-items: center;
   display: flex;

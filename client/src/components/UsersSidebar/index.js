@@ -9,61 +9,29 @@ import {
   Legend,
 } from "./UsersSidebar.styles";
 
-const UsersSidebar = () => {
+const UsersSidebar = ({ roles, users }) => {
   return (
     <Container>
-      <h2>Server President</h2>
-      <User
-        username="Prima"
-        avatarUrl="https://i.pravatar.cc/300?u=1"
-        legend="hey, ho... "
-      />
-      <User
-        username="Louie"
-        avatarUrl="https://i.pravatar.cc/300?u=2"
-        legend="More Movies... "
-      />
-      <User
-        username="Mirna"
-        avatarUrl="https://i.pravatar.cc/300?u=3"
-        legend="I like waffles "
-      />
-      <User
-        username="Linda"
-        avatarUrl="https://i.pravatar.cc/300?u=4"
-        legend="Aliens👽 "
-      />
-      <h2>Members</h2>
-      <User
-        username="Tobey"
-        avatarUrl="https://i.pravatar.cc/300?u=5"
-        legend="Normalize pets"
-      />
-      <User
-        username="Sonya"
-        avatarUrl="https://i.pravatar.cc/300?u=6"
-        legend="Found my glasses!"
-      />
-      <User
-        username="Tina"
-        avatarUrl="https://i.pravatar.cc/300?u=7"
-        legend="I'm cold teehee"
-      />
-      <User
-        username="Tim"
-        avatarUrl="https://i.pravatar.cc/300?u=8"
-        legend="Mom's fave pic"
-      />
+      {Object.values(roles).map((role) => (
+        <div key={role.id}>
+          <h2>{role.name}</h2>
+          {Object.values(users)
+            .filter((u) => u.roleId === role.id)
+            .map((u) => (
+              <User key={u.id} {...u} role={roles[u.roleId]} />
+            ))}
+        </div>
+      ))}
     </Container>
   );
 };
 
-const User = ({ avatarUrl, username, legend }) => {
+const User = ({ avatarUrl, name, legend, role }) => {
   return (
     <UserContainer>
       <ProfileImage src={avatarUrl} />
       <UserContent>
-        <Username>{username}</Username>
+        <Username color={role.color}>{name.slice(0, 10)}...</Username>
         <Legend>{legend} </Legend>
       </UserContent>
     </UserContainer>

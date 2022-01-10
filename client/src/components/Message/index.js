@@ -10,13 +10,13 @@ import {
   Content,
 } from "./Message.styles";
 
-const Message = ({ avatarUrl, username, timestamp, text, roleColor }) => {
+const Message = ({ user, timestamp, text, role }) => {
   return (
     <Container>
-      <Avatar src={avatarUrl}></Avatar>
+      <Avatar src={user.avatarUrl}></Avatar>
       <div>
         <div>
-          <Username style={{ color: roleColor }}>{username}</Username>
+          <Username style={{ color: role.color }}>{user.name}</Username>
           <Timestamp>{formatRelative(timestamp, Date.now())}</Timestamp>
         </div>
         <Content>{text}</Content>

@@ -11,10 +11,24 @@ function App() {
   const [messages, setMessages] = useState([]);
   const [categories, setCategories] = useState([]);
   const [serverName, setServerName] = useState(undefined);
+  const [roles, setRoles] = useState(undefined);
+  const [users, setUsers] = useState(undefined);
   const activeChannelName = "chat";
 
   const addMessage = (message) => {
     setMessages(() => [...messages, message]);
+  };
+
+  const addUser = (user) => {
+    setUsers((users) => ({ ...users, [user.id]: user }));
+  };
+
+  const removeUser = (userId) => {
+    setUsers((users) =>
+      Object.values(users)
+        .filter((u) => u.id !== userId)
+        .reduce((users, u) => ({ ...users, [u.id]: u }), {})
+    );
   };
 
   const onNewMessage = (text) => {
@@ -42,12 +56,24 @@ function App() {
             ),
           }))
         );
-        setServerName(event.payload.state.name);
+        setServerName(() => event.payload.state.name);
+        setRoles(() => event.payload.state.roles);
+        setUsers(() => event.payload.state.users);
+        break;
+      case "USER_JOINED":
+        addUser(event.payload.user);
+        break;
+      case "USER_LEFT":
+        removeUser(event.payload.userId);
         break;
       default:
         console.error("unexpected event: " + JSON.stringify(event));
     }
   };
+
+  if (!users || !roles) {
+    return <div>loading...</div>;
+  }
 
   return (
     <Container>
@@ -56,6 +82,8 @@ function App() {
         activeChannelName={activeChannelName}
         messages={messages}
         onNewMessage={onNewMessage}
+        roles={roles}
+        users={users}
       />
     </Container>
   );

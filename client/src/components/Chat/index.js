@@ -6,7 +6,7 @@ import UsersSidebar from "../UsersSidebar";
 // Styles
 import { Container, Title, Content, ChatArea } from "./Chat.styles";
 
-const Chat = ({ activeChannelName, messages, onNewMessage }) => {
+const Chat = ({ activeChannelName, messages, onNewMessage, roles, users }) => {
   return (
     <Container>
       <Title>
@@ -14,10 +14,10 @@ const Chat = ({ activeChannelName, messages, onNewMessage }) => {
       </Title>
       <Content>
         <ChatArea>
-          <Messages messages={messages} />
+          <Messages messages={messages} users={users} roles={roles} />
           <NewMessageInput onNewMessage={onNewMessage} />
         </ChatArea>
-        <UsersSidebar />
+        <UsersSidebar users={users} roles={roles} />
       </Content>
     </Container>
   );

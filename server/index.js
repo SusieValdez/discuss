@@ -3,9 +3,23 @@ import { nanoid } from "nanoid";
 
 const wss = new WebSocketServer({ port: 8080 });
 
+const adminRoleId = nanoid();
+const memberRoleId = nanoid();
+
 const state = {
   messages: [],
-  roles: {},
+  roles: {
+    [adminRoleId]: {
+      id: adminRoleId,
+      name: "Server President",
+      color: getRandomColor(),
+    },
+    [memberRoleId]: {
+      id: memberRoleId,
+      name: "Member",
+      color: getRandomColor(),
+    },
+  },
   name: "Server Name",
   categories: [
     {
@@ -63,20 +77,55 @@ const state = {
       ],
     },
   ],
+  users: {},
 };
 
 wss.on("connection", (ws) => {
   const userId = nanoid();
 
-  state.roles[userId] = getRandomColor();
-
-  const event = {
-    kind: "SET_STATE",
-    payload: {
-      state,
-    },
+  const user = {
+    id: userId,
+    name: `User: ${userId}`,
+    avatarUrl: `https://i.pravatar.cc/300?u=${userId}`,
+    legend: nanoid(),
+    roleId: Math.random() > 0.9 ? adminRoleId : memberRoleId,
   };
-  ws.send(JSON.stringify(event));
+
+  state.users[userId] = user;
+
+  ws.send(
+    JSON.stringify({
+      kind: "SET_STATE",
+      payload: {
+        state,
+      },
+    })
+  );
+
+  wss.clients.forEach((client) => {
+    client.send(
+      JSON.stringify({
+        kind: "USER_JOINED",
+        payload: {
+          user,
+        },
+      })
+    );
+  });
+
+  ws.on("close", () => {
+    delete state.users[userId];
+    wss.clients.forEach((client) => {
+      client.send(
+        JSON.stringify({
+          kind: "USER_LEFT",
+          payload: {
+            userId,
+          },
+        })
+      );
+    });
+  });
 
   ws.on("message", (data) => {
     const action = JSON.parse(data);
@@ -87,11 +136,9 @@ wss.on("connection", (ws) => {
           kind: "NEW_MESSAGE",
           payload: {
             message: {
-              username: `User: ${userId}`,
-              avatarUrl: `https://i.pravatar.cc/300?u=${userId}`,
+              userId,
               timestamp: Date.now(),
               text: action.payload.text,
-              roleColor: state.roles[userId],
             },
           },
         };
