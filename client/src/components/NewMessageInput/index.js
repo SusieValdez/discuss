@@ -10,7 +10,7 @@ const NewMessageInput = ({ onNewMessage }) => {
   };
 
   const onKeyDownNewMessage = (e) => {
-    if (e.key === "Enter") {
+    if (newMessage.length > 0 && e.key === "Enter") {
       onNewMessage(newMessage);
       setNewMessage("");
       e.preventDefault();
