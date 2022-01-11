@@ -14,7 +14,13 @@ const Chat = ({ activeChannelName, messages, onNewMessage, roles, users }) => {
       </Title>
       <Content>
         <ChatArea>
-          <Messages messages={messages} users={users} roles={roles} />
+          <Messages
+            messages={messages.filter(
+              (message) => message.channelName === activeChannelName
+            )}
+            users={users}
+            roles={roles}
+          />
           <NewMessageInput onNewMessage={onNewMessage} />
         </ChatArea>
         <UsersSidebar users={users} roles={roles} />

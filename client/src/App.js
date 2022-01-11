@@ -1,21 +1,18 @@
 import { useReducer } from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 // Components
-import Chat from "./components/Chat";
-import Sidebar from "./components/Sidebar";
-// Styles
-import { Container } from "./App.styles";
+import ServerPage from "./pages/ServerPage";
 import reducer from "./reducer";
 
 const ws = new WebSocket(`ws://${window.location.hostname}:8080`);
 
 function App() {
   const [state, dispatch] = useReducer(reducer, undefined);
-  const activeChannelName = "chat";
 
-  const onNewMessage = (text) => {
+  const onNewMessage = (channelName) => (text) => {
     const action = {
       kind: "NEW_MESSAGE",
-      payload: { text },
+      payload: { text, channelName },
     };
     ws.send(JSON.stringify(action));
   };
@@ -31,16 +28,16 @@ function App() {
   }
 
   return (
-    <Container>
-      <Sidebar serverName={state.name} categories={state.categories} />
-      <Chat
-        activeChannelName={activeChannelName}
-        messages={state.messages}
-        onNewMessage={onNewMessage}
-        roles={state.roles}
-        users={state.users}
-      />
-    </Container>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/">
+          <Route
+            path="channels/:channelName"
+            element={<ServerPage {...state} onNewMessage={onNewMessage} />}
+          />
+        </Route>
+      </Routes>
+    </BrowserRouter>
   );
 }
 

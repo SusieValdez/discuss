@@ -139,6 +139,7 @@ wss.on("connection", (ws) => {
               userId,
               timestamp: Date.now(),
               text: action.payload.text,
+              channelName: action.payload.channelName,
             },
           },
         };

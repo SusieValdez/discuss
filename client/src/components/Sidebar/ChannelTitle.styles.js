@@ -7,7 +7,7 @@ export const Title = styled.div`
   cursor: pointer;
   text-transform: lowercase;
 
-  color: ${(props) => (props.isActive ? "#e1e2e3" : "default")};
+  color: ${(props) => (props.isActive ? "#e1e2e3" : "#8e9297")};
   background-color: ${(props) => (props.isActive ? "#393c42" : "none")};
   border-radius: 3px;
 

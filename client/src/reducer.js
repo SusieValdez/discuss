@@ -1,13 +1,5 @@
 const setState = (_, { state: newState }) => ({
   ...newState,
-  categories: newState.categories.map((category) => ({
-    ...category,
-    channels: category.channels.map((channel) =>
-      channel.name.toLowerCase() === "chat"
-        ? { ...channel, isActive: true }
-        : channel
-    ),
-  })),
 });
 
 const newMessage = (state, { message }) => ({
