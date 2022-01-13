@@ -1,8 +1,10 @@
 import { useReducer } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Container } from "./App.styles";
 // Components
 import ServerPage from "./pages/ServerPage";
 import reducer from "./reducer";
+import ServerNavbar from "./components/ServerNavbar/ServerNavbar";
 
 const ws = new WebSocket(`ws://${window.location.hostname}:8080`);
 
@@ -29,14 +31,17 @@ function App() {
 
   return (
     <BrowserRouter>
-      <Routes>
-        <Route path="/">
-          <Route
-            path="channels/:channelName"
-            element={<ServerPage {...state} onNewMessage={onNewMessage} />}
-          />
-        </Route>
-      </Routes>
+      <Container>
+        <ServerNavbar />
+        <Routes>
+          <Route path="/">
+            <Route
+              path="channels/:channelName"
+              element={<ServerPage {...state} onNewMessage={onNewMessage} />}
+            />
+          </Route>
+        </Routes>
+      </Container>
     </BrowserRouter>
   );
 }
