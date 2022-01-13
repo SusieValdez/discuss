@@ -6,17 +6,17 @@ import UsersSidebar from "../UsersSidebar";
 // Styles
 import { Container, Title, Content, ChatArea } from "./Chat.styles";
 
-const Chat = ({ activeChannelName, messages, onNewMessage, roles, users }) => {
+const Chat = ({ activeChannel, messages, onNewMessage, roles, users }) => {
   return (
     <Container>
       <Title>
-        <h3>Discuss #{activeChannelName}</h3>
+        <h3>Discuss #{activeChannel.name.toLowerCase()}</h3>
       </Title>
       <Content>
         <ChatArea>
           <Messages
             messages={messages.filter(
-              (message) => message.channelName === activeChannelName
+              (message) => message.channelId === activeChannel.id
             )}
             users={users}
             roles={roles}

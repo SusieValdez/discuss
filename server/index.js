@@ -3,80 +3,82 @@ import { nanoid } from "nanoid";
 
 const wss = new WebSocketServer({ port: 8080 });
 
-const adminRoleId = nanoid();
-const memberRoleId = nanoid();
-
 const state = {
   messages: [],
   roles: {
-    [adminRoleId]: {
-      id: adminRoleId,
+    1: {
+      id: "1",
       name: "Server President",
       color: "#7471DC",
     },
-    [memberRoleId]: {
-      id: memberRoleId,
+    2: {
+      id: "2",
       name: "Member",
       color: "#5C26B9",
     },
   },
   name: "Server Name",
-  categories: [
-    {
-      id: nanoid(),
+  categories: {
+    1: {
+      id: "1",
       name: "General",
-      channels: [
-        {
-          id: nanoid(),
-          name: "Chat",
-        },
-        {
-          id: nanoid(),
-          name: "Suggestions",
-        },
-        {
-          id: nanoid(),
-          name: "Promos",
-        },
-      ],
     },
-    {
-      id: nanoid(),
+    2: {
+      id: "2",
       name: "Media",
-      channels: [
-        {
-          id: nanoid(),
-          name: "Pictures",
-        },
-        {
-          id: nanoid(),
-          name: "Videos",
-        },
-        {
-          id: nanoid(),
-          name: "Music",
-        },
-      ],
     },
-    {
-      id: nanoid(),
+    3: {
+      id: "3",
       name: "🐸 ┃ Memes",
-      channels: [
-        {
-          id: nanoid(),
-          name: "Dank",
-        },
-        {
-          id: nanoid(),
-          name: "Wholesome",
-        },
-        {
-          id: nanoid(),
-          name: "Blursed",
-        },
-      ],
     },
-  ],
+  },
+  channels: {
+    1: {
+      id: "1",
+      name: "Chat",
+      categoryId: "1",
+    },
+    2: {
+      id: "2",
+      name: "Suggestions",
+      categoryId: "1",
+    },
+    3: {
+      id: "3",
+      name: "Promos",
+      categoryId: "1",
+    },
+    4: {
+      id: "4",
+      name: "Pictures",
+      categoryId: "2",
+    },
+    5: {
+      id: "5",
+      name: "Videos",
+      categoryId: "2",
+    },
+    6: {
+      id: "6",
+      name: "Music",
+      categoryId: "2",
+    },
+    7: {
+      id: "7",
+      name: "Dank",
+      categoryId: "3",
+    },
+    8: {
+      id: "8",
+      name: "Wholesome",
+      categoryId: "3",
+    },
+    9: {
+      id: "9",
+      name: "Blursed",
+      categoryId: "3",
+    },
+  },
   users: {},
 };
 
@@ -87,8 +89,8 @@ wss.on("connection", (ws) => {
     id: userId,
     name: `User: ${userId}`,
     avatarUrl: `https://i.pravatar.cc/300?u=${userId}`,
-    legend: nanoid(),
-    roleId: Math.random() > 0.9 ? adminRoleId : memberRoleId,
+    legend: "Discuss is Poggers",
+    roleId: Math.random() > 0.9 ? "1" : "2",
   };
 
   state.users[userId] = user;
@@ -139,7 +141,7 @@ wss.on("connection", (ws) => {
               userId,
               timestamp: Date.now(),
               text: action.payload.text,
-              channelName: action.payload.channelName,
+              channelId: action.payload.channelId,
             },
           },
         };

@@ -6,23 +6,26 @@ import { Container } from "./ServerPage.styles";
 function ServerPage({
   name,
   categories,
+  channels,
   messages,
   roles,
   users,
   onNewMessage,
 }) {
-  const { channelName } = useParams();
+  const { channelId } = useParams();
+  const activeChannel = channels[channelId];
   return (
     <Container>
       <Sidebar
         serverName={name}
         categories={categories}
-        activeChannelName={channelName}
+        channels={channels}
+        activeChannel={activeChannel}
       />
       <Chat
-        activeChannelName={channelName}
+        activeChannel={activeChannel}
         messages={messages}
-        onNewMessage={onNewMessage(channelName)}
+        onNewMessage={onNewMessage(activeChannel.id)}
         roles={roles}
         users={users}
       />

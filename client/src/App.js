@@ -11,10 +11,10 @@ const ws = new WebSocket(`ws://${window.location.hostname}:8080`);
 function App() {
   const [state, dispatch] = useReducer(reducer, undefined);
 
-  const onNewMessage = (channelName) => (text) => {
+  const onNewMessage = (channelId) => (text) => {
     const action = {
       kind: "NEW_MESSAGE",
-      payload: { text, channelName },
+      payload: { text, channelId },
     };
     ws.send(JSON.stringify(action));
   };
@@ -36,7 +36,7 @@ function App() {
         <Routes>
           <Route path="/">
             <Route
-              path="channels/:channelName"
+              path="channels/:channelId"
               element={<ServerPage {...state} onNewMessage={onNewMessage} />}
             />
           </Route>
