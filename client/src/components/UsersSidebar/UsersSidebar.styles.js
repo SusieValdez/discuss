@@ -30,6 +30,7 @@ export const UserContainer = styled.div`
   margin-right: 12px;
   border-radius: 4px;
   padding: 0 8px;
+  cursor: pointer;
 
   :hover {
     background-color: rgba(79, 84, 92, 0.32);
