@@ -1,22 +1,30 @@
+import { deepUpdate } from "./utils";
+
 const setState = (_, { state: newState }) => ({
   ...newState,
 });
 
-const newMessage = (state, { message }) => ({
-  ...state,
-  messages: [...state.messages, message],
-});
+const newMessage = (state, { message, serverId, channelId }) =>
+  deepUpdate(
+    state,
+    [
+      "servers",
+      (server) => server.id === serverId,
+      "channels",
+      (channel) => channel.id === channelId,
+      "messages",
+    ],
+    (messages) => [...messages, message]
+  );
 
 const userJoined = (state, { user }) => ({
   ...state,
-  users: { ...state.users, [user.id]: user },
+  users: [...state.users, user],
 });
 
 const userLeft = (state, { userId }) => ({
   ...state,
-  users: Object.values(state.users)
-    .filter((u) => u.id !== userId)
-    .reduce((users, u) => ({ ...users, [u.id]: u }), {}),
+  users: state.users.filter((u) => u.id !== userId),
 });
 
 const reducers = {

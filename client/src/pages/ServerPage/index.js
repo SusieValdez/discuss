@@ -1,19 +1,18 @@
 import { useParams } from "react-router-dom";
 import Chat from "../../components/Chat";
 import Sidebar from "../../components/Sidebar";
+import { arrayToMap } from "../../utils";
 import { Container } from "./ServerPage.styles";
 
-function ServerPage({
-  name,
-  categories,
-  channels,
-  messages,
-  roles,
-  users,
-  onNewMessage,
-}) {
-  const { channelId } = useParams();
-  const activeChannel = channels[channelId];
+function ServerPage({ servers, users, onNewMessage }) {
+  let { serverId, channelId } = useParams();
+  const { name, categories, roles, channels, userIds } = servers.find(
+    (s) => s.id === serverId
+  );
+  if (channelId === undefined) {
+    channelId = channels[0].id;
+  }
+  const activeChannel = channels.find((c) => c.id === channelId);
   return (
     <Container>
       <Sidebar
@@ -24,10 +23,12 @@ function ServerPage({
       />
       <Chat
         activeChannel={activeChannel}
-        messages={messages}
-        onNewMessage={onNewMessage(activeChannel.id)}
-        roles={roles}
-        users={users}
+        onNewMessage={onNewMessage(serverId, channelId)}
+        roles={arrayToMap(roles, "id")}
+        users={arrayToMap(
+          users.filter((u) => userIds.includes(u.id)),
+          "id"
+        )}
       />
     </Container>
   );

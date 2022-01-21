@@ -6,7 +6,7 @@ import UsersSidebar from "../UsersSidebar";
 // Styles
 import { Container, Title, Content, ChatArea } from "./Chat.styles";
 
-const Chat = ({ activeChannel, messages, onNewMessage, roles, users }) => {
+const Chat = ({ activeChannel, onNewMessage, roles, users }) => {
   return (
     <Container>
       <Title>
@@ -15,9 +15,7 @@ const Chat = ({ activeChannel, messages, onNewMessage, roles, users }) => {
       <Content>
         <ChatArea>
           <Messages
-            messages={messages.filter(
-              (message) => message.channelId === activeChannel.id
-            )}
+            messages={activeChannel.messages}
             users={users}
             roles={roles}
           />

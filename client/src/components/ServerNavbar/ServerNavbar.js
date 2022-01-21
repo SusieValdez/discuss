@@ -1,8 +1,9 @@
 import React from "react";
+import { Link } from "react-router-dom";
 // Styles
 import { Container, Item, Separator, Icon } from "./ServerNavbar.styles";
 
-const ServerNavbar = () => {
+const ServerNavbar = ({ servers }) => {
   return (
     <Container>
       <div>
@@ -14,21 +15,15 @@ const ServerNavbar = () => {
       </div>
       <Separator />
       <div>
-        <Item>
-          <Icon>
-            <img src="https://picsum.photos/48?random=2" alt="" />
-          </Icon>
-        </Item>
-        <Item>
-          <Icon>
-            <img src="https://picsum.photos/48?random=3" alt="" />
-          </Icon>
-        </Item>
-        <Item>
-          <Icon>
-            <img src="https://picsum.photos/48?random=4" alt="" />
-          </Icon>
-        </Item>
+        {servers.map(({ id, iconUrl }) => (
+          <Link to={`/servers/${id}`} key={id}>
+            <Item>
+              <Icon>
+                <img src={iconUrl} alt="" />
+              </Icon>
+            </Item>
+          </Link>
+        ))}
       </div>
     </Container>
   );
