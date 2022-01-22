@@ -1,4 +1,4 @@
-export const arrayToMap = (array, key) => {
+export const arrayToMap = (array, key = "_id") => {
   const result = {};
   for (const item of array) {
     result[item[key]] = item;

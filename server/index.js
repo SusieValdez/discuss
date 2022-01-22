@@ -1,142 +1,36 @@
 import { WebSocketServer } from "ws";
 import { nanoid } from "nanoid";
+import {
+  addMessage,
+  getServers,
+  getUsers,
+  newUser,
+  userJoinedServer,
+  userLeftServer,
+} from "./db.js";
 
 const wss = new WebSocketServer({ port: 8080 });
 
-let state = {
-  servers: [
-    {
-      id: "1",
-      name: "Server Name",
-      iconUrl: "https://picsum.photos/48?random=1",
-      roles: [
-        {
-          id: "1",
-          name: "Server President",
-          color: "#7471DC",
-        },
-        {
-          id: "2",
-          name: "Member",
-          color: "#5C26B9",
-        },
-      ],
-      categories: [
-        {
-          id: "1",
-          name: "General",
-        },
-        {
-          id: "2",
-          name: "Media",
-        },
-        {
-          id: "3",
-          name: "🐸 ┃ Memes",
-        },
-      ],
-      channels: [
-        {
-          id: "1",
-          name: "Chat",
-          categoryId: "1",
-          messages: [],
-        },
-        {
-          id: "2",
-          name: "Suggestions",
-          categoryId: "1",
-          messages: [],
-        },
-        {
-          id: "3",
-          name: "Promos",
-          categoryId: "1",
-          messages: [],
-        },
-        {
-          id: "4",
-          name: "Pictures",
-          categoryId: "2",
-          messages: [],
-        },
-        {
-          id: "5",
-          name: "Videos",
-          categoryId: "2",
-          messages: [],
-        },
-        {
-          id: "6",
-          name: "Music",
-          categoryId: "2",
-          messages: [],
-        },
-        {
-          id: "7",
-          name: "Dank",
-          categoryId: "3",
-          messages: [],
-        },
-        {
-          id: "8",
-          name: "Wholesome",
-          categoryId: "3",
-          messages: [],
-        },
-        {
-          id: "9",
-          name: "Blursed",
-          categoryId: "3",
-          messages: [],
-        },
-      ],
-      userIds: [],
-    },
-  ],
-  users: [],
-};
-
-function addMessage(message, serverId, channelId) {
-  state = {
-    ...state,
-    servers: state.servers.map((server) =>
-      server.id !== serverId
-        ? server
-        : {
-            ...server,
-            channels: server.channels.map((channel) =>
-              channel.id !== channelId
-                ? channel
-                : {
-                    ...channel,
-                    messages: [...channel.messages, message],
-                  }
-            ),
-          }
-    ),
-  };
-}
-
-wss.on("connection", (ws) => {
-  const userId = nanoid();
-
+wss.on("connection", async (ws) => {
   const user = {
-    id: userId,
-    name: `User: ${userId}`,
-    avatarUrl: `https://i.pravatar.cc/300?u=${userId}`,
+    name: `User: ${nanoid()}`,
+    avatarUrl: `https://i.pravatar.cc/300?u=${nanoid()}`,
     legend: "Discuss is Poggers",
     roleId: Math.random() > 0.9 ? "1" : "2",
   };
 
-  state.servers[0].userIds.push(userId);
-  state.users.push(user);
+  const servers = await getServers();
+  const { userId } = await newUser(user);
+  await userJoinedServer(userId, servers[0]._id);
 
   ws.send(
     JSON.stringify({
       kind: "SET_STATE",
       payload: {
-        state,
+        state: {
+          servers: await getServers(),
+          users: await getUsers(),
+        },
       },
     })
   );
@@ -146,21 +40,21 @@ wss.on("connection", (ws) => {
       JSON.stringify({
         kind: "USER_JOINED",
         payload: {
+          serverId: servers[0]._id,
           user,
         },
       })
     );
   });
 
-  ws.on("close", () => {
-    state.servers[0].userIds = state.servers[0].userIds.filter(
-      (uid) => uid !== userId
-    );
+  ws.on("close", async () => {
+    userLeftServer(userId, servers[0]._id);
     wss.clients.forEach((client) => {
       client.send(
         JSON.stringify({
           kind: "USER_LEFT",
           payload: {
+            serverId: servers[0]._id,
             userId,
           },
         })

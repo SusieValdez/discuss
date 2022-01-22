@@ -13,12 +13,12 @@ const UsersSidebar = ({ roles, users }) => {
   return (
     <Container>
       {Object.values(roles).map((role) => (
-        <div key={role.id}>
+        <div key={role._id}>
           <h2>{role.name}</h2>
           {Object.values(users)
-            .filter((u) => u.roleId === role.id)
+            .filter((u) => u.roleId === role._id)
             .map((u) => (
-              <User key={u.id} {...u} role={roles[u.roleId]} />
+              <User key={u._id} {...u} role={roles[u.roleId]} />
             ))}
         </div>
       ))}

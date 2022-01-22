@@ -18,7 +18,6 @@ const Messages = ({ messages, users, roles }) => {
     <Container ref={messagesRef}>
       {messages.map((message, i) => {
         const user = users[message.userId] || {
-          id: message.userId,
           name: `Unknown: ${message.userId}`,
           avatarUrl: `https://thumbs.dreamstime.com/b/ask-icon-vector-question-mark-male-user-person-profile-avatar-symbol-help-sign-glyph-pictogram-illustration-ask-icon-168789141.jpg`,
         };

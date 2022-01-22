@@ -8,11 +8,11 @@ const Sidebar = ({ serverName, categories, channels, activeChannel }) => {
   return (
     <Container>
       <Header>{serverName}</Header>
-      {categories.map(({ id, name }) => (
+      {categories.map(({ _id, name }) => (
         <ChannelCategory
-          key={id}
+          key={_id}
           name={name}
-          channels={channels.filter(({ categoryId }) => categoryId === id)}
+          channels={channels.filter(({ categoryId }) => categoryId === _id)}
           activeChannel={activeChannel}
         />
       ))}

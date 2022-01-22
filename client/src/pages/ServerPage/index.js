@@ -7,12 +7,12 @@ import { Container } from "./ServerPage.styles";
 function ServerPage({ servers, users, onNewMessage }) {
   let { serverId, channelId } = useParams();
   const { name, categories, roles, channels, userIds } = servers.find(
-    (s) => s.id === serverId
+    (s) => s._id === serverId
   );
   if (channelId === undefined) {
-    channelId = channels[0].id;
+    channelId = channels[0]._id;
   }
-  const activeChannel = channels.find((c) => c.id === channelId);
+  const activeChannel = channels.find((c) => c._id === channelId);
   return (
     <Container>
       <Sidebar
@@ -24,10 +24,9 @@ function ServerPage({ servers, users, onNewMessage }) {
       <Chat
         activeChannel={activeChannel}
         onNewMessage={onNewMessage(serverId, channelId)}
-        roles={arrayToMap(roles, "id")}
+        roles={arrayToMap(roles)}
         users={arrayToMap(
-          users.filter((u) => userIds.includes(u.id)),
-          "id"
+          userIds.map((uid) => users.find((u) => u._id === uid))
         )}
       />
     </Container>

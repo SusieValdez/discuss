@@ -6,7 +6,7 @@ import chevronDown from "../../assets/chevron-down-solid.svg";
 const ChannelCategory = ({ name, channels, activeChannel }) => {
   const [showChannels, setShowChannels] = useState(true);
   const toggleShowChannels = () => setShowChannels(!showChannels);
-  const isActive = (channel) => channel.id === activeChannel.id;
+  const isActive = (channel) => channel._id === activeChannel._id;
   return (
     <Category>
       <div className="category-header" onClick={toggleShowChannels}>
@@ -15,7 +15,7 @@ const ChannelCategory = ({ name, channels, activeChannel }) => {
       </div>
       <div>
         {(showChannels ? channels : channels.filter(isActive)).map((c) => (
-          <ChannelTitle key={c.id} {...c} isActive={isActive(c)} />
+          <ChannelTitle key={c._id} {...c} isActive={isActive(c)} />
         ))}
       </div>
     </Category>

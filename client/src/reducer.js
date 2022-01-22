@@ -9,23 +9,29 @@ const newMessage = (state, { message, serverId, channelId }) =>
     state,
     [
       "servers",
-      (server) => server.id === serverId,
+      (server) => server._id === serverId,
       "channels",
-      (channel) => channel.id === channelId,
+      (channel) => channel._id === channelId,
       "messages",
     ],
     (messages) => [...messages, message]
   );
 
-const userJoined = (state, { user }) => ({
-  ...state,
+const userJoined = (state, { user, serverId }) => ({
+  ...deepUpdate(
+    state,
+    ["servers", (server) => server._id === serverId, "userIds"],
+    (userIds) => [...userIds, user._id]
+  ),
   users: [...state.users, user],
 });
 
-const userLeft = (state, { userId }) => ({
-  ...state,
-  users: state.users.filter((u) => u.id !== userId),
-});
+const userLeft = (state, { userId, serverId }) =>
+  deepUpdate(
+    state,
+    ["servers", (server) => server._id === serverId, "userIds"],
+    (userIds) => userIds.filter((id) => id !== userId)
+  );
 
 const reducers = {
   SET_STATE: setState,

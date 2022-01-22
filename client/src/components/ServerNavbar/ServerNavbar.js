@@ -15,8 +15,8 @@ const ServerNavbar = ({ servers }) => {
       </div>
       <Separator />
       <div>
-        {servers.map(({ id, iconUrl }) => (
-          <Link to={`/servers/${id}`} key={id}>
+        {servers.map(({ _id, iconUrl }) => (
+          <Link to={`/servers/${_id}`} key={_id}>
             <Item>
               <Icon>
                 <img src={iconUrl} alt="" />
