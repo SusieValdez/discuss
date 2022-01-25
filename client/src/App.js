@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Container } from "./App.styles";
 // Components
 import ServerPage from "./pages/ServerPage";
+import LoginPage from "./pages/Login";
 import reducer from "./reducer";
 import ServerNavbar from "./components/ServerNavbar/ServerNavbar";
 
@@ -40,12 +41,13 @@ function App() {
   return (
     <BrowserRouter>
       <Container>
-        <ServerNavbar servers={state.servers} />
+        {/* <ServerNavbar servers={state.servers} /> */}
         <Routes>
           <Route path="/">
             <Route path="servers/:serverId" element={serverPage}>
               <Route path="channels/:channelId" element={serverPage} />
             </Route>
+            <Route path="login" element={<LoginPage />} />
           </Route>
         </Routes>
       </Container>
