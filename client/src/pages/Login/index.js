@@ -1,4 +1,5 @@
 import { React } from "react";
+import { Link, Outlet } from "react-router-dom";
 // Styles
 import {
   Container,
@@ -33,7 +34,7 @@ const LoginPage = () => {
           <button>Login</button>
           <p>
             Need an account?
-            <a href=""> Register</a>
+            <Link to="/register"> Register</Link>
           </p>
         </AccountInfo>
         <QrLogin>
@@ -47,6 +48,7 @@ const LoginPage = () => {
           </p>
         </QrLogin>
       </Card>
+      <Outlet />
     </Container>
   );
 };

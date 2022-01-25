@@ -4,6 +4,7 @@ import { Container } from "./App.styles";
 // Components
 import ServerPage from "./pages/ServerPage";
 import LoginPage from "./pages/Login";
+import RegisterPage from "./pages/RegisterPage";
 import reducer from "./reducer";
 import ServerNavbar from "./components/ServerNavbar/ServerNavbar";
 
@@ -48,6 +49,7 @@ function App() {
               <Route path="channels/:channelId" element={serverPage} />
             </Route>
             <Route path="login" element={<LoginPage />} />
+            <Route path="register" element={<RegisterPage />} />
           </Route>
         </Routes>
       </Container>
