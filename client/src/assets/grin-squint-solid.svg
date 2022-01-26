@@ -1,1 +1,13 @@
-<svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="grin-squint" class="svg-inline--fa fa-grin-squint fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><path fill="currentColor" d="M248 8C111 8 0 119 0 256s111 248 248 248 248-111 248-248S385 8 248 8zm33.8 189.7l80-48c11.6-6.9 24 7.7 15.4 18L343.6 208l33.6 40.3c8.7 10.4-3.9 24.8-15.4 18l-80-48c-7.7-4.7-7.7-15.9 0-20.6zm-163-30c-8.6-10.3 3.8-24.9 15.4-18l80 48c7.8 4.7 7.8 15.9 0 20.6l-80 48c-11.5 6.8-24-7.6-15.4-18l33.6-40.3-33.6-40.3zM248 432c-60.6 0-134.5-38.3-143.8-93.3-2-11.9 9.4-21.6 20.7-17.9C155.1 330.5 200 336 248 336s92.9-5.5 123.1-15.2c11.5-3.7 22.6 6.2 20.7 17.9-9.3 55-83.2 93.3-143.8 93.3z"></path></svg>
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 20010904//EN" "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
+<!-- Created using Krita: https://krita.org -->
+<svg xmlns="http://www.w3.org/2000/svg" 
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+    xmlns:krita="http://krita.org/namespaces/svg/krita"
+    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+    width="119.04pt"
+    height="122.88pt"
+    viewBox="0 0 119.04 122.88">
+<defs/>
+<path id="shape0" transform="matrix(0.24 0 0 0.24 0 1.92)" fill="#b9bbbe" stroke-opacity="0" stroke="#000000" stroke-width="0" stroke-linecap="square" stroke-linejoin="bevel" d="M248 0C111 0 0 111 0 248C0 385 111 496 248 496C385 496 496 385 496 248C496 111 385 0 248 0ZM281.8 189.7L361.8 141.7C373.4 134.8 385.8 149.4 377.2 159.7L343.6 200L377.2 240.3C385.9 250.7 373.3 265.1 361.8 258.3L281.8 210.3C274.1 205.6 274.1 194.4 281.8 189.7ZM118.8 159.7C110.2 149.4 122.6 134.8 134.2 141.7L214.2 189.7C222 194.4 222 205.6 214.2 210.3L134.2 258.3C122.7 265.1 110.2 250.7 118.8 240.3L152.4 200ZM248 424C187.4 424 113.5 385.7 104.2 330.7C102.2 318.8 113.6 309.1 124.9 312.8C155.1 322.5 200 328 248 328C296 328 340.9 322.5 371.1 312.8C382.6 309.1 393.7 319 391.8 330.7C382.5 385.7 308.6 424 248 424Z" sodipodi:nodetypes="cccccccccccccccccccccccccccc"/>
+</svg>

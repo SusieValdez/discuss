@@ -1,1 +1,13 @@
-<svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="thumbtack" class="svg-inline--fa fa-thumbtack fa-w-12" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path fill="currentColor" d="M298.028 214.267L285.793 96H328c13.255 0 24-10.745 24-24V24c0-13.255-10.745-24-24-24H56C42.745 0 32 10.745 32 24v48c0 13.255 10.745 24 24 24h42.207L85.972 214.267C37.465 236.82 0 277.261 0 328c0 13.255 10.745 24 24 24h136v104.007c0 1.242.289 2.467.845 3.578l24 48c2.941 5.882 11.364 5.893 14.311 0l24-48a8.008 8.008 0 0 0 .845-3.578V352h136c13.255 0 24-10.745 24-24-.001-51.183-37.983-91.42-85.973-113.733z"></path></svg>
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 20010904//EN" "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
+<!-- Created using Krita: https://krita.org -->
+<svg xmlns="http://www.w3.org/2000/svg" 
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+    xmlns:krita="http://krita.org/namespaces/svg/krita"
+    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+    width="92.16pt"
+    height="122.88pt"
+    viewBox="0 0 92.16 122.88">
+<defs/>
+<path id="shape0" transform="matrix(0.24 0 0 0.24 0 0)" fill="#b9bbbe" stroke-opacity="0" stroke="#000000" stroke-width="0" stroke-linecap="square" stroke-linejoin="bevel" d="M298.028 214.267L285.793 96L328 96C341.255 96 352 85.255 352 72L352 24C352 10.745 341.255 0 328 0L56 0C42.745 0 32 10.745 32 24L32 72C32 85.255 42.745 96 56 96L98.207 96L85.972 214.267C37.465 236.82 0 277.261 0 328C0 341.255 10.745 352 24 352L160 352L160 456.007C160 457.249 160.289 458.474 160.845 459.585L184.845 507.585C187.786 513.467 196.209 513.478 199.156 507.585L223.156 459.585C223.711 458.474 224.001 457.249 224.001 456.007L224.001 352L360.001 352C373.256 352 384.001 341.255 384.001 328C384 276.817 346.018 236.58 298.028 214.267Z" sodipodi:nodetypes="ccccccccccccccccccccccccc"/>
+</svg>
