@@ -11,7 +11,7 @@ import {
   QrContainer,
 } from "./LoginPage.styles";
 import QRCode from "qrcode.react";
-import backgroundDrop from "../../assets/backdrop.jpg";
+import backgroundDrop from "../../assets/login-background.svg";
 
 const LoginPage = ({ onClickLogin }) => {
   const [email, setEmail] = useState("");

@@ -10,7 +10,7 @@ import {
   SelectMenu,
 } from "./RegisterPage.styles";
 // Assets
-import backgroundDrop from "../../assets/backdrop.jpg";
+import backgroundDrop from "../../assets/login-background.svg";
 
 const RegisterPage = ({ onClickRegister }) => {
   const [username, setUsername] = useState("");
