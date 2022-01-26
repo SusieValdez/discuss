@@ -38,11 +38,11 @@ const Sidebar = ({
           <img src={localUser.avatarUrl} alt="profile pic" />
           <div>
             <h3>{localUser.name}</h3>
-            <p>#UserId</p>
+            <p>{localUser.legend}</p>
           </div>
         </UserTag>
         <IconContainer>
-          <img src={gearIcon} onClick={onClickLogout} />
+          <img src={gearIcon} onClick={onClickLogout} alt="settings" />
         </IconContainer>
       </UserPanel>
     </Container>
