@@ -20,15 +20,26 @@ const Sidebar = ({
   localUser,
   onClickLogout,
 }) => {
+  const channelsByCategory = {};
+  for (const category of categories) {
+    channelsByCategory[category._id] = {
+      category,
+      channels: [],
+    };
+  }
+  for (const channel of channels) {
+    channelsByCategory[channel.categoryId].channels.push(channel);
+  }
+
   return (
     <Container>
       <div>
         <Header>{serverName}</Header>
-        {categories.map(({ _id, name }) => (
+        {Object.values(channelsByCategory).map(({ category, channels }) => (
           <ChannelCategory
-            key={_id}
-            name={name}
-            channels={channels.filter(({ categoryId }) => categoryId === _id)}
+            key={category._id}
+            name={category.name}
+            channels={channels}
             activeChannel={activeChannel}
           />
         ))}
