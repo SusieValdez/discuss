@@ -9,22 +9,22 @@ import reducer from "./reducer";
 import ServerNavbar from "./components/ServerNavbar/ServerNavbar";
 import { useState } from "react";
 import { useEffect } from "react";
-import { useRef } from "react";
+
+const ws = new WebSocket(`ws://${window.location.hostname}:8080`);
 
 function App() {
-  const ws = useRef(new WebSocket(`ws://${window.location.hostname}:8080`));
   const [state, dispatch] = useReducer(reducer, undefined);
   const [cookie, setCookie] = useState(localStorage.getItem("cookie"));
 
   const send = (action) => {
-    ws.current.send(JSON.stringify(action));
+    ws.send(JSON.stringify(action));
   };
 
   useEffect(() => {
     if (!cookie) {
       return;
     }
-    ws.current.onopen = () => {
+    ws.onopen = () => {
       send({
         kind: "VERIFY_COOKIE",
         payload: {
@@ -60,7 +60,7 @@ function App() {
     setCookie(undefined);
   };
 
-  ws.current.onmessage = ({ data }) => {
+  ws.onmessage = ({ data }) => {
     const event = JSON.parse(data);
     console.log(event);
     if (!cookie && event.kind === "SET_STATE") {
