@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import ChannelTitle from "./ChannelTitle";
 import { Category } from "./ChannelCategory.styles";
 import chevronDown from "../../assets/chevron-down-solid.svg";
+import chevronRight from "../../assets/chevron-right-solid.svg";
 
 const ChannelCategory = ({ name, channels, activeChannel }) => {
   const [showChannels, setShowChannels] = useState(true);
@@ -10,7 +11,7 @@ const ChannelCategory = ({ name, channels, activeChannel }) => {
   return (
     <Category>
       <div className="category-header" onClick={toggleShowChannels}>
-        <img src={chevronDown} alt="" />
+        <img src={showChannels ? chevronDown : chevronRight} alt="" />
         {name}
       </div>
       <div>
