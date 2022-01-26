@@ -33,11 +33,18 @@ const userLeft = (state, { userId, serverId }) =>
     (userIds) => userIds.filter((id) => id !== userId)
   );
 
+const onlineStatusChanged = (state, { userId, onlineStatus }) =>
+  deepUpdate(state, ["users", (user) => user._id === userId], (user) => ({
+    ...user,
+    onlineStatus,
+  }));
+
 const reducers = {
   SET_STATE: setState,
   NEW_MESSAGE: newMessage,
   USER_JOINED: userJoined,
   USER_LEFT: userLeft,
+  ONLINE_STATUS_CHANGED: onlineStatusChanged,
 };
 
 const rootReducer = (state, action) => {
