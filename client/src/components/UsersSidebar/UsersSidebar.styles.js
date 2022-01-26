@@ -31,6 +31,7 @@ export const UserContainer = styled.div`
   border-radius: 4px;
   padding: 0 8px;
   cursor: pointer;
+  opacity: ${(props) => props.opacity};
 
   :hover {
     background-color: rgba(79, 84, 92, 0.32);

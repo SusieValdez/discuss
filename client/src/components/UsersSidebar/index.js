@@ -28,12 +28,10 @@ const UsersSidebar = ({ roles, users }) => {
 
 const User = ({ avatarUrl, name, legend, role, onlineStatus }) => {
   return (
-    <UserContainer>
+    <UserContainer opacity={onlineStatus !== "online" ? "0.3" : "1"}>
       <ProfileImage src={avatarUrl} />
       <UserContent>
-        <Username color={onlineStatus !== "online" ? "#111" : role.color}>
-          {name.slice(0, 10)}...
-        </Username>
+        <Username color={role.color}>{name.slice(0, 10)}...</Username>
         <Legend>{legend}</Legend>
       </UserContent>
     </UserContainer>
