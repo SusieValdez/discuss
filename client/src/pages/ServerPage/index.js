@@ -4,7 +4,13 @@ import Sidebar from "../../components/Sidebar";
 import { arrayToMap } from "../../utils";
 import { Container } from "./ServerPage.styles";
 
-function ServerPage({ servers, users, onNewMessage }) {
+function ServerPage({
+  servers,
+  users,
+  onNewMessage,
+  localUserId,
+  onClickLogout,
+}) {
   let { serverId, channelId } = useParams();
   const { name, categories, roles, channels, userIds } = servers.find(
     (s) => s._id === serverId
@@ -13,6 +19,12 @@ function ServerPage({ servers, users, onNewMessage }) {
     channelId = channels[0]._id;
   }
   const activeChannel = channels.find((c) => c._id === channelId);
+
+  const userMap = arrayToMap(
+    userIds.map((uid) => users.find((u) => u._id === uid))
+  );
+  const localUser = userMap[localUserId];
+
   return (
     <Container>
       <Sidebar
@@ -20,14 +32,14 @@ function ServerPage({ servers, users, onNewMessage }) {
         categories={categories}
         channels={channels}
         activeChannel={activeChannel}
+        localUser={localUser}
+        onClickLogout={onClickLogout}
       />
       <Chat
         activeChannel={activeChannel}
         onNewMessage={onNewMessage(serverId, channelId)}
         roles={arrayToMap(roles)}
-        users={arrayToMap(
-          userIds.map((uid) => users.find((u) => u._id === uid))
-        )}
+        users={userMap}
       />
     </Container>
   );

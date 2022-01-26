@@ -55,6 +55,11 @@ function App() {
     });
   };
 
+  const onClickLogout = () => {
+    localStorage.removeItem("cookie");
+    setCookie(undefined);
+  };
+
   ws.current.onmessage = ({ data }) => {
     const event = JSON.parse(data);
     console.log(event);
@@ -97,6 +102,8 @@ function App() {
       servers={state.servers}
       users={state.users}
       onNewMessage={onNewMessage}
+      localUserId={state.userId}
+      onClickLogout={onClickLogout}
     />
   );
 

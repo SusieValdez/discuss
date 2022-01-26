@@ -14,13 +14,14 @@ import {
 
 const wss = new WebSocketServer({ port: 8080 });
 
-const sendState = async (ws, cookie = undefined) => {
+const sendState = async (ws, cookie, userId) => {
   ws.send(
     JSON.stringify({
       kind: "SET_STATE",
       payload: {
         cookie,
         state: {
+          userId,
           servers: await getServers(),
           users: await getUsers(),
         },
@@ -87,7 +88,7 @@ wss.on("connection", async (ws) => {
         // Temporarily have a user join a server when they register
         await userJoinedServer(userId, servers[0]._id.toString());
 
-        await sendState(ws, cookie);
+        await sendState(ws, cookie, userId);
 
         // Temporarily have a user join a server when they register
         wss.clients.forEach((client) => {
@@ -111,7 +112,7 @@ wss.on("connection", async (ws) => {
         userId = _id;
         const cookie = nanoid();
         await addUserCookie(cookie, userId);
-        await sendState(ws, cookie);
+        await sendState(ws, cookie, userId);
         break;
       }
       case "VERIFY_COOKIE": {
@@ -121,7 +122,7 @@ wss.on("connection", async (ws) => {
         }
         const { _id: cookie } = userCookie;
         userId = userCookie.userId;
-        await sendState(ws, cookie);
+        await sendState(ws, cookie, userId);
         break;
       }
       default:

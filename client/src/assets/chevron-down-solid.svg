@@ -1,1 +1,13 @@
-<svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="chevron-down" class="svg-inline--fa fa-chevron-down fa-w-14" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M207.029 381.476L12.686 187.132c-9.373-9.373-9.373-24.569 0-33.941l22.667-22.667c9.357-9.357 24.522-9.375 33.901-.04L224 284.505l154.745-154.021c9.379-9.335 24.544-9.317 33.901.04l22.667 22.667c9.373 9.373 9.373 24.569 0 33.941L240.971 381.476c-9.373 9.372-24.569 9.372-33.942 0z"></path></svg>
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 20010904//EN" "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
+<!-- Created using Krita: https://krita.org -->
+<svg xmlns="http://www.w3.org/2000/svg" 
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+    xmlns:krita="http://krita.org/namespaces/svg/krita"
+    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+    width="107.52pt"
+    height="122.88pt"
+    viewBox="0 0 107.52 122.88">
+<defs/>
+<path id="shape0" transform="matrix(0.24 0 0 0.24 15.9635758823529 47.5858823529412)" fill="#b9bbbe" stroke-opacity="0" stroke="#000000" stroke-width="0" stroke-linecap="square" stroke-linejoin="bevel" d="M145.245 180.298L5.07037 44.4751C-1.69012 37.9245 -1.69012 27.3043 5.07037 20.7543L21.4195 4.9128C28.1684 -1.62663 39.1065 -1.63921 45.8713 4.88484L157.485 112.527L269.099 4.88484C275.864 -1.63921 286.802 -1.62663 293.551 4.9128L309.9 20.7543C316.66 27.305 316.66 37.9252 309.9 44.4751L169.726 180.298C162.966 186.848 152.005 186.848 145.245 180.298Z" sodipodi:nodetypes="cccccccccccc"/>
+</svg>
