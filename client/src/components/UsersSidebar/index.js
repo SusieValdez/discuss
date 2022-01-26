@@ -10,19 +10,44 @@ import {
 } from "./UsersSidebar.styles";
 
 const UsersSidebar = ({ roles, users }) => {
+  const userCategories = {
+    online: {},
+    offline: [],
+  };
+  for (const role of Object.values(roles)) {
+    userCategories.online[role._id] = {
+      role,
+      users: [],
+    };
+  }
+  for (const user of Object.values(users)) {
+    if (user.onlineStatus === "online") {
+      userCategories.online[user.roleId].users.push(user);
+    } else {
+      userCategories.offline.push(user);
+    }
+  }
+
   return (
     <Container>
-      {Object.values(roles).map((role) => (
-        <div key={role._id}>
-          <h2>{role.name}</h2>
-          {Object.values(users)
-            .filter((u) => u.roleId === role._id)
-            .map((u) => (
-              <User key={u._id} {...u} role={roles[u.roleId]} />
-            ))}
-        </div>
+      {Object.values(userCategories.online).map(({ role, users }) => (
+        <UserList key={role._id} name={role.name} users={users} roles={roles} />
       ))}
+      <UserList name="Offline" users={userCategories.offline} roles={roles} />
     </Container>
+  );
+};
+
+const UserList = ({ name, users, roles }) => {
+  return (
+    <div>
+      <h2>
+        {name} — {users.length}
+      </h2>
+      {users.map((u) => (
+        <User key={u._id} {...u} role={roles[u.roleId]} />
+      ))}
+    </div>
   );
 };
 
