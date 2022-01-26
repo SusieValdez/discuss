@@ -1,4 +1,4 @@
-import { React } from "react";
+import { React, useState } from "react";
 import { Link, Outlet } from "react-router-dom";
 // Styles
 import {
@@ -13,7 +13,22 @@ import {
 import QRCode from "qrcode.react";
 import backgroundDrop from "../../assets/backdrop.jpg";
 
-const LoginPage = () => {
+const LoginPage = ({ onClickLogin }) => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const onChange = (setFn) => (e) => setFn(e.target.value);
+
+  const onClickLoginButton = () => {
+    if (email === "") {
+      return;
+    }
+    if (password === "") {
+      return;
+    }
+    onClickLogin({ email, password });
+  };
+
   return (
     <Container background={backgroundDrop}>
       <Card>
@@ -23,15 +38,27 @@ const LoginPage = () => {
             <p>We are so excited to see you again!</p>
           </Header>
           <InputField>
-            <h5>Username</h5>
-            <input name="username" type="text" placeholder="" />
+            <h5>Email</h5>
+            <input
+              name="email"
+              type="text"
+              placeholder=""
+              value={email}
+              onChange={onChange(setEmail)}
+            />
             <h5>Password</h5>
-            <input name="password" type="password" placeholder="" />
+            <input
+              name="password"
+              type="password"
+              placeholder=""
+              value={password}
+              onChange={onChange(setPassword)}
+            />
           </InputField>
           <p>
-            <a>Forgot your password?</a>
+            <a href="/">Forgot your password?</a>
           </p>
-          <button>Login</button>
+          <button onClick={onClickLoginButton}>Login</button>
           <p>
             Need an account?
             <Link to="/register"> Register</Link>
