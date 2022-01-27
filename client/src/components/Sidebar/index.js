@@ -46,7 +46,11 @@ const Sidebar = ({
       </div>
       <UserPanel>
         <UserTag>
-          <img src={localUser.avatarUrl} alt="profile pic" />
+          <img
+            style={{ backgroundColor: localUser.bannerColor }}
+            src={localUser.avatarUrl}
+            alt="profile pic"
+          />
           <div>
             <h3>{localUser.name}</h3>
             <p>{localUser.legend}</p>

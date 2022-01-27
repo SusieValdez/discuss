@@ -13,7 +13,7 @@ import {
 const Message = ({ user, timestamp, text, role }) => {
   return (
     <Container>
-      <Avatar src={user.avatarUrl}></Avatar>
+      <Avatar backgroundColor={user.bannerColor} src={user.avatarUrl}></Avatar>
       <div>
         <div>
           <Username style={{ color: role.color }}>{user.name}</Username>

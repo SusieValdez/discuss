@@ -19,6 +19,7 @@ export const Avatar = styled.img`
   height: 40px;
   border-radius: 50%;
   cursor: pointer;
+  background-color: ${(props) => props.backgroundColor};
 `;
 
 export const Username = styled.span`

@@ -51,10 +51,10 @@ const UserList = ({ name, users, roles }) => {
   );
 };
 
-const User = ({ avatarUrl, name, legend, role, onlineStatus }) => {
+const User = ({ avatarUrl, name, legend, role, onlineStatus, bannerColor }) => {
   return (
     <UserContainer opacity={onlineStatus !== "online" ? "0.3" : "1"}>
-      <ProfileImage src={avatarUrl} />
+      <ProfileImage backgroundColor={bannerColor} src={avatarUrl} />
       <UserContent>
         <Username color={role.color}>{name.slice(0, 10)}...</Username>
         <Legend>{legend}</Legend>

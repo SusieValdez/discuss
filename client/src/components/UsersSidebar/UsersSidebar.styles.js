@@ -44,6 +44,7 @@ export const ProfileImage = styled.img`
   border-radius: 50%;
   flex: 0 0 auto;
   margin-right: 12px;
+  background-color: ${(props) => props.backgroundColor};
 `;
 
 export const UserContent = styled.div`

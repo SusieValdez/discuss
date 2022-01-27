@@ -96,14 +96,16 @@ wss.on("connection", async (ws) => {
         const user = {
           ...action.payload,
           name: action.payload.username,
-          avatarUrl: `https://i.pravatar.cc/300?u=${nanoid()}`,
+          avatarUrl: `/default-user-logo.svg`,
           legend: "Discuss is Poggers",
           roleId: Math.random() > 0.9 ? "1" : "2",
+          bannerColor: getRandomColor(),
         };
         userId = (await newUser(user)).userId;
         const cookie = nanoid();
         await addUserCookie(cookie, userId);
         // Temporarily have a user join a server when they register
+        const servers = await getServers();
         await userJoinedServer(userId, servers[0]._id.toString());
 
         await sendState(ws, cookie, userId);
@@ -151,3 +153,12 @@ wss.on("connection", async (ws) => {
     }
   });
 });
+
+function getRandomColor() {
+  var letters = "0123456789ABCDEF";
+  var color = "#";
+  for (var i = 0; i < 6; i++) {
+    color += letters[Math.floor(Math.random() * 16)];
+  }
+  return color;
+}
