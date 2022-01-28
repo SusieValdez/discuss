@@ -5,7 +5,7 @@ import Message from "../Message";
 // Styles
 import { Container } from "./Messages.styles.js";
 
-const Messages = ({ messages, users, roles }) => {
+const Messages = ({ messages, users, roles, openUserModal }) => {
   const messagesRef = useRef(null);
   useEffect(() => {
     const messages = messagesRef.current;
@@ -24,7 +24,15 @@ const Messages = ({ messages, users, roles }) => {
         const role = roles[user.roleId] || {
           name: "Member",
         };
-        return <Message key={i} {...message} user={user} role={role} />;
+        return (
+          <Message
+            key={i}
+            {...message}
+            user={user}
+            role={role}
+            openUserModal={openUserModal}
+          />
+        );
       })}
     </Container>
   );

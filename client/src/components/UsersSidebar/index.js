@@ -9,7 +9,7 @@ import {
   Legend,
 } from "./UsersSidebar.styles";
 
-const UsersSidebar = ({ roles, users }) => {
+const UsersSidebar = ({ roles, users, openUserModal }) => {
   const userCategories = {
     online: {},
     offline: [],
@@ -31,29 +31,56 @@ const UsersSidebar = ({ roles, users }) => {
   return (
     <Container>
       {Object.values(userCategories.online).map(({ role, users }) => (
-        <UserList key={role._id} name={role.name} users={users} roles={roles} />
+        <UserList
+          key={role._id}
+          name={role.name}
+          users={users}
+          roles={roles}
+          openUserModal={openUserModal}
+        />
       ))}
-      <UserList name="Offline" users={userCategories.offline} roles={roles} />
+      <UserList
+        name="Offline"
+        users={userCategories.offline}
+        roles={roles}
+        openUserModal={openUserModal}
+      />
     </Container>
   );
 };
 
-const UserList = ({ name, users, roles }) => {
+const UserList = ({ name, users, roles, openUserModal }) => {
   return (
     <div>
       <h2>
         {name} — {users.length}
       </h2>
       {users.map((u) => (
-        <User key={u._id} {...u} role={roles[u.roleId]} />
+        <User
+          key={u._id}
+          {...u}
+          role={roles[u.roleId]}
+          openUserModal={openUserModal(u)}
+        />
       ))}
     </div>
   );
 };
 
-const User = ({ avatarUrl, name, legend, role, onlineStatus, bannerColor }) => {
+const User = ({
+  avatarUrl,
+  name,
+  legend,
+  role,
+  onlineStatus,
+  bannerColor,
+  openUserModal,
+}) => {
   return (
-    <UserContainer opacity={onlineStatus !== "online" ? "0.3" : "1"}>
+    <UserContainer
+      opacity={onlineStatus !== "online" ? "0.3" : "1"}
+      onClick={openUserModal}
+    >
       <ProfileImage backgroundColor={bannerColor} src={avatarUrl} />
       <UserContent>
         <Username color={role.color}>{name.slice(0, 10)}...</Username>

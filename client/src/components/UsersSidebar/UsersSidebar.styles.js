@@ -45,6 +45,7 @@ export const ProfileImage = styled.img`
   flex: 0 0 auto;
   margin-right: 12px;
   background-color: ${(props) => props.backgroundColor};
+  pointer-events: none;
 `;
 
 export const UserContent = styled.div`
@@ -52,6 +53,7 @@ export const UserContent = styled.div`
   flex-direction: column;
   height: 100%;
   width: 225px;
+  pointer-events: none;
 `;
 
 export const Username = styled.span`
