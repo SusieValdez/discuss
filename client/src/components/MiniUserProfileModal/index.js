@@ -1,5 +1,14 @@
 import React, { useRef } from "react";
 import Modal from "react-modal";
+import {
+  Container,
+  Banner,
+  Header,
+  Content,
+  RoleContainer,
+  RoleDiv,
+  Footer,
+} from "./MiniUserProfile.styles";
 
 const width = 300;
 const userSidebarCutoff = 400;
@@ -49,20 +58,46 @@ const MiniUserProfileModal = ({ closeModal, data }) => {
           top: "auto",
           left,
           right: "auto",
+          border: "none",
+          borderRadius: "8px",
         },
       }}
       contentRef={(el) => (contentRef.current = el)}
       contentLabel="User Profile"
     >
-      <div style={{ width, padding: 20, background: "red" }}>
-        <h2>{user.name}</h2>
-        <button onClick={closeModal}>close</button>
-        {Array.from({ length: Math.floor(Math.random() * 10) + 5 }).map(
-          (_, i) => (
-            <p key={i}>hello</p>
-          )
-        )}
-      </div>
+      <Container style={{ width }}>
+        <Banner style={{ width, backgroundColor: user.bannerColor }}></Banner>
+        <img
+          src={user.avatarUrl}
+          style={{ backgroundColor: user.bannerColor }}
+        />
+        <Header>
+          <h2>{user.name}</h2>
+          <p>{user.legend}</p>
+        </Header>
+        <hr class="solid" />
+        <Content>
+          <h3>Roles</h3>
+          <RoleContainer>
+            <RoleDiv>🚀 Rookie 🚀</RoleDiv>
+            <RoleDiv>🎆 Community star 🎆</RoleDiv>
+            <RoleDiv>🚩 Founder 🚩</RoleDiv>
+            <RoleDiv>🧠 Brainiac 🧠</RoleDiv>
+            <RoleDiv>🍕 Foodie 🍕</RoleDiv>
+          </RoleContainer>
+          <h3>Note</h3>
+          <textarea>Click to add a note</textarea>
+          {/* {Array.from({ length: Math.floor(Math.random() * 10) + 5 }).map(
+            (_, i) => (
+              <p key={i}>hello</p>
+            )
+          )} */}
+          {/* <button onClick={closeModal}>close</button> */}
+        </Content>
+        <Footer>
+          <input placeholder={`Message @${user.name}`}></input>
+        </Footer>
+      </Container>
     </Modal>
   );
 };
