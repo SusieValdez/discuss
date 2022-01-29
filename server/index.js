@@ -8,6 +8,7 @@ import {
   getUserCookie,
   getUsers,
   newUser,
+  setOnlineStatus,
   userJoinedServer,
 } from "./db.js";
 
@@ -29,7 +30,8 @@ const sendState = async (ws, cookie, userId) => {
   );
 };
 
-const sendOnlineStatus = async (clients, userId, onlineStatus) => {
+const updateOnlineStatus = async (clients, userId, onlineStatus) => {
+  await setOnlineStatus(userId, onlineStatus);
   for (const client of clients) {
     client.send(
       JSON.stringify({
@@ -50,7 +52,7 @@ wss.on("connection", async (ws) => {
     if (!userId) {
       return;
     }
-    await sendOnlineStatus(wss.clients, userId, "offline");
+    await updateOnlineStatus(wss.clients, userId, "offline");
   });
 
   ws.on("message", async (data) => {
@@ -95,7 +97,7 @@ wss.on("connection", async (ws) => {
         await userJoinedServer(userId, servers[0]._id.toString());
 
         await sendState(ws, cookie, userId);
-        await sendOnlineStatus(wss.clients, userId, "online");
+        await updateOnlineStatus(wss.clients, userId, "online");
 
         // Temporarily have a user join a server when they register
         wss.clients.forEach((client) => {
@@ -120,7 +122,7 @@ wss.on("connection", async (ws) => {
         const cookie = nanoid();
         await addUserCookie(cookie, userId);
         await sendState(ws, cookie, userId);
-        await sendOnlineStatus(wss.clients, userId, "online");
+        await updateOnlineStatus(wss.clients, userId, "online");
         break;
       }
       case "VERIFY_COOKIE": {
@@ -131,7 +133,7 @@ wss.on("connection", async (ws) => {
         const { _id: cookie } = userCookie;
         userId = userCookie.userId;
         await sendState(ws, cookie, userId);
-        await sendOnlineStatus(wss.clients, userId, "online");
+        await updateOnlineStatus(wss.clients, userId, "online");
         break;
       }
       default:

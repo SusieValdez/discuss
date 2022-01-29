@@ -30,7 +30,17 @@ export async function getUsers() {
 }
 
 export async function getUserByEmail(email) {
-  return await db.collection("users").findOne({ email });
+  const user = await db.collection("users").findOne({ email });
+  return {
+    ...user,
+    _id: user._id.toString(),
+  };
+}
+
+export async function setOnlineStatus(userId, onlineStatus) {
+  await db
+    .collection("users")
+    .updateOne({ _id: ObjectId(userId) }, { $set: { onlineStatus } });
 }
 
 export async function userJoinedServer(userId, serverId) {

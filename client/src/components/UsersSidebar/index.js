@@ -76,7 +76,7 @@ const User = ({
 }) => {
   return (
     <UserContainer
-      opacity={onlineStatus !== "online" ? "0.3" : "1"}
+      opacity={onlineStatus === "online" ? "1" : "0.3"}
       onClick={openUserModal}
     >
       <ProfileImage backgroundColor={bannerColor} src={avatarUrl} />
