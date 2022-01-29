@@ -44,6 +44,10 @@ const MiniUserProfileModal = ({ closeModal, data }) => {
     }
   };
 
+  const rolesWithoutEveryone = user.roles.filter(
+    ({ name }) => name !== "everyone"
+  );
+
   return (
     <Modal
       isOpen={true}
@@ -70,6 +74,7 @@ const MiniUserProfileModal = ({ closeModal, data }) => {
         <img
           src={user.avatarUrl}
           style={{ backgroundColor: user.bannerColor }}
+          alt="user avatar"
         />
         <Header>
           <h2>{user.name}</h2>
@@ -77,13 +82,11 @@ const MiniUserProfileModal = ({ closeModal, data }) => {
         </Header>
         <hr class="solid" />
         <Content>
-          <h3>Roles</h3>
+          <h3>{rolesWithoutEveryone.length === 0 ? "No Roles" : "Roles"}</h3>
           <RoleContainer>
-            <RoleDiv>🚀 Rookie 🚀</RoleDiv>
-            <RoleDiv>🎆 Community star 🎆</RoleDiv>
-            <RoleDiv>🚩 Founder 🚩</RoleDiv>
-            <RoleDiv>🧠 Brainiac 🧠</RoleDiv>
-            <RoleDiv>🍕 Foodie 🍕</RoleDiv>
+            {rolesWithoutEveryone.map((role) => (
+              <RoleDiv>{role.name}</RoleDiv>
+            ))}
           </RoleContainer>
           <h3>Note</h3>
           <textarea>Click to add a note</textarea>

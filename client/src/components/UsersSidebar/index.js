@@ -11,18 +11,20 @@ import {
 
 const UsersSidebar = ({ roles, users, openUserModal }) => {
   const userCategories = {
-    online: {},
+    online: new Map(),
     offline: [],
   };
-  for (const role of Object.values(roles)) {
-    userCategories.online[role._id] = {
+  for (let role of roles) {
+    // Handle @everyone as a special case name
+    role = { ...role, name: role.name === "everyone" ? "online" : role.name };
+    userCategories.online.set(role._id, {
       role,
       users: [],
-    };
+    });
   }
-  for (const user of Object.values(users)) {
+  for (const user of users) {
     if (user.onlineStatus === "online") {
-      userCategories.online[user.roleId].users.push(user);
+      userCategories.online.get(user.roles[0]._id).users.push(user);
     } else {
       userCategories.offline.push(user);
     }
@@ -30,38 +32,34 @@ const UsersSidebar = ({ roles, users, openUserModal }) => {
 
   return (
     <Container>
-      {Object.values(userCategories.online).map(({ role, users }) => (
+      {[...userCategories.online.values()].map(({ role, users }) => (
         <UserList
           key={role._id}
           name={role.name}
           users={users}
-          roles={roles}
           openUserModal={openUserModal}
         />
       ))}
       <UserList
         name="Offline"
         users={userCategories.offline}
-        roles={roles}
         openUserModal={openUserModal}
       />
     </Container>
   );
 };
 
-const UserList = ({ name, users, roles, openUserModal }) => {
+const UserList = ({ name, users, openUserModal }) => {
+  if (users.length === 0) {
+    return <></>;
+  }
   return (
     <div>
       <h2>
         {name} — {users.length}
       </h2>
-      {users.map((u) => (
-        <User
-          key={u._id}
-          {...u}
-          role={roles[u.roleId]}
-          openUserModal={openUserModal(u)}
-        />
+      {users.map((user) => (
+        <User key={user._id} {...user} openUserModal={openUserModal(user)} />
       ))}
     </div>
   );
@@ -71,7 +69,7 @@ const User = ({
   avatarUrl,
   name,
   legend,
-  role,
+  roles,
   onlineStatus,
   bannerColor,
   openUserModal,
@@ -83,7 +81,7 @@ const User = ({
     >
       <ProfileImage backgroundColor={bannerColor} src={avatarUrl} />
       <UserContent>
-        <Username color={role.color}>{name.slice(0, 10)}...</Username>
+        <Username color={roles[0].color}>{name}</Username>
         <Legend>{legend}</Legend>
       </UserContent>
     </UserContainer>

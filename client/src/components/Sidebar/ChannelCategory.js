@@ -15,9 +15,15 @@ const ChannelCategory = ({ name, channels, activeChannel }) => {
         {name}
       </div>
       <div>
-        {(showChannels ? channels : channels.filter(isActive)).map((c) => (
-          <ChannelTitle key={c._id} {...c} isActive={isActive(c)} />
-        ))}
+        {(showChannels ? channels : channels.filter(isActive)).map(
+          (channel) => (
+            <ChannelTitle
+              key={channel._id}
+              {...channel}
+              isActive={isActive(channel)}
+            />
+          )
+        )}
       </div>
     </Category>
   );

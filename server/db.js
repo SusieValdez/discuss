@@ -4,7 +4,7 @@ const url = "mongodb://localhost:27017";
 const dbName = "discuss";
 
 const client = await new MongoClient(url).connect();
-const db = client.db(dbName);
+export const db = client.db(dbName);
 
 export async function getServers() {
   return await db.collection("servers").find({}).toArray();
@@ -20,8 +20,7 @@ export async function addMessage(message, serverId, channelId) {
 }
 
 export async function newUser(user) {
-  const { name, email, password, dateOfBirth, avatarUrl, legend, roleId } =
-    user;
+  const { name, email, password, dateOfBirth, avatarUrl, legend } = user;
   const { insertedId } = await db.collection("users").insertOne(user);
   return { userId: insertedId.toString() };
 }
@@ -35,18 +34,17 @@ export async function getUserByEmail(email) {
 }
 
 export async function userJoinedServer(userId, serverId) {
-  await db
-    .collection("servers")
-    .updateOne({ _id: ObjectId(serverId) }, { $push: { userIds: userId } });
-}
-
-export async function userLeftServer(userId, serverId) {
-  await db
-    .collection("servers")
-    .updateOne(
-      { _id: ObjectId(serverId) },
-      { $pull: { userIds: { $eq: userId } } }
-    );
+  await db.collection("servers").updateOne(
+    { _id: ObjectId(serverId) },
+    {
+      $push: {
+        users: {
+          userId,
+          roles: [],
+        },
+      },
+    }
+  );
 }
 
 export async function addUserCookie(cookie, userId) {

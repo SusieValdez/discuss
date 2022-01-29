@@ -9,7 +9,6 @@ import {
   getUsers,
   newUser,
   userJoinedServer,
-  userLeftServer,
 } from "./db.js";
 
 const wss = new WebSocketServer({ port: 8080 });
@@ -48,18 +47,6 @@ wss.on("connection", async (ws) => {
   let userId;
 
   ws.on("close", async () => {
-    // userLeftServer(userId, servers[0]._id);
-    // wss.clients.forEach((client) => {
-    //   client.send(
-    //     JSON.stringify({
-    //       kind: "USER_LEFT",
-    //       payload: {
-    //         serverId: servers[0]._id,
-    //         userId,
-    //       },
-    //     })
-    //   );
-    // });
     if (!userId) {
       return;
     }
@@ -98,7 +85,6 @@ wss.on("connection", async (ws) => {
           name: action.payload.username,
           avatarUrl: `/default-user-logo.svg`,
           legend: "Discuss is Poggers",
-          roleId: Math.random() > 0.9 ? "1" : "2",
           bannerColor: getRandomColor(),
         };
         userId = (await newUser(user)).userId;

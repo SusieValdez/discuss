@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import styled from "styled-components";
 // Components
 import Messages from "../Messages";
 import NewMessageInput from "../NewMessageInput";
@@ -29,8 +28,6 @@ const Chat = ({ activeChannel, onNewMessage, roles, users }) => {
         <ChatArea>
           <Messages
             messages={activeChannel.messages}
-            users={users}
-            roles={roles}
             openUserModal={openUserModal}
           />
           <NewMessageInput onNewMessage={onNewMessage} />

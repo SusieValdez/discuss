@@ -34,6 +34,7 @@ const ServerNavbar = ({ servers }) => {
             <img
               src={AddServerGreenIcon}
               style={{ width: "24px", height: "24px" }}
+              alt="add a server"
             />
           </span>
         </Icon>
@@ -44,6 +45,7 @@ const ServerNavbar = ({ servers }) => {
             <img
               src={ExploreGreenIcon}
               style={{ width: "24px", height: "24px" }}
+              alt="explore other servers"
             />
           </span>
         </Icon>

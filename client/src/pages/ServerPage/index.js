@@ -6,24 +6,39 @@ import { Container } from "./ServerPage.styles";
 
 function ServerPage({
   servers,
-  users,
+  users: allUsers,
   onNewMessage,
   localUserId,
   onClickLogout,
 }) {
   let { serverId, channelId } = useParams();
-  const { name, categories, roles, channels, userIds } = servers.find(
-    (s) => s._id === serverId
-  );
+  const {
+    name,
+    categories,
+    roles,
+    channels,
+    users: serverUserData,
+  } = servers.find((s) => s._id === serverId);
   if (channelId === undefined) {
     channelId = channels[0]._id;
   }
-  const activeChannel = channels.find((c) => c._id === channelId);
 
-  const userMap = arrayToMap(
-    userIds.map((uid) => users.find((u) => u._id === uid))
-  );
-  const localUser = userMap[localUserId];
+  const rolesMap = arrayToMap(roles);
+  const serverUsers = serverUserData.map(({ userId, roles }) => ({
+    ...allUsers.find((user) => user._id === userId),
+    roles: roles.map((roleId) => rolesMap[roleId]),
+  }));
+  const serverUserMap = arrayToMap(serverUsers);
+  const localUser = serverUserMap[localUserId];
+
+  const activeChannel = channels.find((channel) => channel._id === channelId);
+  const expandedActiveChannel = {
+    ...channels.find((channel) => channel._id === channelId),
+    messages: activeChannel.messages.map((message) => ({
+      ...message,
+      user: serverUserMap[message.userId],
+    })),
+  };
 
   return (
     <Container>
@@ -31,15 +46,15 @@ function ServerPage({
         serverName={name}
         categories={categories}
         channels={channels}
-        activeChannel={activeChannel}
+        activeChannel={expandedActiveChannel}
         localUser={localUser}
         onClickLogout={onClickLogout}
       />
       <Chat
-        activeChannel={activeChannel}
+        activeChannel={expandedActiveChannel}
         onNewMessage={onNewMessage(serverId, channelId)}
-        roles={arrayToMap(roles)}
-        users={userMap}
+        roles={roles}
+        users={serverUsers}
       />
     </Container>
   );
