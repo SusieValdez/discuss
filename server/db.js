@@ -19,6 +19,29 @@ export async function addMessage(message, serverId, channelId) {
     );
 }
 
+export async function setTypingUserStatus(
+  serverId,
+  channelId,
+  userId,
+  typingStatus
+) {
+  if (typingStatus) {
+    await db
+      .collection("servers")
+      .updateOne(
+        { _id: ObjectId(serverId), "channels._id": channelId },
+        { $push: { "channels.$.typingUsers": userId } }
+      );
+  } else {
+    await db
+      .collection("servers")
+      .updateOne(
+        { _id: ObjectId(serverId), "channels._id": channelId },
+        { $pull: { "channels.$.typingUsers": { $eq: userId } } }
+      );
+  }
+}
+
 export async function newUser(user) {
   const { name, email, password, dateOfBirth, avatarUrl, legend } = user;
   const { insertedId } = await db.collection("users").insertOne(user);

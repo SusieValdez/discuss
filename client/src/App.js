@@ -55,6 +55,13 @@ function App() {
     });
   };
 
+  const onTypingIndicatorChanged = (serverId, channelId) => (typingStatus) => {
+    send({
+      kind: "TYPING_INDICATOR_CHANGED",
+      payload: { serverId, channelId, typingStatus },
+    });
+  };
+
   const onClickLogout = () => {
     localStorage.removeItem("cookie");
     setCookie(undefined);
@@ -104,6 +111,7 @@ function App() {
       onNewMessage={onNewMessage}
       localUserId={state.userId}
       onClickLogout={onClickLogout}
+      onTypingIndicatorChanged={onTypingIndicatorChanged}
     />
   );
 

@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 // Styles
 import { Container, Input } from "./NewMessageInput.styles";
 
-const NewMessageInput = ({ onNewMessage }) => {
+const NewMessageInput = ({ onNewMessage, onTypingIndicatorChanged }) => {
   const [newMessage, setNewMessage] = useState("");
 
   const inputRef = useRef(null);
@@ -11,7 +11,13 @@ const NewMessageInput = ({ onNewMessage }) => {
   });
 
   const onChangeNewMessage = (e) => {
-    setNewMessage(e.target.value);
+    const changedNewMessage = e.target.value;
+    if (newMessage.length === 0 && changedNewMessage.length > 0) {
+      onTypingIndicatorChanged(true);
+    } else if (newMessage.length > 0 && changedNewMessage.length === 0) {
+      onTypingIndicatorChanged(false);
+    }
+    setNewMessage(changedNewMessage);
   };
 
   const onKeyDownNewMessage = (e) => {

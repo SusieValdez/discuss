@@ -10,6 +10,7 @@ function ServerPage({
   onNewMessage,
   localUserId,
   onClickLogout,
+  onTypingIndicatorChanged,
 }) {
   let { serverId, channelId } = useParams();
   const {
@@ -52,9 +53,11 @@ function ServerPage({
       />
       <Chat
         activeChannel={expandedActiveChannel}
-        onNewMessage={onNewMessage(serverId, channelId)}
+        localUser={localUser}
         roles={roles}
-        users={serverUsers}
+        users={serverUserMap}
+        onNewMessage={onNewMessage(serverId, channelId)}
+        onTypingIndicatorChanged={onTypingIndicatorChanged(serverId, channelId)}
       />
     </Container>
   );

@@ -9,6 +9,7 @@ import {
   getUsers,
   newUser,
   setOnlineStatus,
+  setTypingUserStatus,
   userJoinedServer,
 } from "./db.js";
 
@@ -135,6 +136,23 @@ wss.on("connection", async (ws) => {
         await sendState(ws, cookie, userId);
         await updateOnlineStatus(wss.clients, userId, "online");
         break;
+      }
+      case "TYPING_INDICATOR_CHANGED": {
+        const { serverId, channelId, typingStatus } = action.payload;
+        await setTypingUserStatus(serverId, channelId, userId, typingStatus);
+        wss.clients.forEach((client) => {
+          client.send(
+            JSON.stringify({
+              kind: "TYPING_INDICATOR_CHANGED",
+              payload: {
+                serverId,
+                channelId,
+                userId,
+                typingStatus,
+              },
+            })
+          );
+        });
       }
       default:
         console.error("unexpected action: " + JSON.stringify(action));

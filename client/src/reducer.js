@@ -39,12 +39,44 @@ const onlineStatusChanged = (state, { userId, onlineStatus }) =>
     onlineStatus,
   }));
 
+const typingIndicatorChanged = (
+  state,
+  { serverId, channelId, userId, typingStatus }
+) => {
+  if (typingStatus) {
+    return deepUpdate(
+      state,
+      [
+        "servers",
+        (server) => server._id === serverId,
+        "channels",
+        (channel) => channel._id === channelId,
+        "typingUsers",
+      ],
+      (typingUsers) => [...typingUsers, userId]
+    );
+  } else {
+    return deepUpdate(
+      state,
+      [
+        "servers",
+        (server) => server._id === serverId,
+        "channels",
+        (channel) => channel._id === channelId,
+        "typingUsers",
+      ],
+      (typingUsers) => typingUsers.filter((uid) => uid !== userId)
+    );
+  }
+};
+
 const reducers = {
   SET_STATE: setState,
   NEW_MESSAGE: newMessage,
   USER_JOINED: userJoined,
   USER_LEFT: userLeft,
   ONLINE_STATUS_CHANGED: onlineStatusChanged,
+  TYPING_INDICATOR_CHANGED: typingIndicatorChanged,
 };
 
 const rootReducer = (state, action) => {

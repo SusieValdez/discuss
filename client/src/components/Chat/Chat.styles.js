@@ -35,4 +35,11 @@ export const ChatArea = styled.div`
   flex-direction: column;
   overflow-y: hidden;
   width: 100%;
+
+  .typing-indicator {
+    font-size: 14px;
+    font-weight: 500;
+    color: #dcddde;
+    padding: 20px;
+  }
 `;
