@@ -2,6 +2,9 @@ import React from "react";
 import { Link } from "react-router-dom";
 // Styles
 import { Container, Item, Separator, Icon } from "./ServerNavbar.styles";
+// Assets
+import ExploreGreenIcon from "../../assets/compass-solid-green.svg";
+import AddServerGreenIcon from "../../assets/plus-solid-green.svg";
 
 const ServerNavbar = ({ servers }) => {
   return (
@@ -25,6 +28,26 @@ const ServerNavbar = ({ servers }) => {
           </Link>
         ))}
       </div>
+      <Item>
+        <Icon>
+          <span>
+            <img
+              src={AddServerGreenIcon}
+              style={{ width: "24px", height: "24px" }}
+            />
+          </span>
+        </Icon>
+      </Item>
+      <Item>
+        <Icon>
+          <span>
+            <img
+              src={ExploreGreenIcon}
+              style={{ width: "24px", height: "24px" }}
+            />
+          </span>
+        </Icon>
+      </Item>
     </Container>
   );
 };

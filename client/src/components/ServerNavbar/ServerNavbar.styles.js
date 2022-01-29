@@ -44,6 +44,9 @@ export const Icon = styled.div`
   }
 
   img {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     max-width: 48px;
     max-height: 48px;
     border-radius: 50%;
