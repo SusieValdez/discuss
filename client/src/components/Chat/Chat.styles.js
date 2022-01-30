@@ -35,6 +35,7 @@ export const ChatArea = styled.div`
   flex-direction: column;
   overflow-y: hidden;
   width: 100%;
+  padding-bottom: 5px;
 
   .typing-indicator {
     font-size: 14px;
