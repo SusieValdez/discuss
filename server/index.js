@@ -8,6 +8,7 @@ import {
   getUserCookie,
   getUsers,
   newUser,
+  removeUserFromServer,
   setOnlineStatus,
   setTypingUserStatus,
   userJoinedServer,
@@ -47,13 +48,13 @@ const updateOnlineStatus = async (clients, userId, onlineStatus) => {
 };
 
 wss.on("connection", async (ws) => {
-  let userId;
+  let loggedInUserId;
 
   ws.on("close", async () => {
-    if (!userId) {
+    if (!loggedInUserId) {
       return;
     }
-    await updateOnlineStatus(wss.clients, userId, "offline");
+    await updateOnlineStatus(wss.clients, loggedInUserId, "offline");
   });
 
   ws.on("message", async (data) => {
@@ -62,7 +63,7 @@ wss.on("connection", async (ws) => {
     switch (action.kind) {
       case "NEW_MESSAGE": {
         const message = {
-          userId,
+          userId: loggedInUserId,
           timestamp: Date.now(),
           text: action.payload.text,
         };
@@ -90,21 +91,21 @@ wss.on("connection", async (ws) => {
           legend: "Discuss is Poggers",
           bannerColor: getRandomColor(),
         };
-        userId = (await newUser(user)).userId;
+        loggedInUserId = (await newUser(user)).userId;
         const cookie = nanoid();
-        await addUserCookie(cookie, userId);
+        await addUserCookie(cookie, loggedInUserId);
         // Temporarily have a user join a server when they register
         const servers = await getServers();
-        await userJoinedServer(userId, servers[0]._id.toString());
+        await userJoinedServer(loggedInUserId, servers[0]._id.toString());
 
-        await sendState(ws, cookie, userId);
-        await updateOnlineStatus(wss.clients, userId, "online");
+        await sendState(ws, cookie, loggedInUserId);
+        await updateOnlineStatus(wss.clients, loggedInUserId, "online");
 
         // Temporarily have a user join a server when they register
         wss.clients.forEach((client) => {
           client.send(
             JSON.stringify({
-              kind: "USER_JOINED",
+              kind: "USER_JOINED_SERVER",
               payload: {
                 serverId: servers[0]._id,
                 user,
@@ -119,11 +120,11 @@ wss.on("connection", async (ws) => {
         if (action.payload.password !== password) {
           return;
         }
-        userId = _id;
+        loggedInUserId = _id;
         const cookie = nanoid();
-        await addUserCookie(cookie, userId);
-        await sendState(ws, cookie, userId);
-        await updateOnlineStatus(wss.clients, userId, "online");
+        await addUserCookie(cookie, loggedInUserId);
+        await sendState(ws, cookie, loggedInUserId);
+        await updateOnlineStatus(wss.clients, loggedInUserId, "online");
         break;
       }
       case "VERIFY_COOKIE": {
@@ -132,14 +133,19 @@ wss.on("connection", async (ws) => {
           return;
         }
         const { _id: cookie } = userCookie;
-        userId = userCookie.userId;
-        await sendState(ws, cookie, userId);
-        await updateOnlineStatus(wss.clients, userId, "online");
+        loggedInUserId = userCookie.userId;
+        await sendState(ws, cookie, loggedInUserId);
+        await updateOnlineStatus(wss.clients, loggedInUserId, "online");
         break;
       }
       case "TYPING_INDICATOR_CHANGED": {
         const { serverId, channelId, typingStatus } = action.payload;
-        await setTypingUserStatus(serverId, channelId, userId, typingStatus);
+        await setTypingUserStatus(
+          serverId,
+          channelId,
+          loggedInUserId,
+          typingStatus
+        );
         wss.clients.forEach((client) => {
           client.send(
             JSON.stringify({
@@ -147,12 +153,29 @@ wss.on("connection", async (ws) => {
               payload: {
                 serverId,
                 channelId,
-                userId,
+                userId: loggedInUserId,
                 typingStatus,
               },
             })
           );
         });
+        break;
+      }
+      case "KICK_USER": {
+        const { serverId, userId } = action.payload;
+        await removeUserFromServer(serverId, userId);
+        wss.clients.forEach((client) => {
+          client.send(
+            JSON.stringify({
+              kind: "USER_LEFT_SERVER",
+              payload: {
+                serverId,
+                userId,
+              },
+            })
+          );
+        });
+        break;
       }
       default:
         console.error("unexpected action: " + JSON.stringify(action));

@@ -62,6 +62,13 @@ function App() {
     });
   };
 
+  const onClickKick = (serverId) => (userId) => () => {
+    send({
+      kind: "KICK_USER",
+      payload: { serverId, userId },
+    });
+  };
+
   const onClickLogout = () => {
     localStorage.removeItem("cookie");
     setCookie(undefined);
@@ -112,6 +119,7 @@ function App() {
       localUserId={state.userId}
       onClickLogout={onClickLogout}
       onTypingIndicatorChanged={onTypingIndicatorChanged}
+      onClickKick={onClickKick}
     />
   );
 

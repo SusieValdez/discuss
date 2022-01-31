@@ -11,7 +11,7 @@ import {
   Legend,
 } from "./UsersSidebar.styles";
 
-const UsersSidebar = ({ roles, users, openUserModal }) => {
+const UsersSidebar = ({ roles, users, openUserModal, onClickKick }) => {
   const userCategories = {
     online: new Map(),
     offline: [],
@@ -40,18 +40,20 @@ const UsersSidebar = ({ roles, users, openUserModal }) => {
           name={role.name}
           users={users}
           openUserModal={openUserModal}
+          onClickKick={onClickKick}
         />
       ))}
       <UserList
         name="Offline"
         users={userCategories.offline}
         openUserModal={openUserModal}
+        onClickKick={onClickKick}
       />
     </Container>
   );
 };
 
-const UserList = ({ name, users, openUserModal }) => {
+const UserList = ({ name, users, openUserModal, onClickKick }) => {
   if (users.length === 0) {
     return <></>;
   }
@@ -61,7 +63,12 @@ const UserList = ({ name, users, openUserModal }) => {
         {name} — {users.length}
       </h2>
       {users.map((user) => (
-        <User key={user._id} {...user} openUserModal={openUserModal(user)} />
+        <User
+          key={user._id}
+          {...user}
+          openUserModal={openUserModal(user)}
+          onClickKick={onClickKick(user._id)}
+        />
       ))}
     </div>
   );
@@ -75,6 +82,7 @@ const User = ({
   onlineStatus,
   bannerColor,
   openUserModal,
+  onClickKick,
 }) => {
   const userMenu = useMenuState();
   const [anchorPoint, setAnchorPoint] = useState({ x: 0, y: 0 });
@@ -105,7 +113,7 @@ const User = ({
         anchorPoint={anchorPoint}
         onClose={() => userMenu.toggleMenu(false)}
       >
-        <MenuItem>Kick User</MenuItem>
+        <MenuItem onClick={onClickKick}>Kick User</MenuItem>
       </Menu>
     </UserContainer>
   );

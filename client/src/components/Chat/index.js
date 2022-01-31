@@ -14,6 +14,7 @@ const Chat = ({
   roles,
   users,
   onTypingIndicatorChanged,
+  onClickKick,
 }) => {
   const [userModalData, setUserModalData] = useState(undefined);
 
@@ -26,7 +27,7 @@ const Chat = ({
   };
 
   const typingUsers = activeChannel.typingUsers
-    .filter((userId) => userId !== localUser._id)
+    .filter((userId) => userId !== localUser._id && users[userId] !== undefined)
     .map((userId) => users[userId].name);
 
   let typingUsersMessage = "";
@@ -62,6 +63,7 @@ const Chat = ({
           users={Object.values(users)}
           roles={roles}
           openUserModal={openUserModal}
+          onClickKick={onClickKick}
         />
       </Content>
     </Container>

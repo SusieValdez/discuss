@@ -11,6 +11,7 @@ function ServerPage({
   localUserId,
   onClickLogout,
   onTypingIndicatorChanged,
+  onClickKick,
 }) {
   let { serverId, channelId } = useParams();
   const {
@@ -58,6 +59,7 @@ function ServerPage({
         users={serverUserMap}
         onNewMessage={onNewMessage(serverId, channelId)}
         onTypingIndicatorChanged={onTypingIndicatorChanged(serverId, channelId)}
+        onClickKick={onClickKick(serverId)}
       />
     </Container>
   );

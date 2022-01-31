@@ -73,11 +73,17 @@ export async function userJoinedServer(userId, serverId) {
       $push: {
         users: {
           userId,
-          roles: [],
+          roles: ["0"],
         },
       },
     }
   );
+}
+
+export async function removeUserFromServer(serverId, userId) {
+  await db
+    .collection("servers")
+    .updateOne({ _id: ObjectId(serverId) }, { $pull: { users: { userId } } });
 }
 
 export async function addUserCookie(cookie, userId) {
