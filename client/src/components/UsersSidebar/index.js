@@ -1,4 +1,6 @@
-import React from "react";
+import { MenuItem, useMenuState } from "@szhsin/react-menu";
+import React, { useState } from "react";
+import { Menu } from "../../ui/Menus";
 // Styles
 import {
   Container,
@@ -74,16 +76,37 @@ const User = ({
   bannerColor,
   openUserModal,
 }) => {
+  const userMenu = useMenuState();
+  const [anchorPoint, setAnchorPoint] = useState({ x: 0, y: 0 });
+
+  const onRightClickUser = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setAnchorPoint({ x: e.clientX, y: e.clientY });
+    userMenu.toggleMenu(true);
+  };
+
+  const opacity = onlineStatus === "online" ? "1" : "0.3";
+
   return (
-    <UserContainer
-      opacity={onlineStatus === "online" ? "1" : "0.3"}
-      onClick={openUserModal}
-    >
-      <ProfileImage backgroundColor={bannerColor} src={avatarUrl} />
-      <UserContent>
+    <UserContainer onClick={openUserModal} onContextMenu={onRightClickUser}>
+      <ProfileImage
+        backgroundColor={bannerColor}
+        src={avatarUrl}
+        style={{ opacity }}
+      />
+      <UserContent style={{ opacity }}>
         <Username color={roles[0].color}>{name}</Username>
         <Legend>{legend}</Legend>
       </UserContent>
+      <Menu
+        state={userMenu.state}
+        endTransition={userMenu.endTransition}
+        anchorPoint={anchorPoint}
+        onClose={() => userMenu.toggleMenu(false)}
+      >
+        <MenuItem>Kick User</MenuItem>
+      </Menu>
     </UserContainer>
   );
 };

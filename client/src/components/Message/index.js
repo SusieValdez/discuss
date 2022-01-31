@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { formatRelative } from "date-fns";
 
 // Styles
@@ -9,8 +9,30 @@ import {
   Avatar,
   Content,
 } from "./Message.styles";
+import { Menu } from "../../ui/Menus";
+
+import { MenuItem, useMenuState } from "@szhsin/react-menu";
+import "@szhsin/react-menu/dist/index.css";
 
 const Message = ({ userId, user, timestamp, text, openUserModal }) => {
+  const messageMenu = useMenuState();
+  const userMenu = useMenuState();
+  const [anchorPoint, setAnchorPoint] = useState({ x: 0, y: 0 });
+
+  const onRightClickMessage = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setAnchorPoint({ x: e.clientX, y: e.clientY });
+    messageMenu.toggleMenu(true);
+  };
+
+  const onRightClickUser = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setAnchorPoint({ x: e.clientX, y: e.clientY });
+    userMenu.toggleMenu(true);
+  };
+
   if (!user) {
     user = {
       name: `Unknown: ${userId}`,
@@ -20,16 +42,18 @@ const Message = ({ userId, user, timestamp, text, openUserModal }) => {
     };
   }
   return (
-    <Container>
+    <Container onContextMenu={onRightClickMessage}>
       <Avatar
         onClick={openUserModal(user)}
+        onContextMenu={onRightClickUser}
         backgroundColor={user.bannerColor}
         src={user.avatarUrl}
-      ></Avatar>
+      />
       <div>
         <div>
           <Username
             onClick={openUserModal(user)}
+            onContextMenu={onRightClickUser}
             style={{ color: user.roles[0].color }}
           >
             {user.name}
@@ -38,6 +62,22 @@ const Message = ({ userId, user, timestamp, text, openUserModal }) => {
         </div>
         <Content>{text}</Content>
       </div>
+      <Menu
+        state={messageMenu.state}
+        endTransition={messageMenu.endTransition}
+        anchorPoint={anchorPoint}
+        onClose={() => messageMenu.toggleMenu(false)}
+      >
+        <MenuItem>Edit Message</MenuItem>
+      </Menu>
+      <Menu
+        state={userMenu.state}
+        endTransition={userMenu.endTransition}
+        anchorPoint={anchorPoint}
+        onClose={() => userMenu.toggleMenu(false)}
+      >
+        <MenuItem>Kick User</MenuItem>
+      </Menu>
     </Container>
   );
 };
