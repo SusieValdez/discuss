@@ -80,16 +80,16 @@ const MiniUserProfileModal = ({ closeModal, data }) => {
           <h2>{user.name}</h2>
           <p>{user.legend}</p>
         </Header>
-        <hr class="solid" />
+        <hr className="solid" />
         <Content>
           <h3>{rolesWithoutEveryone.length === 0 ? "No Roles" : "Roles"}</h3>
           <RoleContainer>
             {rolesWithoutEveryone.map((role) => (
-              <RoleDiv>{role.name}</RoleDiv>
+              <RoleDiv key={role._id}>{role.name}</RoleDiv>
             ))}
           </RoleContainer>
           <h3>Note</h3>
-          <textarea>Click to add a note</textarea>
+          <textarea placeholder="Click to add a note" />
           {/* {Array.from({ length: Math.floor(Math.random() * 10) + 5 }).map(
             (_, i) => (
               <p key={i}>hello</p>
@@ -98,7 +98,7 @@ const MiniUserProfileModal = ({ closeModal, data }) => {
           {/* <button onClick={closeModal}>close</button> */}
         </Content>
         <Footer>
-          <input placeholder={`Message @${user.name}`}></input>
+          <input placeholder={`Message @${user.name}`} />
         </Footer>
       </Container>
     </Modal>
