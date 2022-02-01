@@ -3,7 +3,7 @@ import styled from "styled-components";
 export const Container = styled.div`
   display: flex;
   margin-bottom: 1rem;
-  line-height: 1.375rem;
+  line-height: 1.375em;
   padding: 0.125rem 20px;
 
   :hover {
@@ -43,6 +43,7 @@ export const Content = styled.div`
   color: #dcddde;
   font-size: 1rem;
   font-weight: 400;
+  line-height: 1;
 
   a {
     color: #00aff4;
