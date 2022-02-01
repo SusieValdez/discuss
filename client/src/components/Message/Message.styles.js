@@ -43,4 +43,16 @@ export const Content = styled.div`
   color: #dcddde;
   font-size: 1rem;
   font-weight: 400;
+
+  a {
+    color: #00aff4;
+  }
+
+  a:hover {
+    text-decoration: underline;
+  }
+
+  img {
+    width: 300px;
+  }
 `;

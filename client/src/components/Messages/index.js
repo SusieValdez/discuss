@@ -13,11 +13,16 @@ const Messages = ({
 }) => {
   const messagesRef = useRef(null);
   useEffect(() => {
-    const messages = messagesRef.current;
-    messages?.scroll({
-      top: messages.scrollHeight,
-      behavior: "smooth",
-    });
+    // Wait until images have loaded in each Message
+    // This is a bit of a hack
+    // TODO: cleaner solution
+    setTimeout(() => {
+      const messages = messagesRef.current;
+      messages?.scroll({
+        top: messages.scrollHeight,
+        behavior: "smooth",
+      });
+    }, 300);
   }, [messages]);
   return (
     <Container ref={messagesRef}>

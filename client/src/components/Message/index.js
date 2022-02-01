@@ -14,6 +14,13 @@ import { Menu } from "../../ui/Menus";
 import { MenuItem, useMenuState } from "@szhsin/react-menu";
 import "@szhsin/react-menu/dist/index.css";
 
+const urlRegex =
+  /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#/%?=~_|!:,.;]*[-A-Z0-9+&@#/%=~_|])/gi;
+
+function isLink(word) {
+  return word.match(urlRegex) !== null;
+}
+
 const Message = ({
   userId,
   user,
@@ -29,6 +36,22 @@ const Message = ({
 
   const [isEditing, setIsEditing] = useState(false);
   const [editedMessage, setEditedMessage] = useState(text);
+
+  const [images, setImages] = useState([]);
+
+  useEffect(() => {
+    setImages([]);
+    const links = text.split(" ").filter(isLink);
+    links.forEach(async (link) => {
+      try {
+        const response = await fetch(link);
+        const contentType = response.headers.get("content-type");
+        if (contentType && contentType.split("/")[0] === "image") {
+          setImages((images) => [...images, link]);
+        }
+      } catch {}
+    });
+  }, [text]);
 
   useEffect(() => {
     setEditedMessage(text);
@@ -77,6 +100,21 @@ const Message = ({
       roles: [{ color: "#111" }],
     };
   }
+
+  const content = text.split(" ").map((word, i) => {
+    if (isLink(word)) {
+      if (images.includes(word)) {
+        return "";
+      }
+      return (
+        <a key={i} href={word}>
+          {word}
+        </a>
+      );
+    }
+    return ` ${word} `;
+  });
+
   return (
     <Container onContextMenu={onRightClickMessage}>
       <Avatar
@@ -104,7 +142,14 @@ const Message = ({
             onKeyDown={onKeyDownEditedMessage}
           />
         ) : (
-          <Content>{text}</Content>
+          <Content>
+            {content}
+            <div>
+              {images.map((src, i) => (
+                <img key={i} src={src} alt={src} />
+              ))}
+            </div>
+          </Content>
         )}
       </div>
       <Menu
