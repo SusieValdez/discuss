@@ -6,7 +6,12 @@ import chevronRight from "../../assets/chevron-right-solid.svg";
 import { MenuItem, useMenuState } from "@szhsin/react-menu";
 import { Menu } from "../../ui/Menus";
 
-const ChannelCategory = ({ name, channels, activeChannel }) => {
+const ChannelCategory = ({
+  name,
+  channels,
+  activeChannel,
+  onClickDeleteChannel,
+}) => {
   const [showChannels, setShowChannels] = useState(true);
   const toggleShowChannels = () => setShowChannels(!showChannels);
   const isActive = (channel) => channel._id === activeChannel._id;
@@ -38,6 +43,7 @@ const ChannelCategory = ({ name, channels, activeChannel }) => {
               key={channel._id}
               {...channel}
               isActive={isActive(channel)}
+              onClickDeleteChannel={onClickDeleteChannel(channel._id)}
             />
           )
         )}

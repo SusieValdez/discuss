@@ -13,6 +13,7 @@ function ServerPage({
   onTypingIndicatorChanged,
   onClickKick,
   onMessageEdit,
+  onClickDeleteChannel,
 }) {
   let { serverId, channelId } = useParams();
   const {
@@ -25,6 +26,11 @@ function ServerPage({
   if (channelId === undefined) {
     channelId = channels[0]._id;
   }
+  let activeChannel = channels.find((channel) => channel._id === channelId);
+  if (!activeChannel) {
+    activeChannel = channels.find((channel) => channel._id === channels[0]._id);
+  }
+  console.log(activeChannel);
 
   const rolesMap = arrayToMap(roles);
   const serverUsers = serverUserData.map(({ userId, roles }) => ({
@@ -33,9 +39,8 @@ function ServerPage({
   }));
   const serverUserMap = arrayToMap(serverUsers);
   const localUser = serverUserMap[localUserId];
-
-  const activeChannel = channels.find((channel) => channel._id === channelId);
   const expandedActiveChannel = {
+    ...activeChannel,
     ...channels.find((channel) => channel._id === channelId),
     messages: activeChannel.messages.map((message) => ({
       ...message,
@@ -52,6 +57,7 @@ function ServerPage({
         activeChannel={expandedActiveChannel}
         localUser={localUser}
         onClickLogout={onClickLogout}
+        onClickDeleteChannel={onClickDeleteChannel(serverId)}
       />
       <Chat
         activeChannel={expandedActiveChannel}

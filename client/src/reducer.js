@@ -84,6 +84,13 @@ const typingIndicatorChanged = (
   }
 };
 
+const deleteChannel = (state, { serverId, channelId }) =>
+  deepUpdate(
+    state,
+    ["servers", (server) => server._id === serverId, "channels"],
+    (channels) => channels.filter(({ _id }) => _id !== channelId)
+  );
+
 const reducers = {
   SET_STATE: setState,
   NEW_MESSAGE: newMessage,
@@ -92,6 +99,7 @@ const reducers = {
   USER_LEFT_SERVER: userLeftServer,
   ONLINE_STATUS_CHANGED: onlineStatusChanged,
   TYPING_INDICATOR_CHANGED: typingIndicatorChanged,
+  DELETE_CHANNEL: deleteChannel,
 };
 
 const rootReducer = (state, action) => {

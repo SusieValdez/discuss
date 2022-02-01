@@ -3,6 +3,7 @@ import { nanoid } from "nanoid";
 import {
   addMessage,
   addUserCookie,
+  deleteChannel,
   editMessage,
   getServers,
   getUserByEmail,
@@ -192,6 +193,21 @@ wss.on("connection", async (ws) => {
               },
             })
           );
+        });
+        break;
+      }
+      case "DELETE_CHANNEL": {
+        const { serverId, channelId } = action.payload;
+        await deleteChannel(serverId, channelId);
+        const event = {
+          kind: "DELETE_CHANNEL",
+          payload: {
+            serverId,
+            channelId,
+          },
+        };
+        wss.clients.forEach((client) => {
+          client.send(JSON.stringify(event));
         });
         break;
       }

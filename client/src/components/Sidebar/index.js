@@ -21,6 +21,7 @@ const Sidebar = ({
   activeChannel,
   localUser,
   onClickLogout,
+  onClickDeleteChannel,
 }) => {
   const [headerMenuIsOpen, setHeaderMenuIsOpen] = useState(false);
   const headerMenu = useMenuState();
@@ -73,6 +74,7 @@ const Sidebar = ({
             name={category.name}
             channels={channels}
             activeChannel={activeChannel}
+            onClickDeleteChannel={onClickDeleteChannel}
           />
         ))}
       </div>

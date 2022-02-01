@@ -76,6 +76,13 @@ function App() {
     });
   };
 
+  const onClickDeleteChannel = (serverId) => (channelId) => () => {
+    send({
+      kind: "DELETE_CHANNEL",
+      payload: { serverId, channelId },
+    });
+  };
+
   const onClickLogout = () => {
     localStorage.removeItem("cookie");
     setCookie(undefined);
@@ -128,6 +135,7 @@ function App() {
       onTypingIndicatorChanged={onTypingIndicatorChanged}
       onClickKick={onClickKick}
       onMessageEdit={onMessageEdit}
+      onClickDeleteChannel={onClickDeleteChannel}
     />
   );
 

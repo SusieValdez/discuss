@@ -103,3 +103,12 @@ export async function addUserCookie(cookie, userId) {
 export async function getUserCookie(cookie) {
   return await db.collection("cookies").findOne({ _id: cookie });
 }
+
+export async function deleteChannel(serverId, channelId) {
+  await db
+    .collection("servers")
+    .updateOne(
+      { _id: ObjectId(serverId) },
+      { $pull: { channels: { _id: channelId } } }
+    );
+}
