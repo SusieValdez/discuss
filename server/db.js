@@ -29,6 +29,15 @@ export async function editMessage(serverId, channelId, messageId, text) {
     );
 }
 
+export async function deleteMessage(serverId, channelId, messageId) {
+  await db
+    .collection("servers")
+    .updateOne(
+      { _id: ObjectId(serverId), "channels._id": channelId },
+      { $pull: { "channels.$.messages": { _id: messageId } } }
+    );
+}
+
 export async function setTypingUserStatus(
   serverId,
   channelId,

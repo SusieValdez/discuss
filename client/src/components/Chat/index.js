@@ -16,6 +16,7 @@ const Chat = ({
   onTypingIndicatorChanged,
   onClickKick,
   onMessageEdit,
+  onClickDeleteMessage,
 }) => {
   const [userModalData, setUserModalData] = useState(undefined);
 
@@ -52,6 +53,7 @@ const Chat = ({
             messages={activeChannel.messages}
             openUserModal={openUserModal}
             onMessageEdit={onMessageEdit}
+            onClickDeleteMessage={onClickDeleteMessage}
           />
           <NewMessageInput
             onNewMessage={onNewMessage}

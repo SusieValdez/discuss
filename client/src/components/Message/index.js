@@ -21,6 +21,7 @@ const Message = ({
   text,
   openUserModal,
   onMessageEdit,
+  onClickDeleteMessage,
 }) => {
   const messageMenu = useMenuState();
   const userMenu = useMenuState();
@@ -113,6 +114,7 @@ const Message = ({
         onClose={() => messageMenu.toggleMenu(false)}
       >
         <MenuItem onClick={onClickEditMessage}>Edit Message</MenuItem>
+        <MenuItem onClick={onClickDeleteMessage}>Delete Message</MenuItem>
       </Menu>
       <Menu
         state={userMenu.state}

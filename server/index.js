@@ -4,6 +4,7 @@ import {
   addMessage,
   addUserCookie,
   deleteChannel,
+  deleteMessage,
   editMessage,
   getServers,
   getUserByEmail,
@@ -95,6 +96,22 @@ wss.on("connection", async (ws) => {
             channelId,
             messageId,
             text,
+          },
+        };
+        wss.clients.forEach((client) => {
+          client.send(JSON.stringify(event));
+        });
+        break;
+      }
+      case "DELETE_MESSAGE": {
+        const { serverId, channelId, messageId } = action.payload;
+        await deleteMessage(serverId, channelId, messageId);
+        const event = {
+          kind: "DELETE_MESSAGE",
+          payload: {
+            serverId,
+            channelId,
+            messageId,
           },
         };
         wss.clients.forEach((client) => {

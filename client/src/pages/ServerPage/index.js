@@ -14,6 +14,7 @@ function ServerPage({
   onClickKick,
   onMessageEdit,
   onClickDeleteChannel,
+  onClickDeleteMessage,
 }) {
   let { serverId, channelId } = useParams();
   const {
@@ -30,7 +31,6 @@ function ServerPage({
   if (!activeChannel) {
     activeChannel = channels.find((channel) => channel._id === channels[0]._id);
   }
-  console.log(activeChannel);
 
   const rolesMap = arrayToMap(roles);
   const serverUsers = serverUserData.map(({ userId, roles }) => ({
@@ -68,6 +68,7 @@ function ServerPage({
         onMessageEdit={onMessageEdit(serverId, channelId)}
         onTypingIndicatorChanged={onTypingIndicatorChanged(serverId, channelId)}
         onClickKick={onClickKick(serverId)}
+        onClickDeleteMessage={onClickDeleteMessage(serverId, channelId)}
       />
     </Container>
   );

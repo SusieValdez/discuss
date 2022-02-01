@@ -5,7 +5,12 @@ import Message from "../Message";
 // Styles
 import { Container } from "./Messages.styles.js";
 
-const Messages = ({ messages, openUserModal, onMessageEdit }) => {
+const Messages = ({
+  messages,
+  openUserModal,
+  onMessageEdit,
+  onClickDeleteMessage,
+}) => {
   const messagesRef = useRef(null);
   useEffect(() => {
     const messages = messagesRef.current;
@@ -22,6 +27,7 @@ const Messages = ({ messages, openUserModal, onMessageEdit }) => {
           {...message}
           openUserModal={openUserModal}
           onMessageEdit={onMessageEdit(message._id)}
+          onClickDeleteMessage={onClickDeleteMessage(message._id)}
         />
       ))}
     </Container>
