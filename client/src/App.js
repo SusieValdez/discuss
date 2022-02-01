@@ -55,6 +55,13 @@ function App() {
     });
   };
 
+  const onMessageEdit = (serverId, channelId) => (messageId) => (text) => {
+    send({
+      kind: "EDIT_MESSAGE",
+      payload: { serverId, channelId, messageId, text },
+    });
+  };
+
   const onTypingIndicatorChanged = (serverId, channelId) => (typingStatus) => {
     send({
       kind: "TYPING_INDICATOR_CHANGED",
@@ -120,6 +127,7 @@ function App() {
       onClickLogout={onClickLogout}
       onTypingIndicatorChanged={onTypingIndicatorChanged}
       onClickKick={onClickKick}
+      onMessageEdit={onMessageEdit}
     />
   );
 

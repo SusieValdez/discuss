@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { formatRelative } from "date-fns";
 
 // Styles
@@ -14,10 +14,30 @@ import { Menu } from "../../ui/Menus";
 import { MenuItem, useMenuState } from "@szhsin/react-menu";
 import "@szhsin/react-menu/dist/index.css";
 
-const Message = ({ userId, user, timestamp, text, openUserModal }) => {
+const Message = ({
+  userId,
+  user,
+  timestamp,
+  text,
+  openUserModal,
+  onMessageEdit,
+}) => {
   const messageMenu = useMenuState();
   const userMenu = useMenuState();
   const [anchorPoint, setAnchorPoint] = useState({ x: 0, y: 0 });
+
+  const [isEditing, setIsEditing] = useState(false);
+  const [editedMessage, setEditedMessage] = useState(text);
+
+  useEffect(() => {
+    setEditedMessage(text);
+  }, [text]);
+
+  const editInputRef = useRef(null);
+
+  useEffect(() => {
+    editInputRef.current?.focus();
+  });
 
   const onRightClickMessage = (e) => {
     e.preventDefault();
@@ -31,6 +51,21 @@ const Message = ({ userId, user, timestamp, text, openUserModal }) => {
     e.stopPropagation();
     setAnchorPoint({ x: e.clientX, y: e.clientY });
     userMenu.toggleMenu(true);
+  };
+
+  const onClickEditMessage = () => {
+    setIsEditing(true);
+  };
+
+  const onChangeEditedMessage = (e) => {
+    setEditedMessage(e.target.value);
+  };
+
+  const onKeyDownEditedMessage = (e) => {
+    if (editedMessage.length > 0 && e.key === "Enter") {
+      onMessageEdit(editedMessage);
+      setIsEditing(false);
+    }
   };
 
   if (!user) {
@@ -60,7 +95,16 @@ const Message = ({ userId, user, timestamp, text, openUserModal }) => {
           </Username>
           <Timestamp>{formatRelative(timestamp, Date.now())}</Timestamp>
         </div>
-        <Content>{text}</Content>
+        {isEditing ? (
+          <input
+            ref={editInputRef}
+            value={editedMessage}
+            onChange={onChangeEditedMessage}
+            onKeyDown={onKeyDownEditedMessage}
+          />
+        ) : (
+          <Content>{text}</Content>
+        )}
       </div>
       <Menu
         state={messageMenu.state}
@@ -68,7 +112,7 @@ const Message = ({ userId, user, timestamp, text, openUserModal }) => {
         anchorPoint={anchorPoint}
         onClose={() => messageMenu.toggleMenu(false)}
       >
-        <MenuItem>Edit Message</MenuItem>
+        <MenuItem onClick={onClickEditMessage}>Edit Message</MenuItem>
       </Menu>
       <Menu
         state={userMenu.state}

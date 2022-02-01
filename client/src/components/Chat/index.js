@@ -15,6 +15,7 @@ const Chat = ({
   users,
   onTypingIndicatorChanged,
   onClickKick,
+  onMessageEdit,
 }) => {
   const [userModalData, setUserModalData] = useState(undefined);
 
@@ -50,6 +51,7 @@ const Chat = ({
           <Messages
             messages={activeChannel.messages}
             openUserModal={openUserModal}
+            onMessageEdit={onMessageEdit}
           />
           <NewMessageInput
             onNewMessage={onNewMessage}

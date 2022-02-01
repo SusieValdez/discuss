@@ -17,6 +17,20 @@ const newMessage = (state, { message, serverId, channelId }) =>
     (messages) => [...messages, message]
   );
 
+const editMessage = (state, { serverId, channelId, messageId, text }) =>
+  deepUpdate(
+    state,
+    [
+      "servers",
+      (server) => server._id === serverId,
+      "channels",
+      (channel) => channel._id === channelId,
+      "messages",
+      (message) => message._id === messageId,
+    ],
+    (message) => ({ ...message, text })
+  );
+
 const userJoinedServer = (state, { user, serverId }) => ({
   ...deepUpdate(
     state,
@@ -73,6 +87,7 @@ const typingIndicatorChanged = (
 const reducers = {
   SET_STATE: setState,
   NEW_MESSAGE: newMessage,
+  EDIT_MESSAGE: editMessage,
   USER_JOINED_SERVER: userJoinedServer,
   USER_LEFT_SERVER: userLeftServer,
   ONLINE_STATUS_CHANGED: onlineStatusChanged,

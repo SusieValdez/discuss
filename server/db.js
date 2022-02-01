@@ -19,6 +19,16 @@ export async function addMessage(message, serverId, channelId) {
     );
 }
 
+export async function editMessage(serverId, channelId, messageId, text) {
+  await db
+    .collection("servers")
+    .updateOne(
+      { _id: ObjectId(serverId), "channels._id": channelId },
+      { $set: { "channels.$.messages.$[message].text": text } },
+      { arrayFilters: [{ "message._id": messageId }] }
+    );
+}
+
 export async function setTypingUserStatus(
   serverId,
   channelId,

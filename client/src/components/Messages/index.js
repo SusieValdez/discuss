@@ -5,7 +5,7 @@ import Message from "../Message";
 // Styles
 import { Container } from "./Messages.styles.js";
 
-const Messages = ({ messages, openUserModal }) => {
+const Messages = ({ messages, openUserModal, onMessageEdit }) => {
   const messagesRef = useRef(null);
   useEffect(() => {
     const messages = messagesRef.current;
@@ -16,8 +16,13 @@ const Messages = ({ messages, openUserModal }) => {
   }, [messages]);
   return (
     <Container ref={messagesRef}>
-      {messages.map((message, i) => (
-        <Message key={i} {...message} openUserModal={openUserModal} />
+      {messages.map((message) => (
+        <Message
+          key={message._id}
+          {...message}
+          openUserModal={openUserModal}
+          onMessageEdit={onMessageEdit(message._id)}
+        />
       ))}
     </Container>
   );

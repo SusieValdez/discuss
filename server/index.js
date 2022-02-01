@@ -3,6 +3,7 @@ import { nanoid } from "nanoid";
 import {
   addMessage,
   addUserCookie,
+  editMessage,
   getServers,
   getUserByEmail,
   getUserCookie,
@@ -63,12 +64,12 @@ wss.on("connection", async (ws) => {
     switch (action.kind) {
       case "NEW_MESSAGE": {
         const message = {
+          _id: nanoid(),
           userId: loggedInUserId,
           timestamp: Date.now(),
           text: action.payload.text,
         };
-        const serverId = action.payload.serverId;
-        const channelId = action.payload.channelId;
+        const { serverId, channelId } = action.payload;
         await addMessage(message, serverId, channelId);
         const event = {
           kind: "NEW_MESSAGE",
@@ -76,6 +77,23 @@ wss.on("connection", async (ws) => {
             serverId,
             channelId,
             message,
+          },
+        };
+        wss.clients.forEach((client) => {
+          client.send(JSON.stringify(event));
+        });
+        break;
+      }
+      case "EDIT_MESSAGE": {
+        const { serverId, channelId, messageId, text } = action.payload;
+        await editMessage(serverId, channelId, messageId, text);
+        const event = {
+          kind: "EDIT_MESSAGE",
+          payload: {
+            serverId,
+            channelId,
+            messageId,
+            text,
           },
         };
         wss.clients.forEach((client) => {
