@@ -7,7 +7,13 @@ import { Link, useParams } from "react-router-dom";
 import { MenuItem, useMenuState } from "@szhsin/react-menu";
 import { Menu } from "../../ui/Menus.js";
 
-const ChannelTitle = ({ _id, name, isActive, onClickDeleteChannel }) => {
+const ChannelTitle = ({
+  _id,
+  name,
+  isActive,
+  onClickEditChannel,
+  onClickDeleteChannel,
+}) => {
   const { serverId } = useParams();
 
   const categoryMenu = useMenuState();
@@ -34,7 +40,7 @@ const ChannelTitle = ({ _id, name, isActive, onClickDeleteChannel }) => {
         anchorPoint={anchorPoint}
         onClose={() => categoryMenu.toggleMenu(false)}
       >
-        <MenuItem>Edit Channel</MenuItem>
+        <MenuItem onClick={onClickEditChannel}>Edit Channel</MenuItem>
         <MenuItem onClick={onClickDeleteChannel}>Delete Channel</MenuItem>
       </Menu>
     </div>

@@ -76,7 +76,7 @@ function App() {
     });
   };
 
-  const onClickDeleteChannel = (serverId) => (channelId) => () => {
+  const onClickDeleteChannel = (serverId) => (channelId) => {
     send({
       kind: "DELETE_CHANNEL",
       payload: { serverId, channelId },

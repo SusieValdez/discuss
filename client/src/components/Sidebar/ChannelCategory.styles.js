@@ -5,13 +5,26 @@ export const Category = styled.div`
   padding: 10px;
 
   .category-header {
+    display: flex;
+    justify-content: space-between;
     text-transform: uppercase;
     cursor: pointer;
     font-size: 14px;
     padding: 5px;
 
-    :hover {
-      color: #e1e2e3;
+    .category-title {
+      width: 100%;
+      :hover {
+        color: #e1e2e3;
+      }
+    }
+
+    svg {
+      width: 12px;
+      height: 12px;
+      :hover {
+        color: #e1e2e3;
+      }
     }
   }
 

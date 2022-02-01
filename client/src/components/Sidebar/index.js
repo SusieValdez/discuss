@@ -13,6 +13,14 @@ import {
 import gearIcon from "../../assets/cog-solid.svg";
 import { Menu } from "../../ui/Menus";
 import { MenuItem, useMenuState } from "@szhsin/react-menu";
+import NewChannelModal from "../NewChannelModal";
+import EditChannelModal from "../EditChannelModal";
+import DeleteChannelModal from "../DeleteChannelModal";
+import NewCategoryModal from "../NewCategoryModal";
+import EditCategoryModal from "../EditCategoryModal";
+import DeleteCategoryModal from "../DeleteCategoryModal";
+import ServerSettingsModal from "../ServerSettingsModal";
+import UserAccountModal from "../UserAccountModal";
 
 const Sidebar = ({
   serverName,
@@ -21,6 +29,8 @@ const Sidebar = ({
   activeChannel,
   localUser,
   onClickLogout,
+  onClickNewChannel,
+  onClickEditChannel,
   onClickDeleteChannel,
 }) => {
   const [headerMenuIsOpen, setHeaderMenuIsOpen] = useState(false);
@@ -30,6 +40,19 @@ const Sidebar = ({
   const [statusMenuIsOpen, setStatusMenuIsOpen] = useState(false);
   const statusMenu = useMenuState();
   const statusRef = useRef(null);
+
+  const [userAccountModalData, setUserAccountModalData] = useState(undefined);
+  const [serverSettingsModalData, setServerSettingsModalData] =
+    useState(undefined);
+
+  const [newChannelModalData, setNewChannelModalData] = useState(undefined);
+  const [editChannelModalData, setEditChannelModalData] = useState(undefined);
+  const [deleteChannelModalData, setDeleteChannelModalData] =
+    useState(undefined);
+  const [newCategoryModalData, setNewCategoryModalData] = useState(undefined);
+  const [editCategoryModalData, setEditCategoryModalData] = useState(undefined);
+  const [deleteCategoryModalData, setDeleteCategoryModalData] =
+    useState(undefined);
 
   const onClickHeader = () => {
     setHeaderMenuIsOpen(!headerMenuIsOpen);
@@ -54,6 +77,42 @@ const Sidebar = ({
 
   return (
     <Container>
+      <NewChannelModal
+        closeModal={() => setNewChannelModalData(undefined)}
+        data={newChannelModalData}
+        onClickNewChannel={onClickNewChannel}
+      />
+      <EditChannelModal
+        closeModal={() => setEditChannelModalData(undefined)}
+        data={editChannelModalData}
+        onClickEditChannel={onClickEditChannel}
+      />
+      <DeleteChannelModal
+        closeModal={() => setDeleteChannelModalData(undefined)}
+        data={deleteChannelModalData}
+        onClickDeleteChannel={onClickDeleteChannel}
+      />
+      <NewCategoryModal
+        closeModal={() => setNewCategoryModalData(undefined)}
+        data={newCategoryModalData}
+      />
+      <EditCategoryModal
+        closeModal={() => setEditCategoryModalData(undefined)}
+        data={editCategoryModalData}
+      />
+      <DeleteCategoryModal
+        closeModal={() => setDeleteCategoryModalData(undefined)}
+        data={deleteCategoryModalData}
+      />
+      <ServerSettingsModal
+        closeModal={() => setServerSettingsModalData(undefined)}
+        data={serverSettingsModalData}
+      />
+      <UserAccountModal
+        closeModal={() => setUserAccountModalData(undefined)}
+        data={userAccountModalData}
+        onClickLogout={onClickLogout}
+      />
       <div>
         <Header onClick={onClickHeader} ref={headerRef}>
           {serverName}
@@ -66,7 +125,12 @@ const Sidebar = ({
           offsetY={10}
           offsetX={10}
         >
-          <MenuItem>Server Settings</MenuItem>
+          <MenuItem onClick={() => setServerSettingsModalData({})}>
+            Server Settings
+          </MenuItem>
+          <MenuItem onClick={() => setNewCategoryModalData({})}>
+            New Category
+          </MenuItem>
         </Menu>
         {Object.values(channelsByCategory).map(({ category, channels }) => (
           <ChannelCategory
@@ -74,7 +138,17 @@ const Sidebar = ({
             name={category.name}
             channels={channels}
             activeChannel={activeChannel}
-            onClickDeleteChannel={onClickDeleteChannel}
+            onClickNewChannel={() => setNewChannelModalData({ category })}
+            onClickEditChannel={(channel) =>
+              setEditChannelModalData({ category, channel })
+            }
+            onClickDeleteChannel={(channel) =>
+              setDeleteChannelModalData({ category, channel })
+            }
+            onClickEditCategory={() => setEditCategoryModalData({ category })}
+            onClickDeleteCategory={() =>
+              setDeleteCategoryModalData({ category })
+            }
           />
         ))}
       </div>
@@ -104,8 +178,8 @@ const Sidebar = ({
             <p>{localUser.legend}</p>
           </div>
         </UserTag>
-        <IconContainer>
-          <img src={gearIcon} onClick={onClickLogout} alt="settings" />
+        <IconContainer onClick={() => setUserAccountModalData({})}>
+          <img src={gearIcon} alt="settings" />
         </IconContainer>
       </UserPanel>
     </Container>

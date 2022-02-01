@@ -5,12 +5,17 @@ import chevronDown from "../../assets/chevron-down-solid.svg";
 import chevronRight from "../../assets/chevron-right-solid.svg";
 import { MenuItem, useMenuState } from "@szhsin/react-menu";
 import { Menu } from "../../ui/Menus";
+import { ReactComponent as AddChannel } from "../../assets/plus-solid.svg";
 
 const ChannelCategory = ({
   name,
   channels,
   activeChannel,
+  onClickNewChannel,
+  onClickEditChannel,
   onClickDeleteChannel,
+  onClickEditCategory,
+  onClickDeleteCategory,
 }) => {
   const [showChannels, setShowChannels] = useState(true);
   const toggleShowChannels = () => setShowChannels(!showChannels);
@@ -28,13 +33,15 @@ const ChannelCategory = ({
 
   return (
     <Category>
-      <div
-        className="category-header"
-        onClick={toggleShowChannels}
-        onContextMenu={onRightClickCategory}
-      >
-        <img src={showChannels ? chevronDown : chevronRight} alt="" />
-        {name}
+      <div className="category-header" onContextMenu={onRightClickCategory}>
+        <div className="category-title" onClick={toggleShowChannels}>
+          <img
+            src={showChannels ? chevronDown : chevronRight}
+            alt="show/hide channels"
+          />
+          {name}
+        </div>
+        <AddChannel onClick={onClickNewChannel} />
       </div>
       <div>
         {(showChannels ? channels : channels.filter(isActive)).map(
@@ -43,7 +50,8 @@ const ChannelCategory = ({
               key={channel._id}
               {...channel}
               isActive={isActive(channel)}
-              onClickDeleteChannel={onClickDeleteChannel(channel._id)}
+              onClickEditChannel={() => onClickEditChannel(channel)}
+              onClickDeleteChannel={() => onClickDeleteChannel(channel)}
             />
           )
         )}
@@ -54,8 +62,8 @@ const ChannelCategory = ({
         anchorPoint={anchorPoint}
         onClose={() => categoryMenu.toggleMenu(false)}
       >
-        <MenuItem>Edit Category</MenuItem>
-        <MenuItem>Delete Category</MenuItem>
+        <MenuItem onClick={onClickEditCategory}>Edit Category</MenuItem>
+        <MenuItem onClick={onClickDeleteCategory}>Delete Category</MenuItem>
       </Menu>
     </Category>
   );
