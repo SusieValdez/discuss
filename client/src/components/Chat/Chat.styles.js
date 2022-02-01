@@ -57,3 +57,21 @@ export const ChatArea = styled.div`
     padding: 20px;
   }
 `;
+
+export const Divider = styled.div`
+  padding-top: -5px;
+  width: 95%;
+  margin: 10px auto;
+  border-top: thin solid #42454a;
+
+  span {
+    text-align: center;
+    display: block;
+    width: 100px;
+    margin: -8px auto 0 auto;
+    background-color: #36393f;
+    color: #72767d;
+    font-size: 12px;
+    font-weight: 600;
+  }
+`;

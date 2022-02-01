@@ -1,9 +1,45 @@
 import React, { useRef } from "react";
 import { useEffect } from "react";
+import { Divider } from "../Chat/Chat.styles";
 // Components
 import Message from "../Message";
 // Styles
 import { Container } from "./Messages.styles.js";
+
+const months = [
+  "January",
+  "Feburary",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "Setember",
+  "October",
+  "November",
+  "December",
+];
+
+const getDayString = (timestamp) => {
+  const d = new Date(timestamp);
+  const date = d.getDate();
+  const month = months[d.getMonth()];
+  const year = d.getFullYear();
+  return `${month} ${date}, ${year}`;
+};
+
+const groupMessagesByDay = (messages) => {
+  const dailyMessages = {};
+  for (const message of messages) {
+    const dayString = getDayString(message.timestamp);
+    if (dailyMessages[dayString] === undefined) {
+      dailyMessages[dayString] = [];
+    }
+    dailyMessages[dayString].push(message);
+  }
+  return dailyMessages;
+};
 
 const Messages = ({
   messages,
@@ -24,17 +60,25 @@ const Messages = ({
       });
     }, 300);
   }, [messages]);
+
+  const dailyMessages = groupMessagesByDay(messages);
+
   return (
     <Container ref={messagesRef}>
-      {messages.map((message) => (
-        <Message
-          key={message._id}
-          {...message}
-          openUserModal={openUserModal}
-          onMessageEdit={onMessageEdit(message._id)}
-          onClickDeleteMessage={onClickDeleteMessage(message._id)}
-        />
-      ))}
+      {Object.entries(dailyMessages).map(([dayString, messages], i) => [
+        <Divider key={dayString}>
+          <span>{dayString}</span>
+        </Divider>,
+        messages.map((message) => (
+          <Message
+            key={message._id}
+            {...message}
+            openUserModal={openUserModal}
+            onMessageEdit={onMessageEdit(message._id)}
+            onClickDeleteMessage={onClickDeleteMessage(message._id)}
+          />
+        )),
+      ])}
     </Container>
   );
 };
