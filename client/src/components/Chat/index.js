@@ -6,6 +6,9 @@ import MiniUserProfileModal from "../MiniUserProfileModal";
 import UsersSidebar from "../UsersSidebar";
 // Styles
 import { Container, Title, Content, ChatArea } from "./Chat.styles";
+// Assets
+import { ReactComponent as UsersListIcon } from "../../assets/user-friends-solid.svg";
+import { ReactComponent as MySite } from "../../assets/question-circle-solid.svg";
 
 const Chat = ({
   activeChannel,
@@ -19,6 +22,11 @@ const Chat = ({
   onClickDeleteMessage,
 }) => {
   const [userModalData, setUserModalData] = useState(undefined);
+
+  const [showUsersSidebar, setShowUsersSidebar] = useState(true);
+  const onClickShowUsersSidebar = () => {
+    setShowUsersSidebar(!showUsersSidebar);
+  };
 
   const openUserModal = (user) => (e) => {
     setUserModalData({ clickedTarget: e.target, user });
@@ -46,6 +54,10 @@ const Chat = ({
       <MiniUserProfileModal closeModal={closeUserModal} data={userModalData} />
       <Title>
         <h3>Discuss #{activeChannel.name.toLowerCase()}</h3>
+        <div>
+          <UsersListIcon onClick={onClickShowUsersSidebar} />
+          <MySite />
+        </div>
       </Title>
       <Content>
         <ChatArea>
@@ -63,12 +75,14 @@ const Chat = ({
             <span className="typing-indicator">{typingUsersMessage}</span>
           </div>
         </ChatArea>
-        <UsersSidebar
-          users={Object.values(users)}
-          roles={roles}
-          openUserModal={openUserModal}
-          onClickKick={onClickKick}
-        />
+        {showUsersSidebar && (
+          <UsersSidebar
+            users={Object.values(users)}
+            roles={roles}
+            openUserModal={openUserModal}
+            onClickKick={onClickKick}
+          />
+        )}
       </Content>
     </Container>
   );

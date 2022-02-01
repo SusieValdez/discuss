@@ -18,9 +18,17 @@ export const Title = styled.div`
   color: #fff;
   display: flex;
   align-items: center;
+  justify-content: space-between;
   font-weight: 600;
   font-size: 14px;
   line-height: 20px;
+
+  svg {
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+    margin: 0 8px;
+  }
 `;
 
 export const Content = styled.div`
