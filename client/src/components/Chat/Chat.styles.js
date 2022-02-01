@@ -29,6 +29,11 @@ export const Title = styled.div`
     cursor: pointer;
     margin: 0 8px;
   }
+
+  a {
+    text-decoration: none;
+    color: #fff;
+  }
 `;
 
 export const Content = styled.div`

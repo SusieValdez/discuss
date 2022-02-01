@@ -56,7 +56,9 @@ const Chat = ({
         <h3>Discuss #{activeChannel.name.toLowerCase()}</h3>
         <div>
           <UsersListIcon onClick={onClickShowUsersSidebar} />
-          <MySite />
+          <a href="https://susie.mx">
+            <MySite />
+          </a>
         </div>
       </Title>
       <Content>
