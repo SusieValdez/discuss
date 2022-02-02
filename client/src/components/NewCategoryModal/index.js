@@ -31,7 +31,7 @@ const NewCategoryModal = ({ closeModal, data, onClickNewCategory }) => {
   return (
     <Modal
       isOpen={true}
-      onAfterOpen={() => inputRef.current.focus()}
+      onAfterOpen={() => inputRef.current?.focus()}
       onRequestClose={closeModal}
       style={{
         overlay: {
@@ -74,7 +74,9 @@ const NewCategoryModal = ({ closeModal, data, onClickNewCategory }) => {
           </div>
         </Content>
         <Footer>
-          <button className="cancel-button">Cancel</button>
+          <button onClick={closeModal} className="cancel-button">
+            Cancel
+          </button>
           <button
             className={`create-category-button ${
               newCategoryName.length > 0 ? "active" : "disabled"

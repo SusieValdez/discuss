@@ -34,7 +34,7 @@ const NewChannelModal = ({ closeModal, data, onClickNewChannel }) => {
   return (
     <Modal
       isOpen={true}
-      onAfterOpen={() => inputRef.current.focus()}
+      onAfterOpen={() => inputRef.current?.focus()}
       onRequestClose={closeModal}
       style={{
         overlay: {
@@ -80,7 +80,9 @@ const NewChannelModal = ({ closeModal, data, onClickNewChannel }) => {
           </div>
         </Content>
         <Footer>
-          <button className="cancel-button">Cancel</button>
+          <button onClick={closeModal} className="cancel-button">
+            Cancel
+          </button>
           <button
             className={`create-button ${
               newChannelName.length > 0 ? "active" : "disabled"
