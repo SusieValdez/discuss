@@ -91,6 +91,13 @@ function App() {
     });
   };
 
+  const onClickNewChannel = (serverId) => (categoryId, name) => {
+    send({
+      kind: "ADD_CHANNEL",
+      payload: { serverId, categoryId, name },
+    });
+  };
+
   const onClickDeleteChannel = (serverId) => (channelId) => {
     send({
       kind: "DELETE_CHANNEL",
@@ -153,6 +160,7 @@ function App() {
       onClickKick={onClickKick}
       onClickDeleteChannel={onClickDeleteChannel}
       onClickNewCategory={onClickNewCategory}
+      onClickNewChannel={onClickNewChannel}
     />
   );
 

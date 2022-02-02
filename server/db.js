@@ -125,6 +125,20 @@ export async function addCategory(serverId, name) {
   return { _id, name };
 }
 
+export async function addChannel(serverId, categoryId, name) {
+  const channel = {
+    _id: nanoid(),
+    name,
+    categoryId,
+    messages: [],
+    typingUsers: [],
+  };
+  await db
+    .collection("servers")
+    .updateOne({ _id: ObjectId(serverId) }, { $push: { channels: channel } });
+  return channel;
+}
+
 export async function deleteChannel(serverId, channelId) {
   await db
     .collection("servers")

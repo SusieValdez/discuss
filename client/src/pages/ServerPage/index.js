@@ -13,6 +13,7 @@ function ServerPage({
   onTypingIndicatorChanged,
   onClickKick,
   onMessageEdit,
+  onClickNewChannel,
   onClickDeleteChannel,
   onClickDeleteMessage,
   onClickNewCategory,
@@ -58,6 +59,7 @@ function ServerPage({
         activeChannel={expandedActiveChannel}
         localUser={localUser}
         onClickLogout={onClickLogout}
+        onClickNewChannel={onClickNewChannel(serverId)}
         onClickDeleteChannel={onClickDeleteChannel(serverId)}
         onClickNewCategory={onClickNewCategory(serverId)}
       />

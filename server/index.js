@@ -2,6 +2,7 @@ import { WebSocketServer } from "ws";
 import { nanoid } from "nanoid";
 import {
   addCategory,
+  addChannel,
   addMessage,
   addUserCookie,
   deleteChannel,
@@ -227,6 +228,21 @@ wss.on("connection", async (ws) => {
               },
             })
           );
+        });
+        break;
+      }
+      case "ADD_CHANNEL": {
+        const { serverId, categoryId, name } = action.payload;
+        const channel = await addChannel(serverId, categoryId, name);
+        const event = {
+          kind: "ADD_CHANNEL",
+          payload: {
+            serverId,
+            channel,
+          },
+        };
+        wss.clients.forEach((client) => {
+          client.send(JSON.stringify(event));
         });
         break;
       }
