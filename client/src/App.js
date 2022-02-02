@@ -5,6 +5,7 @@ import { Container } from "./App.styles";
 import ServerPage from "./pages/ServerPage";
 import LoginPage from "./pages/Login";
 import RegisterPage from "./pages/RegisterPage";
+import NotFoundPage from "./pages/NotFoundPage";
 import reducer from "./reducer";
 import ServerNavbar from "./components/ServerNavbar/ServerNavbar";
 import { useState } from "react";
@@ -160,11 +161,10 @@ function App() {
       <Container>
         <ServerNavbar servers={state.servers} />
         <Routes>
-          <Route path="/">
-            <Route path="servers/:serverId" element={serverPage}>
-              <Route path="channels/:channelId" element={serverPage} />
-            </Route>
+          <Route path="/servers/:serverId" element={serverPage}>
+            <Route path="channels/:channelId" element={serverPage} />
           </Route>
+          <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </Container>
     </BrowserRouter>
