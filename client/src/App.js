@@ -62,6 +62,13 @@ function App() {
     });
   };
 
+  const onClickDeleteMessage = (serverId, channelId) => (messageId) => () => {
+    send({
+      kind: "DELETE_MESSAGE",
+      payload: { serverId, channelId, messageId },
+    });
+  };
+
   const onTypingIndicatorChanged = (serverId, channelId) => (typingStatus) => {
     send({
       kind: "TYPING_INDICATOR_CHANGED",
@@ -76,17 +83,17 @@ function App() {
     });
   };
 
+  const onClickNewCategory = (serverId) => (name) => {
+    send({
+      kind: "ADD_CATEGORY",
+      payload: { serverId, name },
+    });
+  };
+
   const onClickDeleteChannel = (serverId) => (channelId) => {
     send({
       kind: "DELETE_CHANNEL",
       payload: { serverId, channelId },
-    });
-  };
-
-  const onClickDeleteMessage = (serverId, channelId) => (messageId) => () => {
-    send({
-      kind: "DELETE_MESSAGE",
-      payload: { serverId, channelId, messageId },
     });
   };
 
@@ -136,14 +143,15 @@ function App() {
     <ServerPage
       servers={state.servers}
       users={state.users}
-      onNewMessage={onNewMessage}
       localUserId={state.userId}
+      onNewMessage={onNewMessage}
+      onMessageEdit={onMessageEdit}
+      onClickDeleteMessage={onClickDeleteMessage}
       onClickLogout={onClickLogout}
       onTypingIndicatorChanged={onTypingIndicatorChanged}
       onClickKick={onClickKick}
-      onMessageEdit={onMessageEdit}
       onClickDeleteChannel={onClickDeleteChannel}
-      onClickDeleteMessage={onClickDeleteMessage}
+      onClickNewCategory={onClickNewCategory}
     />
   );
 

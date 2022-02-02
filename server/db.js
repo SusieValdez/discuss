@@ -1,4 +1,5 @@
 import { MongoClient, ObjectId } from "mongodb";
+import { nanoid } from "nanoid";
 
 const url = "mongodb://localhost:27017";
 const dbName = "discuss";
@@ -111,6 +112,17 @@ export async function addUserCookie(cookie, userId) {
 
 export async function getUserCookie(cookie) {
   return await db.collection("cookies").findOne({ _id: cookie });
+}
+
+export async function addCategory(serverId, name) {
+  const _id = nanoid();
+  await db
+    .collection("servers")
+    .updateOne(
+      { _id: ObjectId(serverId) },
+      { $push: { categories: { _id, name } } }
+    );
+  return { _id, name };
 }
 
 export async function deleteChannel(serverId, channelId) {

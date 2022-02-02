@@ -97,6 +97,13 @@ const typingIndicatorChanged = (
   }
 };
 
+const addCategory = (state, { serverId, category }) =>
+  deepUpdate(
+    state,
+    ["servers", (server) => server._id === serverId, "categories"],
+    (categories) => [...categories, category]
+  );
+
 const deleteChannel = (state, { serverId, channelId }) =>
   deepUpdate(
     state,
@@ -113,6 +120,7 @@ const reducers = {
   USER_LEFT_SERVER: userLeftServer,
   ONLINE_STATUS_CHANGED: onlineStatusChanged,
   TYPING_INDICATOR_CHANGED: typingIndicatorChanged,
+  ADD_CATEGORY: addCategory,
   DELETE_CHANNEL: deleteChannel,
 };
 

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Modal from "react-modal";
 import {
   Container,
@@ -9,7 +9,21 @@ import {
 } from "./NewCategoryModal.styles";
 import Switch from "@mui/material/Switch";
 
-const NewCategoryModal = ({ closeModal, data }) => {
+const NewCategoryModal = ({ closeModal, data, onClickNewCategory }) => {
+  const [newCategoryName, setNewCategoryName] = useState("");
+
+  const onChangeNewCategoryName = (e) => {
+    setNewCategoryName(e.target.value);
+  };
+
+  const onClickConfirm = () => {
+    if (newCategoryName.length === 0) {
+      return;
+    }
+    onClickNewCategory(newCategoryName);
+    closeModal();
+  };
+
   if (!data) {
     return <></>;
   }
@@ -43,7 +57,7 @@ const NewCategoryModal = ({ closeModal, data }) => {
         <Content>
           <div>
             <h5>Category name</h5>
-            <input />
+            <input value={newCategoryName} onChange={onChangeNewCategoryName} />
           </div>
           <div>
             <PrivateCategory>
@@ -59,7 +73,14 @@ const NewCategoryModal = ({ closeModal, data }) => {
         </Content>
         <Footer>
           <button className="cancel-button">Cancel</button>
-          <button className="create-category-button">Create Category</button>
+          <button
+            className={`create-category-button ${
+              newCategoryName.length > 0 ? "active" : "disabled"
+            }`}
+            onClick={onClickConfirm}
+          >
+            Create Category
+          </button>
         </Footer>
       </Container>
     </Modal>

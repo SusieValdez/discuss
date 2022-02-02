@@ -84,6 +84,7 @@ export const Footer = styled.div`
     border: none;
     border-radius: 3px;
     background: none;
+    cursor: pointer;
 
     &:hover {
       text-decoration: underline;
@@ -91,10 +92,8 @@ export const Footer = styled.div`
   }
 
   .create-category-button {
-    color: #91939a;
     width: auto;
     height: 38px;
-    background-color: #434b94;
     transition: background-color 0.17s ease, color 0.17s ease;
     border: none;
     border-radius: 3px;
@@ -102,11 +101,25 @@ export const Footer = styled.div`
     font-weight: 500;
     line-height: 16px;
     padding: 2px 16px;
-    cursor: not-allowed;
 
-    &:hover {
+    &.active {
       color: #fff;
       background-color: #5865f2;
+      cursor: pointer;
+
+      &:hover {
+        background-color: #4955d6;
+      }
+
+      &:active {
+        background-color: #3e49c2;
+      }
+    }
+
+    &.disabled {
+      color: #91939a;
+      background-color: #434b94;
+      cursor: not-allowed;
     }
   }
 `;

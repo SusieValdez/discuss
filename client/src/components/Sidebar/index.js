@@ -32,6 +32,7 @@ const Sidebar = ({
   onClickNewChannel,
   onClickEditChannel,
   onClickDeleteChannel,
+  onClickNewCategory,
 }) => {
   const [headerMenuIsOpen, setHeaderMenuIsOpen] = useState(false);
   const headerMenu = useMenuState();
@@ -95,6 +96,7 @@ const Sidebar = ({
       <NewCategoryModal
         closeModal={() => setNewCategoryModalData(undefined)}
         data={newCategoryModalData}
+        onClickNewCategory={onClickNewCategory}
       />
       <EditCategoryModal
         closeModal={() => setEditCategoryModalData(undefined)}
