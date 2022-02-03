@@ -125,6 +125,24 @@ export async function addCategory(serverId, name) {
   return { _id, name };
 }
 
+export async function deleteCategory(serverId, categoryId) {
+  await Promise.all([
+    db
+      .collection("servers")
+      .updateOne(
+        { _id: ObjectId(serverId) },
+        { $pull: { categories: { _id: categoryId } } }
+      ),
+    db
+      .collection("servers")
+      .updateOne(
+        { _id: ObjectId(serverId) },
+        { $set: { "channels.$[channel].categoryId": undefined } },
+        { arrayFilters: [{ "channel.categoryId": categoryId }] }
+      ),
+  ]);
+}
+
 export async function addChannel(serverId, categoryId, name) {
   const channel = {
     _id: nanoid(),

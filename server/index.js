@@ -5,6 +5,7 @@ import {
   addChannel,
   addMessage,
   addUserCookie,
+  deleteCategory,
   deleteChannel,
   deleteMessage,
   editMessage,
@@ -228,6 +229,21 @@ wss.on("connection", async (ws) => {
               },
             })
           );
+        });
+        break;
+      }
+      case "DELETE_CATEGORY": {
+        const { serverId, categoryId } = action.payload;
+        await deleteCategory(serverId, categoryId);
+        const event = {
+          kind: "DELETE_CATEGORY",
+          payload: {
+            serverId,
+            categoryId,
+          },
+        };
+        wss.clients.forEach((client) => {
+          client.send(JSON.stringify(event));
         });
         break;
       }

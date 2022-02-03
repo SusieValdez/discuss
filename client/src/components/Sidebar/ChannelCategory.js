@@ -6,6 +6,7 @@ import chevronRight from "../../assets/chevron-right-solid.svg";
 import { MenuItem, useMenuState } from "@szhsin/react-menu";
 import { Menu } from "../../ui/Menus";
 import { ReactComponent as AddChannel } from "../../assets/plus-solid.svg";
+import { isActiveChannel } from "../../utils";
 
 const ChannelCategory = ({
   name,
@@ -19,7 +20,6 @@ const ChannelCategory = ({
 }) => {
   const [showChannels, setShowChannels] = useState(true);
   const toggleShowChannels = () => setShowChannels(!showChannels);
-  const isActive = (channel) => channel._id === activeChannel._id;
 
   const categoryMenu = useMenuState();
   const [anchorPoint, setAnchorPoint] = useState({ x: 0, y: 0 });
@@ -44,17 +44,18 @@ const ChannelCategory = ({
         <AddChannel onClick={onClickNewChannel} />
       </div>
       <div>
-        {(showChannels ? channels : channels.filter(isActive)).map(
-          (channel) => (
-            <ChannelTitle
-              key={channel._id}
-              {...channel}
-              isActive={isActive(channel)}
-              onClickEditChannel={() => onClickEditChannel(channel)}
-              onClickDeleteChannel={() => onClickDeleteChannel(channel)}
-            />
-          )
-        )}
+        {(showChannels
+          ? channels
+          : channels.filter(isActiveChannel(activeChannel))
+        ).map((channel) => (
+          <ChannelTitle
+            key={channel._id}
+            {...channel}
+            isActive={isActiveChannel(activeChannel)(channel)}
+            onClickEditChannel={() => onClickEditChannel(channel)}
+            onClickDeleteChannel={() => onClickDeleteChannel(channel)}
+          />
+        ))}
       </div>
       <Menu
         state={categoryMenu.state}

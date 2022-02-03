@@ -45,8 +45,8 @@ const DeleteChannelModal = ({ closeModal, data, onClickDeleteChannel }) => {
         </Header>
         <Content>
           <p>
-            Are you sure you want to delete <strong>Channel name</strong>? This
-            cannot be undone.
+            Are you sure you want to delete <strong>{data.channel.name}</strong>
+            ? This cannot be undone.
           </p>
         </Content>
         <Footer>
@@ -61,13 +61,5 @@ const DeleteChannelModal = ({ closeModal, data, onClickDeleteChannel }) => {
     </Modal>
   );
 };
-
-/*return (
-    <Modal isOpen={true} onRequestClose={closeModal}>
-      <div>Delete channel: {data.channel.name}</div>
-    </Modal>
-  );
-};
-*/
 
 export default DeleteChannelModal;

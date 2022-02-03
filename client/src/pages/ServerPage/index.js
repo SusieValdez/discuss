@@ -17,6 +17,7 @@ function ServerPage({
   onClickDeleteChannel,
   onClickDeleteMessage,
   onClickNewCategory,
+  onClickDeleteCategory,
 }) {
   let { serverId, channelId } = useParams();
   const {
@@ -62,6 +63,7 @@ function ServerPage({
         onClickNewChannel={onClickNewChannel(serverId)}
         onClickDeleteChannel={onClickDeleteChannel(serverId)}
         onClickNewCategory={onClickNewCategory(serverId)}
+        onClickDeleteCategory={onClickDeleteCategory(serverId)}
       />
       <Chat
         activeChannel={expandedActiveChannel}

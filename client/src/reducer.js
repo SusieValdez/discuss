@@ -104,6 +104,27 @@ const addCategory = (state, { serverId, category }) =>
     (categories) => [...categories, category]
   );
 
+const deleteCategory = (state, { serverId, categoryId }) => {
+  state = deepUpdate(
+    state,
+    ["servers", (server) => server._id === serverId, "categories"],
+    (categories) => categories.filter(({ _id }) => _id !== categoryId)
+  );
+  return deepUpdate(
+    state,
+    [
+      "servers",
+      (server) => server._id === serverId,
+      "channels",
+      (channel) => channel.categoryId === categoryId,
+    ],
+    (channel) => ({
+      ...channel,
+      categoryId: undefined,
+    })
+  );
+};
+
 const addChannel = (state, { serverId, channel }) =>
   deepUpdate(
     state,
@@ -128,6 +149,7 @@ const reducers = {
   ONLINE_STATUS_CHANGED: onlineStatusChanged,
   TYPING_INDICATOR_CHANGED: typingIndicatorChanged,
   ADD_CATEGORY: addCategory,
+  DELETE_CATEGORY: deleteCategory,
   ADD_CHANNEL: addChannel,
   DELETE_CHANNEL: deleteChannel,
 };

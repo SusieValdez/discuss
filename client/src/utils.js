@@ -52,3 +52,6 @@ export const deepUpdate = (obj, path, updateFn) => {
     }
   }
 };
+
+export const isActiveChannel = (activeChannel) => (channel) =>
+  channel._id === activeChannel._id;

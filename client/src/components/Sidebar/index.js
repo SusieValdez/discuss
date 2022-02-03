@@ -21,6 +21,8 @@ import EditCategoryModal from "../EditCategoryModal";
 import DeleteCategoryModal from "../DeleteCategoryModal";
 import ServerSettingsModal from "../ServerSettingsModal";
 import UserAccountModal from "../UserAccountModal";
+import { isActiveChannel } from "../../utils";
+import ChannelTitle from "./ChannelTitle";
 
 const Sidebar = ({
   serverName,
@@ -33,6 +35,7 @@ const Sidebar = ({
   onClickEditChannel,
   onClickDeleteChannel,
   onClickNewCategory,
+  onClickDeleteCategory,
 }) => {
   const [headerMenuIsOpen, setHeaderMenuIsOpen] = useState(false);
   const headerMenu = useMenuState();
@@ -65,6 +68,7 @@ const Sidebar = ({
     statusMenu.toggleMenu(!statusMenuIsOpen);
   };
 
+  const loneChannels = [];
   const channelsByCategory = {};
   for (const category of categories) {
     channelsByCategory[category._id] = {
@@ -73,7 +77,11 @@ const Sidebar = ({
     };
   }
   for (const channel of channels) {
-    channelsByCategory[channel.categoryId].channels.push(channel);
+    if (channel.categoryId) {
+      channelsByCategory[channel.categoryId].channels.push(channel);
+    } else {
+      loneChannels.push(channel);
+    }
   }
 
   return (
@@ -105,6 +113,7 @@ const Sidebar = ({
       <DeleteCategoryModal
         closeModal={() => setDeleteCategoryModalData(undefined)}
         data={deleteCategoryModalData}
+        onClickDeleteCategory={onClickDeleteCategory}
       />
       <ServerSettingsModal
         closeModal={() => setServerSettingsModalData(undefined)}
@@ -134,6 +143,15 @@ const Sidebar = ({
             New Category
           </MenuItem>
         </Menu>
+        {loneChannels.map((channel) => (
+          <ChannelTitle
+            key={channel._id}
+            {...channel}
+            isActive={isActiveChannel(activeChannel)(channel)}
+            onClickEditChannel={() => setEditChannelModalData({ channel })}
+            onClickDeleteChannel={() => setDeleteChannelModalData({ channel })}
+          />
+        ))}
         {Object.values(channelsByCategory).map(({ category, channels }) => (
           <ChannelCategory
             key={category._id}
@@ -142,10 +160,10 @@ const Sidebar = ({
             activeChannel={activeChannel}
             onClickNewChannel={() => setNewChannelModalData({ category })}
             onClickEditChannel={(channel) =>
-              setEditChannelModalData({ category, channel })
+              setEditChannelModalData({ channel })
             }
             onClickDeleteChannel={(channel) =>
-              setDeleteChannelModalData({ category, channel })
+              setDeleteChannelModalData({ channel })
             }
             onClickEditCategory={() => setEditCategoryModalData({ category })}
             onClickDeleteCategory={() =>
