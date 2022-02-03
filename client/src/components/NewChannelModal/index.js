@@ -27,6 +27,7 @@ const NewChannelModal = ({ closeModal, data, onClickNewChannel }) => {
     if (newChannelName.length === 0) {
       return;
     }
+    setNewChannelName("");
     onClickNewChannel(category?._id, newChannelName);
     closeModal();
   };

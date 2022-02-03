@@ -21,6 +21,7 @@ const NewCategoryModal = ({ closeModal, data, onClickNewCategory }) => {
     if (newCategoryName.length === 0) {
       return;
     }
+    setNewCategoryName("");
     onClickNewCategory(newCategoryName);
     closeModal();
   };
