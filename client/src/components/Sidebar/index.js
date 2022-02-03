@@ -32,9 +32,10 @@ const Sidebar = ({
   localUser,
   onClickLogout,
   onClickNewChannel,
-  onClickEditChannel,
+  onEditChannel,
   onClickDeleteChannel,
   onClickNewCategory,
+  onEditCategory,
   onClickDeleteCategory,
 }) => {
   const [headerMenuIsOpen, setHeaderMenuIsOpen] = useState(false);
@@ -94,7 +95,7 @@ const Sidebar = ({
       <EditChannelModal
         closeModal={() => setEditChannelModalData(undefined)}
         data={editChannelModalData}
-        onClickEditChannel={onClickEditChannel}
+        onEditChannel={onEditChannel}
       />
       <DeleteChannelModal
         closeModal={() => setDeleteChannelModalData(undefined)}
@@ -109,6 +110,7 @@ const Sidebar = ({
       <EditCategoryModal
         closeModal={() => setEditCategoryModalData(undefined)}
         data={editCategoryModalData}
+        onEditCategory={onEditCategory}
       />
       <DeleteCategoryModal
         closeModal={() => setDeleteCategoryModalData(undefined)}

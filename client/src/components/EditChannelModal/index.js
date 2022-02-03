@@ -1,13 +1,89 @@
-import React from "react";
+import React, { useState } from "react";
 import Modal from "react-modal";
+// Styles
+import {
+  Container,
+  OptionSidebar,
+  OptionSidebarContainer,
+  OptionSidebarHeader,
+  Divider,
+  DeleteButton,
+  IconContainer,
+  Content,
+} from "./EditChannelModal.styles";
+// Assets
+import { ReactComponent as CloseIcon } from "../../assets/close-icon.svg";
 
-const EditChannelModal = ({ closeModal, data }) => {
+const EditChannelModal = ({ closeModal, data, onEditChannel }) => {
+  const [editedChannelName, setEditedChannelName] = useState("");
+
+  const onChangeEditChannelName = (e) => {
+    setEditedChannelName(e.target.value);
+  };
+
+  const onKeyPressEditChannelName = (e) => {
+    if (editedChannelName.length > 0 && e.key === "Enter") {
+      onEditChannel(data.channel._id, { name: editedChannelName });
+      closeModal();
+    }
+  };
+
   if (!data) {
     return <></>;
   }
   return (
-    <Modal isOpen={true} onRequestClose={closeModal}>
-      <div>Edit Channel: {data.channel.name}</div>
+    <Modal
+      isOpen={true}
+      onRequestClose={closeModal}
+      style={{
+        overlay: {
+          backgroundColor: "rgba(6, 5, 8, 0.918)",
+        },
+        content: {
+          padding: 0,
+          borderRadius: "8px",
+          width: "100%",
+          height: "100vh",
+          border: "none",
+          top: "50%",
+          left: "50%",
+          right: "auto",
+          bottom: "auto",
+          marginRight: "-50%",
+          transform: "translate(-50%, -50%)",
+        },
+      }}
+    >
+      <Container>
+        <OptionSidebar>
+          <OptionSidebarContainer>
+            <OptionSidebarHeader>
+              <h3>Text Channels</h3>
+            </OptionSidebarHeader>
+            <div>
+              <p>Overview</p>
+              <p>Permissions</p>
+            </div>
+            <Divider />
+            <DeleteButton>
+              <p>Delete Channel</p>
+            </DeleteButton>
+          </OptionSidebarContainer>
+        </OptionSidebar>
+        <Content>
+          <h2>Overview</h2>
+          <h5>Channel Name</h5>
+          <input
+            placeholder="Channel Name"
+            value={editedChannelName}
+            onChange={onChangeEditChannelName}
+            onKeyPress={onKeyPressEditChannelName}
+          />
+        </Content>
+        <IconContainer>
+          <CloseIcon onClick={closeModal} />
+        </IconContainer>
+      </Container>
     </Modal>
   );
 };

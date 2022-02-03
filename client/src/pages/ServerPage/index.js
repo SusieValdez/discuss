@@ -8,16 +8,19 @@ function ServerPage({
   servers,
   users: allUsers,
   onNewMessage,
+  onMessageEdit,
+  onClickDeleteMessage,
   localUserId,
   onClickLogout,
   onTypingIndicatorChanged,
   onClickKick,
-  onMessageEdit,
-  onClickNewChannel,
-  onClickDeleteChannel,
-  onClickDeleteMessage,
   onClickNewCategory,
+  onEditCategory,
   onClickDeleteCategory,
+
+  onClickNewChannel,
+  onEditChannel,
+  onClickDeleteChannel,
 }) {
   let { serverId, channelId } = useParams();
   const {
@@ -61,8 +64,10 @@ function ServerPage({
         localUser={localUser}
         onClickLogout={onClickLogout}
         onClickNewChannel={onClickNewChannel(serverId)}
+        onEditChannel={onEditChannel(serverId)}
         onClickDeleteChannel={onClickDeleteChannel(serverId)}
         onClickNewCategory={onClickNewCategory(serverId)}
+        onEditCategory={onEditCategory(serverId)}
         onClickDeleteCategory={onClickDeleteCategory(serverId)}
       />
       <Chat

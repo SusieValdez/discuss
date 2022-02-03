@@ -91,6 +91,13 @@ function App() {
     });
   };
 
+  const onEditCategory = (serverId) => (categoryId, updatedCategory) => {
+    send({
+      kind: "EDIT_CATEGORY",
+      payload: { serverId, categoryId, updatedCategory },
+    });
+  };
+
   const onClickDeleteCategory = (serverId) => (categoryId) => {
     send({
       kind: "DELETE_CATEGORY",
@@ -102,6 +109,13 @@ function App() {
     send({
       kind: "ADD_CHANNEL",
       payload: { serverId, categoryId, name },
+    });
+  };
+
+  const onEditChannel = (serverId) => (channelId, updatedChannel) => {
+    send({
+      kind: "EDIT_CHANNEL",
+      payload: { serverId, channelId, updatedChannel },
     });
   };
 
@@ -165,10 +179,12 @@ function App() {
       onClickLogout={onClickLogout}
       onTypingIndicatorChanged={onTypingIndicatorChanged}
       onClickKick={onClickKick}
-      onClickDeleteChannel={onClickDeleteChannel}
       onClickNewCategory={onClickNewCategory}
-      onClickNewChannel={onClickNewChannel}
+      onEditCategory={onEditCategory}
       onClickDeleteCategory={onClickDeleteCategory}
+      onClickNewChannel={onClickNewChannel}
+      onEditChannel={onEditChannel}
+      onClickDeleteChannel={onClickDeleteChannel}
     />
   );
 

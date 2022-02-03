@@ -8,6 +8,8 @@ import {
   deleteCategory,
   deleteChannel,
   deleteMessage,
+  editCategory,
+  editChannel,
   editMessage,
   getServers,
   getUserByEmail,
@@ -232,6 +234,22 @@ wss.on("connection", async (ws) => {
         });
         break;
       }
+      case "EDIT_CATEGORY": {
+        const { serverId, categoryId, updatedCategory } = action.payload;
+        await editCategory(serverId, categoryId, updatedCategory);
+        const event = {
+          kind: "EDIT_CATEGORY",
+          payload: {
+            serverId,
+            categoryId,
+            updatedCategory,
+          },
+        };
+        wss.clients.forEach((client) => {
+          client.send(JSON.stringify(event));
+        });
+        break;
+      }
       case "DELETE_CATEGORY": {
         const { serverId, categoryId } = action.payload;
         await deleteCategory(serverId, categoryId);
@@ -255,6 +273,22 @@ wss.on("connection", async (ws) => {
           payload: {
             serverId,
             channel,
+          },
+        };
+        wss.clients.forEach((client) => {
+          client.send(JSON.stringify(event));
+        });
+        break;
+      }
+      case "EDIT_CHANNEL": {
+        const { serverId, channelId, updatedChannel } = action.payload;
+        await editChannel(serverId, channelId, updatedChannel);
+        const event = {
+          kind: "EDIT_CHANNEL",
+          payload: {
+            serverId,
+            channelId,
+            updatedChannel,
           },
         };
         wss.clients.forEach((client) => {

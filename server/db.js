@@ -125,6 +125,23 @@ export async function addCategory(serverId, name) {
   return { _id, name };
 }
 
+export async function editCategory(serverId, categoryId, updatedCategory) {
+  const setQuery = Object.entries(updatedCategory).reduce(
+    (query, [field, value]) => ({
+      ...query,
+      [`categories.$[category].${field}`]: value,
+    }),
+    {}
+  );
+  await db
+    .collection("servers")
+    .updateOne(
+      { _id: ObjectId(serverId) },
+      { $set: setQuery },
+      { arrayFilters: [{ "category._id": categoryId }] }
+    );
+}
+
 export async function deleteCategory(serverId, categoryId) {
   await Promise.all([
     db
@@ -155,6 +172,23 @@ export async function addChannel(serverId, categoryId, name) {
     .collection("servers")
     .updateOne({ _id: ObjectId(serverId) }, { $push: { channels: channel } });
   return channel;
+}
+
+export async function editChannel(serverId, channelId, updatedChannel) {
+  const setQuery = Object.entries(updatedChannel).reduce(
+    (query, [field, value]) => ({
+      ...query,
+      [`channels.$[channel].${field}`]: value,
+    }),
+    {}
+  );
+  await db
+    .collection("servers")
+    .updateOne(
+      { _id: ObjectId(serverId) },
+      { $set: setQuery },
+      { arrayFilters: [{ "channel._id": channelId }] }
+    );
 }
 
 export async function deleteChannel(serverId, channelId) {
