@@ -6,18 +6,17 @@ import { Container } from "./ServerPage.styles";
 
 function ServerPage({
   servers,
-  users: allUsers,
+  localUser,
+  userMap,
   onNewMessage,
   onMessageEdit,
   onClickDeleteMessage,
-  localUserId,
   onClickLogout,
   onTypingIndicatorChanged,
   onClickKick,
   onClickNewCategory,
   onEditCategory,
   onClickDeleteCategory,
-
   onClickNewChannel,
   onEditChannel,
   onClickDeleteChannel,
@@ -40,11 +39,11 @@ function ServerPage({
 
   const rolesMap = arrayToMap(roles);
   const serverUsers = serverUserData.map(({ userId, roles }) => ({
-    ...allUsers.find((user) => user._id === userId),
+    ...userMap[userId],
     roles: roles.map((roleId) => rolesMap[roleId]),
   }));
   const serverUserMap = arrayToMap(serverUsers);
-  const localUser = serverUserMap[localUserId];
+
   const expandedActiveChannel = {
     ...activeChannel,
     ...channels.find((channel) => channel._id === channelId),

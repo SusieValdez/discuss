@@ -15,6 +15,7 @@ import {
   getUserByEmail,
   getUserCookie,
   getUsers,
+  newServer,
   newUser,
   removeUserFromServer,
   setOnlineStatus,
@@ -69,6 +70,18 @@ wss.on("connection", async (ws) => {
     const action = JSON.parse(data);
     console.log(action);
     switch (action.kind) {
+      case "NEW_SERVER": {
+        const { name } = action.payload;
+        const server = await newServer(name, loggedInUserId);
+        const event = {
+          kind: "NEW_SERVER",
+          payload: {
+            server,
+          },
+        };
+        ws.send(JSON.stringify(event));
+        break;
+      }
       case "NEW_MESSAGE": {
         const message = {
           _id: nanoid(),

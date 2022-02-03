@@ -10,6 +10,7 @@ import reducer from "./reducer";
 import ServerNavbar from "./components/ServerNavbar/ServerNavbar";
 import { useState } from "react";
 import { useEffect } from "react";
+import { arrayToMap } from "./utils";
 
 const ws = new WebSocket(`ws://${window.location.hostname}:8080`);
 
@@ -46,6 +47,13 @@ function App() {
     send({
       kind: "LOGIN",
       payload,
+    });
+  };
+
+  const onNewServer = (name) => {
+    send({
+      kind: "NEW_SERVER",
+      payload: { name },
     });
   };
 
@@ -168,11 +176,14 @@ function App() {
     return <div>loading...</div>;
   }
 
+  const userMap = arrayToMap(state.users);
+  const localUser = userMap[state.userId];
+
   const serverPage = (
     <ServerPage
       servers={state.servers}
-      users={state.users}
-      localUserId={state.userId}
+      userMap={userMap}
+      localUser={localUser}
       onNewMessage={onNewMessage}
       onMessageEdit={onMessageEdit}
       onClickDeleteMessage={onClickDeleteMessage}
@@ -191,7 +202,12 @@ function App() {
   return (
     <BrowserRouter>
       <Container>
-        <ServerNavbar servers={state.servers} />
+        <ServerNavbar
+          servers={state.servers.filter(({ users }) =>
+            users.map(({ userId }) => userId).includes(localUser._id)
+          )}
+          onNewServer={onNewServer}
+        />
         <Routes>
           <Route path="/servers/:serverId" element={serverPage}>
             <Route path="channels/:channelId" element={serverPage} />

@@ -11,6 +11,40 @@ export async function getServers() {
   return await db.collection("servers").find({}).toArray();
 }
 
+export async function newServer(name, ownerId) {
+  const categoryId = nanoid();
+  const roleId = nanoid();
+  const server = {
+    name,
+    iconUrl: "https://i.pravatar.cc/300?u=" + nanoid(),
+    roles: [
+      {
+        _id: roleId,
+        name: "everyone",
+        color: "#eee",
+      },
+    ],
+    categories: [
+      {
+        _id: categoryId,
+        name: "General",
+      },
+    ],
+    channels: [
+      {
+        _id: nanoid(),
+        name: "Chat",
+        categoryId,
+        messages: [],
+        typingUsers: [],
+      },
+    ],
+    users: [{ userId: ownerId, roles: [roleId] }],
+  };
+  const { insertedId } = await db.collection("servers").insertOne(server);
+  return { _id: insertedId.toString(), ...server };
+}
+
 export async function addMessage(message, serverId, channelId) {
   await db
     .collection("servers")

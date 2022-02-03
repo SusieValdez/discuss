@@ -4,6 +4,9 @@ const setState = (_, { state: newState }) => ({
   ...newState,
 });
 
+const newServer = (state, { server }) =>
+  deepUpdate(state, ["servers"], (servers) => [...servers, server]);
+
 const newMessage = (state, { message, serverId, channelId }) =>
   deepUpdate(
     state,
@@ -164,6 +167,7 @@ const deleteChannel = (state, { serverId, channelId }) =>
   );
 
 const reducers = {
+  NEW_SERVER: newServer,
   SET_STATE: setState,
   NEW_MESSAGE: newMessage,
   EDIT_MESSAGE: editMessage,
