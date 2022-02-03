@@ -139,8 +139,11 @@ const Sidebar = ({
           <MenuItem onClick={() => setServerSettingsModalData({})}>
             Server Settings
           </MenuItem>
+          <MenuItem onClick={() => setNewChannelModalData({})}>
+            Create Channel
+          </MenuItem>
           <MenuItem onClick={() => setNewCategoryModalData({})}>
-            New Category
+            Create Category
           </MenuItem>
         </Menu>
         {loneChannels.map((channel) => (

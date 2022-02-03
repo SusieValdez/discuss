@@ -27,7 +27,7 @@ const NewChannelModal = ({ closeModal, data, onClickNewChannel }) => {
     if (newChannelName.length === 0) {
       return;
     }
-    onClickNewChannel(category._id, newChannelName);
+    onClickNewChannel(category?._id, newChannelName);
     closeModal();
   };
 
@@ -57,7 +57,7 @@ const NewChannelModal = ({ closeModal, data, onClickNewChannel }) => {
       <Container>
         <Header>
           <h3>Create Channel</h3>
-          <div>In {category.name}</div>
+          {category && <div>In {category.name}</div>}
         </Header>
         <Content>
           <div>
