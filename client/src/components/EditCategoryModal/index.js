@@ -74,6 +74,7 @@ const EditCategoryModal = ({ closeModal, data, onEditCategory }) => {
           <h2>Overview</h2>
           <h5>Category Name</h5>
           <input
+            autoFocus
             placeholder="Text Channels"
             value={editedCategoryName}
             onChange={onChangeEditCategoryName}

@@ -9,6 +9,18 @@ export const Container = styled.div`
   :hover {
     background-color: rgba(4, 4, 5, 0.07);
   }
+
+  input {
+    padding: 10px;
+    height: 40px;
+    font-size: 16px;
+    width: 100%;
+    color: #dcddde;
+    border-radius: 3px;
+    background-color: #313339;
+    border: 1px solid #040405;
+    margin-bottom: 20px;
+  }
 `;
 
 export const Avatar = styled.img`

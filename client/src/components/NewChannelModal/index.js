@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import Modal from "react-modal";
 import {
   Container,
@@ -11,7 +11,6 @@ import Switch from "@mui/material/Switch";
 
 const NewChannelModal = ({ closeModal, data, onClickNewChannel }) => {
   const [newChannelName, setNewChannelName] = useState("");
-  const inputRef = useRef(null);
 
   if (!data) {
     return <></>;
@@ -35,7 +34,6 @@ const NewChannelModal = ({ closeModal, data, onClickNewChannel }) => {
   return (
     <Modal
       isOpen={true}
-      onAfterOpen={() => inputRef.current?.focus()}
       onRequestClose={closeModal}
       style={{
         overlay: {
@@ -64,7 +62,7 @@ const NewChannelModal = ({ closeModal, data, onClickNewChannel }) => {
           <div>
             <h5>Channel name</h5>
             <input
-              ref={inputRef}
+              autoFocus
               value={newChannelName}
               onChange={onChangeNewChannelName}
             />

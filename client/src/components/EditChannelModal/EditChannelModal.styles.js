@@ -11,7 +11,6 @@ export const Container = styled.div`
     width: 36px;
     height: 36px;
     color: #dcddde;
-    width: 60px;
     cursor: pointer;
   }
 `;

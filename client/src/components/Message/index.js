@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { formatRelative } from "date-fns";
 
 // Styles
@@ -64,12 +64,6 @@ const Message = ({
     setEditedMessage(text);
   }, [text]);
 
-  const editInputRef = useRef(null);
-
-  useEffect(() => {
-    editInputRef.current?.focus();
-  });
-
   const onRightClickMessage = (e) => {
     e.preventDefault();
     e.stopPropagation();
@@ -93,6 +87,9 @@ const Message = ({
   };
 
   const onKeyDownEditedMessage = (e) => {
+    if (e.key === "Escape") {
+      setIsEditing(false);
+    }
     if (editedMessage.length > 0 && e.key === "Enter") {
       onMessageEdit(editedMessage);
       setIsEditing(false);
@@ -143,7 +140,7 @@ const Message = ({
         </div>
         {isEditing ? (
           <input
-            ref={editInputRef}
+            autoFocus
             value={editedMessage}
             onChange={onChangeEditedMessage}
             onKeyDown={onKeyDownEditedMessage}

@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import Modal from "react-modal";
 import {
   Container,
@@ -11,7 +11,6 @@ import Switch from "@mui/material/Switch";
 
 const NewCategoryModal = ({ closeModal, data, onClickNewCategory }) => {
   const [newCategoryName, setNewCategoryName] = useState("");
-  const inputRef = useRef(null);
 
   const onChangeNewCategoryName = (e) => {
     setNewCategoryName(e.target.value);
@@ -32,7 +31,6 @@ const NewCategoryModal = ({ closeModal, data, onClickNewCategory }) => {
   return (
     <Modal
       isOpen={true}
-      onAfterOpen={() => inputRef.current?.focus()}
       onRequestClose={closeModal}
       style={{
         overlay: {
@@ -60,7 +58,11 @@ const NewCategoryModal = ({ closeModal, data, onClickNewCategory }) => {
         <Content>
           <div>
             <h5>Category name</h5>
-            <input value={newCategoryName} onChange={onChangeNewCategoryName} />
+            <input
+              autoFocus
+              value={newCategoryName}
+              onChange={onChangeNewCategoryName}
+            />
           </div>
           <div>
             <PrivateCategory>
