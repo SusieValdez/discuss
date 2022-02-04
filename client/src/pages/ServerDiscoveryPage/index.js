@@ -54,12 +54,33 @@ const minLevensteinDistanceOfSubstrings = (str1, substringLength, str2) =>
     )
   );
 
-const ServerDiscoveryPage = ({ localUser, servers, onUserJoinedServer }) => {
+const ServerDiscoveryPage = ({
+  localUser,
+  servers,
+  onUserJoinedServer,
+  userMap,
+}) => {
   const navigate = useNavigate();
   const [serverModalData, setServerModalData] = useState(undefined);
   const closeModal = () => setServerModalData(undefined);
 
   const [searchQuery, setSearchQuery] = useState("");
+
+  const categoriseOnlineStatus = (serverUsers) => {
+    const startValue = {
+      online: [],
+      offline: [],
+    };
+    return serverUsers
+      .map(({ userId }) => userMap[userId])
+      .reduce((result, user) => {
+        const status = user.onlineStatus;
+        return {
+          ...result,
+          [status]: [...result[status], user],
+        };
+      }, startValue);
+  };
 
   const searchedServers =
     searchQuery === ""
@@ -150,35 +171,39 @@ const ServerDiscoveryPage = ({ localUser, servers, onUserJoinedServer }) => {
       </DiscoveryHeroImage>
       <h1>Featured communities</h1>
       <CardContainer>
-        {searchedServers.map((server) => (
-          <ServerCard
-            key={server._id}
-            onClick={() => setServerModalData({ server })}
-          >
-            {" "}
-            <div className="server-banner-color" />
-            <ImageHolder>
-              <img src={server.iconUrl} alt="server icon" />
-            </ImageHolder>
-            <div>
-              <h4>{server.name}</h4>
-            </div>
-            <div>
-              <p>Server description</p>
-            </div>
-            <Members>
+        {searchedServers.map((server) => {
+          const { online, offline } = categoriseOnlineStatus(server.users);
+          return (
+            <ServerCard
+              key={server._id}
+              onClick={() => setServerModalData({ server })}
+            >
+              {" "}
+              <div className="server-banner-color" />
+              <ImageHolder>
+                <img src={server.iconUrl} alt="server icon" />
+              </ImageHolder>
               <div>
-                <div className="online" />
-                {server.users.length}{" "}
-                {server.users.length > 1 ? "Members" : "Member"} online
+                <h4>{server.name}</h4>
               </div>
               <div>
-                <div className="offline" />
-                Members offline
+                <p>Server description</p>
               </div>
-            </Members>
-          </ServerCard>
-        ))}
+              <Members>
+                <div>
+                  <div className="online" />
+                  {online.length} {online.length > 1 ? "Members" : "Member"}{" "}
+                  online
+                </div>
+                <div>
+                  <div className="offline" />
+                  {offline.length} {offline.length > 1 ? "Members" : "Member"}{" "}
+                  offline
+                </div>
+              </Members>
+            </ServerCard>
+          );
+        })}
       </CardContainer>
     </Container>
   );
