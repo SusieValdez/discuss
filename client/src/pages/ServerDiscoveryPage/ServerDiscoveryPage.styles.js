@@ -1,31 +1,102 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  align-items: center;
   height: 100vh;
   width: 100%;
+  padding: 20px;
 
   > div {
     display: flex;
   }
+
+  h1 {
+    align-self: flex-start;
+    margin: 30px 0 20px 70px;
+    color: #fff;
+    text-align: left;
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 24px;
+  }
+`;
+
+export const CardContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  margin: 0 0 20px 70px;
+  overflow-y: scroll;
+`;
+
+export const DiscoveryHeroImage = styled.div`
+  background: url(${(props) => props.background});
+  width: 90%;
+  min-height: 200px;
+  border-radius: 8px;
+
+  input {
+    height: 30px;
+    align-self: center;
+    margin: auto auto;
+    width: 60%;
+    padding: 10px;
+  }
 `;
 
 export const ServerCard = styled.div`
-  background-color: green;
-  width: 200px;
-  height: 150px;
+  background-color: #292b2f;
+  min-width: 300px;
+  height: 320px;
   margin: 10px;
-  border-radius: 5px;
-  padding: 10px;
-  border: solid transparent 3px;
+  border-radius: 8px;
   cursor: pointer;
+
+  &:hover {
+    background-color: #202225;
+    transform: translateY(-1px);
+    box-shadow: 0 0 0 0.24;
+  }
 
   img {
     width: 100px;
     border-radius: 50%;
   }
 
-  :hover {
-    border: solid white 3px;
+  h4 {
+    font-size: 16px;
+    line-height: 20px;
+    color: #fff;
+    font-weight: 600;
+    padding: 0 16px 16px;
+    margin-top: -20px;
+  }
+
+  p {
+    font-size: 14px;
+    line-height: 18px;
+    color: #b9bbbe;
+    margin: 4px 15px 40px 15px;
+  }
+
+  .server-banner-color {
+    height: 143px;
+    background-color: #602d9f;
+    border-radius: 8px 8px 0 0;
+  }
+`;
+
+export const ImageHolder = styled.div`
+  img {
+    position: relative;
+    width: 52px;
+    height: 52px;
+    top: -30px;
+    left: 20px;
+    border: 4px solid #292b2f;
   }
 `;
 
@@ -124,5 +195,35 @@ export const ModalFooter = styled.div`
       background-color: #608075;
       cursor: not-allowed;
     }
+  }
+`;
+
+export const Members = styled.div`
+  display: flex;
+  justify-content: space-around;
+
+  div {
+    display: flex;
+    align-items: center;
+
+    font-size: 0.75rem;
+    line-height: 1rem;
+    color: #b9bbbe;
+  }
+
+  .online {
+    width: 10px;
+    height: 10px;
+    margin-right: 8px;
+    border-radius: 50%;
+    background-color: #1a981e;
+  }
+
+  .offline {
+    width: 10px;
+    height: 10px;
+    margin-right: 8px;
+    border-radius: 50%;
+    background-color: #b9bbbe;
   }
 `;

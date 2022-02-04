@@ -240,6 +240,7 @@ function App() {
     <ServerDiscoveryPage
       localUser={localUser}
       servers={state.servers}
+      userMap={userMap}
       onUserJoinedServer={onUserJoinedServer}
     />
   );

@@ -4,12 +4,18 @@ import { useNavigate } from "react-router-dom";
 import { isUserInServer } from "../../utils";
 import {
   Container,
+  DiscoveryHeroImage,
   ModalContainer,
   ModalContent,
   ModalHeader,
   ModalFooter,
+  CardContainer,
   ServerCard,
+  ImageHolder,
+  Members,
 } from "./ServerDiscoveryPage.styles";
+// Assets
+import HeroImage from "../../assets/login-background.svg";
 
 const ServerDiscoveryPage = ({ localUser, servers, onUserJoinedServer }) => {
   const navigate = useNavigate();
@@ -74,18 +80,41 @@ const ServerDiscoveryPage = ({ localUser, servers, onUserJoinedServer }) => {
           </ModalContainer>
         )}
       </Modal>
-      <h1>Servers</h1>
-      <div>
+      <DiscoveryHeroImage background={HeroImage}>
+        <input type="text" placeholder="Search servers" />
+      </DiscoveryHeroImage>
+      <h1>Featured communities</h1>
+      <CardContainer>
         {servers.map((server) => (
           <ServerCard
             key={server._id}
             onClick={() => setServerModalData({ server })}
           >
-            <h2>{server.name}</h2>
-            <img src={server.iconUrl} alt="server icon" />
+            {" "}
+            <div className="server-banner-color" />
+            <ImageHolder>
+              <img src={server.iconUrl} alt="server icon" />
+            </ImageHolder>
+            <div>
+              <h4>{server.name}</h4>
+            </div>
+            <div>
+              <p>Server description</p>
+            </div>
+            <Members>
+              <div>
+                <div className="online" />
+                {server.users.length}{" "}
+                {server.users.length > 1 ? "Members" : "Member"} online
+              </div>
+              <div>
+                <div className="offline" />
+                Members offline
+              </div>
+            </Members>
           </ServerCard>
         ))}
-      </div>
+      </CardContainer>
     </Container>
   );
 };
