@@ -34,11 +34,15 @@ const ServerNavbar = ({ servers, onNewServer }) => {
       </div>
       <Separator />
       <div>
-        {servers.map(({ _id, iconUrl }) => (
+        {servers.map(({ _id, iconUrl, bannerColor }) => (
           <Link to={`/servers/${_id}`} key={_id}>
             <Item>
               <Icon>
-                <img src={iconUrl} alt="" />
+                <img
+                  style={{ backgroundColor: bannerColor }}
+                  src={iconUrl || "/default-user-logo.svg"}
+                  alt=""
+                />
               </Icon>
             </Item>
           </Link>

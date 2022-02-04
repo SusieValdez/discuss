@@ -23,7 +23,14 @@ const ServerSettingsModal = ({
   onEditServerSettings,
   onClickDeleteServer,
 }) => {
-  const [newServerName, setNewServerName] = useState("");
+  const [newServerName, setNewServerName] = useState(server.name);
+  const [newServerDescription, setNewServerDescription] = useState(
+    server.description
+  );
+
+  const validStateChange =
+    (newServerName !== server.name && newServerName.length > 0) ||
+    newServerDescription !== server.description;
 
   if (!data) {
     return <></>;
@@ -33,9 +40,16 @@ const ServerSettingsModal = ({
     setNewServerName(e.target.value);
   };
 
+  const onNewChangeServerDescription = (e) => {
+    setNewServerDescription(e.target.value);
+  };
+
   const onClickConfirm = () => {
-    if (newServerName.length > 0) {
-      onEditServerSettings(server._id, { name: newServerName });
+    if (validStateChange) {
+      onEditServerSettings(server._id, {
+        name: newServerName,
+        description: newServerDescription,
+      });
       closeModal();
     }
   };
@@ -75,7 +89,7 @@ const ServerSettingsModal = ({
             </div>
             <Divider />
             <div>
-              <p>Memners</p>
+              <p>Members</p>
               <p>Invites</p>
               <p>Bans</p>
             </div>
@@ -94,13 +108,22 @@ const ServerSettingsModal = ({
             placeholder={server.name}
             onChange={onNewChangeServerName}
           />
+          <h5>Server Description</h5>
+          <textarea
+            value={newServerDescription}
+            placeholder={
+              server.description ? server.description : "Server description"
+            }
+            onChange={onNewChangeServerDescription}
+          />
+
           <Footer>
             <button onClick={closeModal} className="cancel-button">
               Cancel
             </button>
             <button
               className={`create-button ${
-                newServerName.length > 0 ? "active" : "disabled"
+                validStateChange ? "active" : "disabled"
               }`}
               onClick={onClickConfirm}
             >

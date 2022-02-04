@@ -80,8 +80,8 @@ export const Icon = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    max-width: 48px;
-    max-height: 48px;
+    width: 48px;
+    height: 48px;
     border-radius: 50%;
     transition: all 0.15s ease-out;
 

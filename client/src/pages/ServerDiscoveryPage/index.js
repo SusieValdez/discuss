@@ -179,15 +179,26 @@ const ServerDiscoveryPage = ({
               onClick={() => setServerModalData({ server })}
             >
               {" "}
-              <div className="server-banner-color" />
+              <div
+                className="server-banner-color"
+                style={{
+                  background: server.bannerImageUrl
+                    ? `url(${server.bannerImageUrl})`
+                    : server.bannerColor,
+                }}
+              />
               <ImageHolder>
-                <img src={server.iconUrl} alt="server icon" />
+                <img
+                  style={{ backgroundColor: server.bannerColor }}
+                  src={server.iconUrl || "/default-user-logo.svg"}
+                  alt="server icon"
+                />
               </ImageHolder>
               <div>
                 <h4>{server.name}</h4>
               </div>
               <div>
-                <p>Server description</p>
+                <p>{server.description}</p>
               </div>
               <Members>
                 <div>

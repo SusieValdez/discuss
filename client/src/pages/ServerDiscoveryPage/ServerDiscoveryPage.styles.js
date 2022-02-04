@@ -49,7 +49,7 @@ export const DiscoveryHeroImage = styled.div`
 
 export const ServerCard = styled.div`
   background-color: #292b2f;
-  min-width: 300px;
+  width: 300px;
   height: 320px;
   margin: 10px;
   border-radius: 8px;
@@ -84,7 +84,6 @@ export const ServerCard = styled.div`
 
   .server-banner-color {
     height: 143px;
-    background-color: #602d9f;
     border-radius: 8px 8px 0 0;
   }
 `;

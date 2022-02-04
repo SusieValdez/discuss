@@ -1,5 +1,6 @@
 import { MongoClient, ObjectId } from "mongodb";
 import { nanoid } from "nanoid";
+import { getRandomColor } from "./utils.js";
 
 const url = "mongodb://localhost:27017";
 const dbName = "discuss";
@@ -24,7 +25,12 @@ export async function newServer(name, ownerId) {
   const roleId = nanoid();
   const server = {
     name,
-    iconUrl: "https://i.pravatar.cc/300?u=" + nanoid(),
+    iconUrl: "",
+    description: "",
+    bannerColor: getRandomColor(),
+    bannerImageUrl: `https://picsum.photos/id/${Math.floor(
+      Math.random() * 1000
+    )}/200/300`,
     roles: [
       {
         _id: roleId,
