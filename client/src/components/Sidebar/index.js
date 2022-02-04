@@ -198,7 +198,7 @@ const Sidebar = ({
         <UserTag>
           <img
             style={{ backgroundColor: localUser.bannerColor }}
-            src={localUser.avatarUrl}
+            src={localUser.avatarUrl || "/default-user-logo.svg"}
             alt="profile pic"
             ref={statusRef}
             onClick={onClickStatusProfilePic}

@@ -177,7 +177,7 @@ wss.on("connection", async (ws) => {
         const user = {
           ...action.payload,
           name: action.payload.username,
-          avatarUrl: `/default-user-logo.svg`,
+          avatarUrl: "",
           legend: "Discuss is Poggers",
           bannerColor: getRandomColor(),
         };

@@ -72,7 +72,7 @@ const MiniUserProfileModal = ({ closeModal, data }) => {
       <Container style={{ width }}>
         <Banner style={{ width, backgroundColor: user.bannerColor }}></Banner>
         <img
-          src={user.avatarUrl}
+          src={user.avatarUrl || "/default-user-logo.svg"}
           style={{ backgroundColor: user.bannerColor }}
           alt="user avatar"
         />

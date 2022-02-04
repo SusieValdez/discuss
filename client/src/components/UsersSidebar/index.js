@@ -100,7 +100,7 @@ const User = ({
     <UserContainer onClick={openUserModal} onContextMenu={onRightClickUser}>
       <ProfileImage
         backgroundColor={bannerColor}
-        src={avatarUrl}
+        src={avatarUrl || "/default-user-logo.svg"}
         style={{ opacity }}
       />
       <UserContent style={{ opacity }}>
