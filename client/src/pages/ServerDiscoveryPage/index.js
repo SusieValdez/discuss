@@ -66,6 +66,14 @@ const ServerDiscoveryPage = ({
 
   const [searchQuery, setSearchQuery] = useState("");
 
+  const onClickServerCard = (server) => () => {
+    if (isUserInServer(localUser, server)) {
+      navigate(`/servers/${server._id}`, { replace: true });
+      return;
+    }
+    setServerModalData({ server });
+  };
+
   const categoriseOnlineStatus = (serverUsers) => {
     const startValue = {
       online: [],
@@ -174,10 +182,7 @@ const ServerDiscoveryPage = ({
         {searchedServers.map((server) => {
           const { online, offline } = categoriseOnlineStatus(server.users);
           return (
-            <ServerCard
-              key={server._id}
-              onClick={() => setServerModalData({ server })}
-            >
+            <ServerCard key={server._id} onClick={onClickServerCard(server)}>
               {" "}
               <div
                 className="server-banner-color"
