@@ -8,6 +8,7 @@ import {
   deleteCategory,
   deleteChannel,
   deleteMessage,
+  deleteServer,
   editCategory,
   editChannel,
   editMessage,
@@ -20,6 +21,7 @@ import {
   removeUserFromServer,
   setOnlineStatus,
   setTypingUserStatus,
+  updateServer,
   userJoinedServer,
 } from "./db.js";
 
@@ -77,6 +79,31 @@ wss.on("connection", async (ws) => {
           kind: "NEW_SERVER",
           payload: {
             server,
+          },
+        };
+        ws.send(JSON.stringify(event));
+        break;
+      }
+      case "EDIT_SERVER": {
+        const { serverId, updatedServer } = action.payload;
+        await updateServer(serverId, updatedServer);
+        const event = {
+          kind: "EDIT_SERVER",
+          payload: {
+            serverId,
+            updatedServer,
+          },
+        };
+        ws.send(JSON.stringify(event));
+        break;
+      }
+      case "DELETE_SERVER": {
+        const { serverId } = action.payload;
+        await deleteServer(serverId);
+        const event = {
+          kind: "DELETE_SERVER",
+          payload: {
+            serverId,
           },
         };
         ws.send(JSON.stringify(event));

@@ -57,6 +57,25 @@ function App() {
     });
   };
 
+  const onEditServerSettings = (serverId, updatedServer) => {
+    send({
+      kind: "EDIT_SERVER",
+      payload: {
+        serverId,
+        updatedServer,
+      },
+    });
+  };
+
+  const onClickDeleteServer = (serverId) => () => {
+    send({
+      kind: "DELETE_SERVER",
+      payload: {
+        serverId,
+      },
+    });
+  };
+
   const onNewMessage = (serverId, channelId) => (text) => {
     send({
       kind: "NEW_MESSAGE",
@@ -184,6 +203,8 @@ function App() {
       servers={state.servers}
       userMap={userMap}
       localUser={localUser}
+      onEditServerSettings={onEditServerSettings}
+      onClickDeleteServer={onClickDeleteServer}
       onNewMessage={onNewMessage}
       onMessageEdit={onMessageEdit}
       onClickDeleteMessage={onClickDeleteMessage}

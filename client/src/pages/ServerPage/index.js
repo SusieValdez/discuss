@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { Navigate, useParams } from "react-router-dom";
 import Chat from "../../components/Chat";
 import Sidebar from "../../components/Sidebar";
 import { arrayToMap } from "../../utils";
@@ -8,6 +8,8 @@ function ServerPage({
   servers,
   localUser,
   userMap,
+  onEditServerSettings,
+  onClickDeleteServer,
   onNewMessage,
   onMessageEdit,
   onClickDeleteMessage,
@@ -22,19 +24,24 @@ function ServerPage({
   onClickDeleteChannel,
 }) {
   let { serverId, channelId } = useParams();
-  const {
-    name,
-    categories,
-    roles,
-    channels,
-    users: serverUserData,
-  } = servers.find((s) => s._id === serverId);
-  if (channelId === undefined) {
-    channelId = channels[0]._id;
+
+  const server = servers.find((s) => s._id === serverId);
+  if (!server) {
+    return <Navigate to="/" replace={true} />;
   }
-  let activeChannel = channels.find((channel) => channel._id === channelId);
+  const { categories, roles, channels, users: serverUserData } = server;
+
+  const activeChannel = channels.find((channel) => channel._id === channelId);
   if (!activeChannel) {
-    activeChannel = channels.find((channel) => channel._id === channels[0]._id);
+    const topChannel = channels.find(
+      (channel) => channel.categoryId === categories[0]._id
+    );
+    return (
+      <Navigate
+        to={`/servers/${serverId}/channels/${topChannel._id}`}
+        replace={true}
+      />
+    );
   }
 
   const rolesMap = arrayToMap(roles);
@@ -56,11 +63,13 @@ function ServerPage({
   return (
     <Container>
       <Sidebar
-        serverName={name}
+        server={server}
         categories={categories}
         channels={channels}
         activeChannel={expandedActiveChannel}
         localUser={localUser}
+        onEditServerSettings={onEditServerSettings}
+        onClickDeleteServer={onClickDeleteServer}
         onClickLogout={onClickLogout}
         onClickNewChannel={onClickNewChannel(serverId)}
         onEditChannel={onEditChannel(serverId)}

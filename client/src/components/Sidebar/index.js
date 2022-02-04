@@ -25,11 +25,13 @@ import { isActiveChannel } from "../../utils";
 import ChannelTitle from "./ChannelTitle";
 
 const Sidebar = ({
-  serverName,
+  server,
   categories,
   channels,
   activeChannel,
   localUser,
+  onEditServerSettings,
+  onClickDeleteServer,
   onClickLogout,
   onClickNewChannel,
   onEditChannel,
@@ -120,6 +122,9 @@ const Sidebar = ({
       <ServerSettingsModal
         closeModal={() => setServerSettingsModalData(undefined)}
         data={serverSettingsModalData}
+        server={server}
+        onEditServerSettings={onEditServerSettings}
+        onClickDeleteServer={onClickDeleteServer}
       />
       <UserAccountModal
         closeModal={() => setUserAccountModalData(undefined)}
@@ -128,7 +133,7 @@ const Sidebar = ({
       />
       <div>
         <Header onClick={onClickHeader} ref={headerRef}>
-          {serverName}
+          {server.name}
         </Header>
         <Menu
           state={headerMenu.state}

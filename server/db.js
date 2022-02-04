@@ -45,6 +45,16 @@ export async function newServer(name, ownerId) {
   return { _id: insertedId.toString(), ...server };
 }
 
+export async function updateServer(serverId, updatedServer) {
+  await db
+    .collection("servers")
+    .updateOne({ _id: ObjectId(serverId) }, { $set: updatedServer });
+}
+
+export async function deleteServer(serverId) {
+  await db.collection("servers").deleteOne({ _id: ObjectId(serverId) });
+}
+
 export async function addMessage(message, serverId, channelId) {
   await db
     .collection("servers")
