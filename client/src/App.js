@@ -11,6 +11,7 @@ import ServerNavbar from "./components/ServerNavbar/ServerNavbar";
 import { useState } from "react";
 import { useEffect } from "react";
 import { arrayToMap } from "./utils";
+import ServerDiscoveryPage from "./pages/ServerDiscoveryPage";
 
 const ws = new WebSocket(`ws://${window.location.hostname}:8080`);
 
@@ -101,6 +102,20 @@ function App() {
     send({
       kind: "TYPING_INDICATOR_CHANGED",
       payload: { serverId, channelId, typingStatus },
+    });
+  };
+
+  const onUserJoinedServer = (serverId) => {
+    send({
+      kind: "USER_JOINED_SERVER",
+      payload: { serverId },
+    });
+  };
+
+  const onUserLeftServer = (serverId) => () => {
+    send({
+      kind: "USER_LEFT_SERVER",
+      payload: { serverId },
     });
   };
 
@@ -203,6 +218,7 @@ function App() {
       servers={state.servers}
       userMap={userMap}
       localUser={localUser}
+      onUserLeftServer={onUserLeftServer}
       onEditServerSettings={onEditServerSettings}
       onClickDeleteServer={onClickDeleteServer}
       onNewMessage={onNewMessage}
@@ -220,6 +236,14 @@ function App() {
     />
   );
 
+  const serverDiscoveryPage = (
+    <ServerDiscoveryPage
+      localUser={localUser}
+      servers={state.servers}
+      onUserJoinedServer={onUserJoinedServer}
+    />
+  );
+
   return (
     <BrowserRouter>
       <Container>
@@ -230,9 +254,11 @@ function App() {
           onNewServer={onNewServer}
         />
         <Routes>
+          <Route index path="/" element={serverDiscoveryPage} />
           <Route path="/servers/:serverId" element={serverPage}>
             <Route path="channels/:channelId" element={serverPage} />
           </Route>
+          <Route path="/server-discovery" element={serverDiscoveryPage} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </Container>

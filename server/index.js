@@ -22,7 +22,8 @@ import {
   setOnlineStatus,
   setTypingUserStatus,
   updateServer,
-  userJoinedServer,
+  addUserToServer,
+  getUser,
 } from "./db.js";
 
 const wss = new WebSocketServer({ port: 8080 });
@@ -66,6 +67,7 @@ wss.on("connection", async (ws) => {
       return;
     }
     await updateOnlineStatus(wss.clients, loggedInUserId, "offline");
+    loggedInUserId = undefined;
   });
 
   ws.on("message", async (data) => {
@@ -73,6 +75,9 @@ wss.on("connection", async (ws) => {
     console.log(action);
     switch (action.kind) {
       case "NEW_SERVER": {
+        if (!loggedInUserId) {
+          return;
+        }
         const { name } = action.payload;
         const server = await newServer(name, loggedInUserId);
         const event = {
@@ -110,6 +115,9 @@ wss.on("connection", async (ws) => {
         break;
       }
       case "NEW_MESSAGE": {
+        if (!loggedInUserId) {
+          return;
+        }
         const message = {
           _id: nanoid(),
           userId: loggedInUserId,
@@ -175,26 +183,8 @@ wss.on("connection", async (ws) => {
         loggedInUserId = (await newUser(user)).userId;
         const cookie = nanoid();
         await addUserCookie(cookie, loggedInUserId);
-        // Temporarily have a user join a server when they register
-        const servers = await getServers();
-        await userJoinedServer(loggedInUserId, servers[0]._id.toString());
-
         await sendState(ws, cookie, loggedInUserId);
         await updateOnlineStatus(wss.clients, loggedInUserId, "online");
-
-        // Temporarily have a user join a server when they register
-        wss.clients.forEach((client) => {
-          client.send(
-            JSON.stringify({
-              kind: "USER_JOINED_SERVER",
-              payload: {
-                serverId: servers[0]._id,
-                user,
-              },
-            })
-          );
-        });
-        break;
       }
       case "LOGIN": {
         const { _id, password } = await getUserByEmail(action.payload.email);
@@ -220,6 +210,9 @@ wss.on("connection", async (ws) => {
         break;
       }
       case "TYPING_INDICATOR_CHANGED": {
+        if (!loggedInUserId) {
+          return;
+        }
         const { serverId, channelId, typingStatus } = action.payload;
         await setTypingUserStatus(
           serverId,
@@ -242,8 +235,36 @@ wss.on("connection", async (ws) => {
         });
         break;
       }
+      case "USER_JOINED_SERVER": {
+        if (!loggedInUserId) {
+          return;
+        }
+        const { serverId } = action.payload;
+        const serverUser = await addUserToServer(loggedInUserId, serverId);
+        const user = await getUser(loggedInUserId);
+        wss.clients.forEach((client) => {
+          client.send(
+            JSON.stringify({
+              kind: "USER_JOINED_SERVER",
+              payload: {
+                serverId,
+                user,
+                serverUser,
+              },
+            })
+          );
+        });
+        break;
+      }
+      case "USER_LEFT_SERVER":
       case "KICK_USER": {
-        const { serverId, userId } = action.payload;
+        if (!loggedInUserId) {
+          return;
+        }
+        let { serverId, userId } = action.payload;
+        if (!userId) {
+          userId = loggedInUserId;
+        }
         await removeUserFromServer(serverId, userId);
         wss.clients.forEach((client) => {
           client.send(

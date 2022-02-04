@@ -59,11 +59,11 @@ const deleteMessage = (state, { serverId, channelId, messageId }) =>
     (messages) => messages.filter(({ _id }) => _id !== messageId)
   );
 
-const userJoinedServer = (state, { user, serverId }) => ({
+const userJoinedServer = (state, { user, serverUser, serverId }) => ({
   ...deepUpdate(
     state,
     ["servers", (server) => server._id === serverId, "users"],
-    (users) => [...users, { userId: user._id, roles: ["0"] }]
+    (users) => [...users, serverUser]
   ),
   users: [...state.users, user],
 });

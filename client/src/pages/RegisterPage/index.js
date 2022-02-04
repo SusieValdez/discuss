@@ -1,5 +1,5 @@
 import { React, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 // Styles
 import {
@@ -13,6 +13,7 @@ import {
 import backgroundDrop from "../../assets/login-background.svg";
 
 const RegisterPage = ({ onClickRegister }) => {
+  const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -45,6 +46,7 @@ const RegisterPage = ({ onClickRegister }) => {
       password,
       dateOfBirth: `${year}-${month}-${date}`,
     });
+    navigate("/", { replace: true });
   };
 
   const onChange = (setFn) => (e) => setFn(e.target.value);

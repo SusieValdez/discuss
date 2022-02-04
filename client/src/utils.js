@@ -55,3 +55,6 @@ export const deepUpdate = (obj, path, updateFn) => {
 
 export const isActiveChannel = (activeChannel) => (channel) =>
   channel._id === activeChannel._id;
+
+export const isUserInServer = (user, server) =>
+  server.users.map(({ userId }) => userId).includes(user._id);

@@ -1,13 +1,14 @@
 import { Navigate, useParams } from "react-router-dom";
 import Chat from "../../components/Chat";
 import Sidebar from "../../components/Sidebar";
-import { arrayToMap } from "../../utils";
+import { arrayToMap, isUserInServer } from "../../utils";
 import { Container } from "./ServerPage.styles";
 
 function ServerPage({
   servers,
   localUser,
   userMap,
+  onUserLeftServer,
   onEditServerSettings,
   onClickDeleteServer,
   onNewMessage,
@@ -30,6 +31,10 @@ function ServerPage({
     return <Navigate to="/" replace={true} />;
   }
   const { categories, roles, channels, users: serverUserData } = server;
+
+  if (!isUserInServer(localUser, server)) {
+    return <Navigate to="/" replace={true} />;
+  }
 
   const activeChannel = channels.find((channel) => channel._id === channelId);
   if (!activeChannel) {
@@ -68,6 +73,7 @@ function ServerPage({
         channels={channels}
         activeChannel={expandedActiveChannel}
         localUser={localUser}
+        onUserLeftServer={onUserLeftServer(serverId)}
         onEditServerSettings={onEditServerSettings}
         onClickDeleteServer={onClickDeleteServer}
         onClickLogout={onClickLogout}

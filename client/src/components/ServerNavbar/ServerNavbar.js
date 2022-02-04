@@ -24,11 +24,13 @@ const ServerNavbar = ({ servers, onNewServer }) => {
         onNewServer={onNewServer}
       />
       <div>
-        <Item>
-          <SvgIcon iconColor="#dcddde" hoverBackgroundColor="#5865F2">
-            <Logo />
-          </SvgIcon>
-        </Item>
+        <Link to="/">
+          <Item>
+            <SvgIcon iconColor="#dcddde" hoverBackgroundColor="#5865F2">
+              <Logo />
+            </SvgIcon>
+          </Item>
+        </Link>
       </div>
       <Separator />
       <div>
@@ -51,11 +53,13 @@ const ServerNavbar = ({ servers, onNewServer }) => {
           <AddServerGreenIcon />
         </SvgIcon>
       </Item>
-      <Item>
-        <SvgIcon iconColor="#3ba55d" hoverBackgroundColor="#3ba55d">
-          <ExploreGreenIcon />
-        </SvgIcon>
-      </Item>
+      <Link to="/server-discovery">
+        <Item>
+          <SvgIcon iconColor="#3ba55d" hoverBackgroundColor="#3ba55d">
+            <ExploreGreenIcon />
+          </SvgIcon>
+        </Item>
+      </Link>
     </Container>
   );
 };

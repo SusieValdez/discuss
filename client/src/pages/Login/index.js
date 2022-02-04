@@ -1,5 +1,5 @@
 import { React, useState } from "react";
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet, useNavigate } from "react-router-dom";
 // Styles
 import {
   Container,
@@ -14,6 +14,7 @@ import QRCode from "qrcode.react";
 import backgroundDrop from "../../assets/login-background.svg";
 
 const LoginPage = ({ onClickLogin }) => {
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -27,6 +28,7 @@ const LoginPage = ({ onClickLogin }) => {
       return;
     }
     onClickLogin({ email, password });
+    navigate("/", { replace: true });
   };
 
   return (

@@ -23,6 +23,7 @@ import ServerSettingsModal from "../ServerSettingsModal";
 import UserAccountModal from "../UserAccountModal";
 import { isActiveChannel } from "../../utils";
 import ChannelTitle from "./ChannelTitle";
+import { useNavigate } from "react-router-dom";
 
 const Sidebar = ({
   server,
@@ -30,6 +31,7 @@ const Sidebar = ({
   channels,
   activeChannel,
   localUser,
+  onUserLeftServer,
   onEditServerSettings,
   onClickDeleteServer,
   onClickLogout,
@@ -40,6 +42,8 @@ const Sidebar = ({
   onEditCategory,
   onClickDeleteCategory,
 }) => {
+  const navigate = useNavigate();
+
   const [headerMenuIsOpen, setHeaderMenuIsOpen] = useState(false);
   const headerMenu = useMenuState();
   const headerRef = useRef(null);
@@ -69,6 +73,11 @@ const Sidebar = ({
   const onClickStatusProfilePic = () => {
     setStatusMenuIsOpen(!statusMenuIsOpen);
     statusMenu.toggleMenu(!statusMenuIsOpen);
+  };
+
+  const onClickLeaveServer = () => {
+    onUserLeftServer();
+    navigate("/", { replace: true });
   };
 
   const loneChannels = [];
@@ -151,6 +160,9 @@ const Sidebar = ({
           </MenuItem>
           <MenuItem onClick={() => setNewCategoryModalData({})}>
             Create Category
+          </MenuItem>
+          <MenuItem onClick={onClickLeaveServer} color="red">
+            Leave Server
           </MenuItem>
         </Menu>
         {loneChannels.map((channel) => (

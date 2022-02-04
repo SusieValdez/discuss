@@ -11,6 +11,14 @@ export async function getServers() {
   return await db.collection("servers").find({}).toArray();
 }
 
+export async function getServer(_id) {
+  const server = await db.collection("servers").findOne({ _id: ObjectId(_id) });
+  return {
+    ...server,
+    _id: server._id.toString(),
+  };
+}
+
 export async function newServer(name, ownerId) {
   const categoryId = nanoid();
   const roleId = nanoid();
@@ -116,6 +124,14 @@ export async function getUsers() {
   return await db.collection("users").find({}).toArray();
 }
 
+export async function getUser(_id) {
+  const user = await db.collection("users").findOne({ _id: ObjectId(_id) });
+  return {
+    ...user,
+    _id: user._id.toString(),
+  };
+}
+
 export async function getUserByEmail(email) {
   const user = await db.collection("users").findOne({ email });
   return {
@@ -130,18 +146,22 @@ export async function setOnlineStatus(userId, onlineStatus) {
     .updateOne({ _id: ObjectId(userId) }, { $set: { onlineStatus } });
 }
 
-export async function userJoinedServer(userId, serverId) {
+export async function addUserToServer(userId, serverId) {
+  const server = await getServer(serverId);
+  const everyoneRole = server.roles.find((role) => role.name === "everyone");
+  const serverUser = {
+    userId,
+    roles: [everyoneRole._id],
+  };
   await db.collection("servers").updateOne(
     { _id: ObjectId(serverId) },
     {
       $push: {
-        users: {
-          userId,
-          roles: ["0"],
-        },
+        users: serverUser,
       },
     }
   );
+  return serverUser;
 }
 
 export async function removeUserFromServer(serverId, userId) {
