@@ -59,6 +59,12 @@ const deleteMessage = (state, { serverId, channelId, messageId }) =>
     (messages) => messages.filter(({ _id }) => _id !== messageId)
   );
 
+const editUser = (state, { userId, updatedUser }) =>
+  deepUpdate(state, ["users", (user) => user._id === userId], (user) => ({
+    ...user,
+    ...updatedUser,
+  }));
+
 const userJoinedServer = (state, { user, serverUser, serverId }) => ({
   ...deepUpdate(
     state,
@@ -186,6 +192,7 @@ const reducers = {
   NEW_MESSAGE: newMessage,
   EDIT_MESSAGE: editMessage,
   DELETE_MESSAGE: deleteMessage,
+  EDIT_USER: editUser,
   USER_JOINED_SERVER: userJoinedServer,
   USER_LEFT_SERVER: userLeftServer,
   ONLINE_STATUS_CHANGED: onlineStatusChanged,

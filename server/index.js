@@ -24,6 +24,7 @@ import {
   updateServer,
   addUserToServer,
   getUser,
+  updateUser,
 } from "./db.js";
 import { getRandomColor } from "./utils.js";
 
@@ -110,6 +111,22 @@ wss.on("connection", async (ws) => {
           kind: "DELETE_SERVER",
           payload: {
             serverId,
+          },
+        };
+        ws.send(JSON.stringify(event));
+        break;
+      }
+      case "EDIT_USER": {
+        if (!loggedInUserId) {
+          return;
+        }
+        const { updatedUser } = action.payload;
+        await updateUser(loggedInUserId, updatedUser);
+        const event = {
+          kind: "EDIT_USER",
+          payload: {
+            userId: loggedInUserId,
+            updatedUser,
           },
         };
         ws.send(JSON.stringify(event));

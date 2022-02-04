@@ -32,6 +32,7 @@ const Sidebar = ({
   activeChannel,
   localUser,
   onUserLeftServer,
+  onEditUserAccount,
   onEditServerSettings,
   onClickDeleteServer,
   onClickLogout,
@@ -138,7 +139,9 @@ const Sidebar = ({
       <UserAccountModal
         closeModal={() => setUserAccountModalData(undefined)}
         data={userAccountModalData}
+        user={localUser}
         onClickLogout={onClickLogout}
+        onEditUserAccount={onEditUserAccount}
       />
       <div>
         <Header onClick={onClickHeader} ref={headerRef}>

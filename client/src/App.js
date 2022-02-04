@@ -51,6 +51,13 @@ function App() {
     });
   };
 
+  const onEditUserAccount = (updatedUser) => {
+    send({
+      kind: "EDIT_USER",
+      payload: { updatedUser },
+    });
+  };
+
   const onNewServer = (name) => {
     send({
       kind: "NEW_SERVER",
@@ -219,6 +226,7 @@ function App() {
       userMap={userMap}
       localUser={localUser}
       onUserLeftServer={onUserLeftServer}
+      onEditUserAccount={onEditUserAccount}
       onEditServerSettings={onEditServerSettings}
       onClickDeleteServer={onClickDeleteServer}
       onNewMessage={onNewMessage}

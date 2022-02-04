@@ -9,6 +9,7 @@ function ServerPage({
   localUser,
   userMap,
   onUserLeftServer,
+  onEditUserAccount,
   onEditServerSettings,
   onClickDeleteServer,
   onNewMessage,
@@ -74,6 +75,7 @@ function ServerPage({
         activeChannel={expandedActiveChannel}
         localUser={localUser}
         onUserLeftServer={onUserLeftServer(serverId)}
+        onEditUserAccount={onEditUserAccount}
         onEditServerSettings={onEditServerSettings}
         onClickDeleteServer={onClickDeleteServer}
         onClickLogout={onClickLogout}

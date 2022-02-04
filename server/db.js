@@ -138,6 +138,12 @@ export async function getUser(_id) {
   };
 }
 
+export async function updateUser(userId, updatedUser) {
+  await db
+    .collection("users")
+    .updateOne({ _id: ObjectId(userId) }, { $set: updatedUser });
+}
+
 export async function getUserByEmail(email) {
   const user = await db.collection("users").findOne({ email });
   return {
