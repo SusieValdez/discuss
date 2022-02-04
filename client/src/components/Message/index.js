@@ -124,7 +124,7 @@ const Message = ({
       <Avatar
         onClick={openUserModal(user)}
         onContextMenu={onRightClickUser}
-        backgroundColor={user.bannerColor}
+        backgroundColor={user.avatarUrl ? "none" : user.bannerColor}
         src={user.avatarUrl || "/default-user-logo.svg"}
       />
       <div>

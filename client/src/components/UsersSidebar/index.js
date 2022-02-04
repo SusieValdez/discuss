@@ -99,7 +99,7 @@ const User = ({
   return (
     <UserContainer onClick={openUserModal} onContextMenu={onRightClickUser}>
       <ProfileImage
-        backgroundColor={bannerColor}
+        backgroundColor={avatarUrl ? "none" : bannerColor}
         src={avatarUrl || "/default-user-logo.svg"}
         style={{ opacity }}
       />

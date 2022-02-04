@@ -200,7 +200,11 @@ const Sidebar = ({
       <UserPanel>
         <UserTag>
           <img
-            style={{ backgroundColor: localUser.bannerColor }}
+            style={{
+              backgroundColor: localUser.avatarUrl
+                ? "none"
+                : localUser.bannerColor,
+            }}
             src={localUser.avatarUrl || "/default-user-logo.svg"}
             alt="profile pic"
             ref={statusRef}
