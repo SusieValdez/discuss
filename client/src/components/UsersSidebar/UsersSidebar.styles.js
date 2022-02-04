@@ -68,11 +68,13 @@ export const Username = styled.span`
   flex: 0 1 auto;
 `;
 
-export const Legend = styled.div`
+export const Legend = styled.span`
+  width: 160px;
   font-weight: 500;
   color: #8e9297;
   line-height: 16px;
   font-size: 12px;
   overflow: hidden;
+  white-space: nowrap;
   text-overflow: ellipsis;
 `;

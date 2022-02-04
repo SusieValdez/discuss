@@ -40,6 +40,10 @@ export const UserTag = styled.div`
     height: 32px;
     cursor: pointer;
     border-radius: 50%;
+
+    :hover {
+      opacity: 0.8;
+    }
   }
 
   div {
@@ -56,6 +60,10 @@ export const UserTag = styled.div`
   p {
     font-size: 12px;
     color: #b9bbbe;
+    width: 130px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
   }
 `;
 
