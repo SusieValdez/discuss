@@ -8,6 +8,7 @@ import {
   RoleContainer,
   RoleDiv,
   Footer,
+  RoleDot,
 } from "./MiniUserProfile.styles";
 
 const width = 300;
@@ -85,7 +86,12 @@ const MiniUserProfileModal = ({ closeModal, data }) => {
           <h3>{rolesWithoutEveryone.length === 0 ? "No Roles" : "Roles"}</h3>
           <RoleContainer>
             {rolesWithoutEveryone.map((role) => (
-              <RoleDiv key={role._id}>{role.name}</RoleDiv>
+              <span>
+                <RoleDiv key={role._id}>
+                  <RoleDot color={role.color} />
+                  {role.name}
+                </RoleDiv>
+              </span>
             ))}
           </RoleContainer>
           <h3>Note</h3>

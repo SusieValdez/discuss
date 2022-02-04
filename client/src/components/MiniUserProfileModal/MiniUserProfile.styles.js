@@ -96,6 +96,14 @@ export const RoleDiv = styled.div`
   font-size: 12px;
 `;
 
+export const RoleDot = styled.div`
+  width: 12px;
+  height: 12px;
+  margin-right: 8px;
+  border-radius: 50%;
+  background-color: ${(props) => props.color};
+`;
+
 export const Footer = styled.div`
   padding: 0 16px 16px;
   margin-top: -2px;
