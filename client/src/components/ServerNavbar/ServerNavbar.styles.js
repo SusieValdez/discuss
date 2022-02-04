@@ -4,7 +4,6 @@ export const Container = styled.div`
   width: 72px;
   height: 100%;
   min-width: 72px;
-  margin: auto;
 `;
 
 export const Item = styled.div`
