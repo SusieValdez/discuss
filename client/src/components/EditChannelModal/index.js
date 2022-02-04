@@ -10,6 +10,7 @@ import {
   DeleteButton,
   IconContainer,
   Content,
+  Footer,
 } from "./EditChannelModal.styles";
 // Assets
 import { ReactComponent as CloseIcon } from "../../assets/close-icon.svg";
@@ -21,8 +22,8 @@ const EditChannelModal = ({ closeModal, data, onEditChannel }) => {
     setEditedChannelName(e.target.value);
   };
 
-  const onKeyPressEditChannelName = (e) => {
-    if (editedChannelName.length > 0 && e.key === "Enter") {
+  const onClickConfirm = (e) => {
+    if (editedChannelName.length > 0) {
       onEditChannel(data.channel._id, { name: editedChannelName });
       closeModal();
     }
@@ -78,8 +79,20 @@ const EditChannelModal = ({ closeModal, data, onEditChannel }) => {
             placeholder="Channel Name"
             value={editedChannelName}
             onChange={onChangeEditChannelName}
-            onKeyPress={onKeyPressEditChannelName}
           />
+          <Footer>
+            <button onClick={closeModal} className="cancel-button">
+              Cancel
+            </button>
+            <button
+              className={`create-button ${
+                editedChannelName.length > 0 ? "active" : "disabled"
+              }`}
+              onClick={onClickConfirm}
+            >
+              Confirm Changes
+            </button>
+          </Footer>
         </Content>
         <IconContainer>
           <CloseIcon onClick={closeModal} />

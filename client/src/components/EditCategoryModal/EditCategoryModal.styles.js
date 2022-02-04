@@ -140,3 +140,64 @@ export const Content = styled.div`
     margin-bottom: 10px;
   }
 `;
+
+export const Footer = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  width: 100%;
+  height: 70px;
+  padding: 16px;
+
+  .cancel-button {
+    width: auto;
+    height: 38px;
+    color: #fff;
+    min-width: 96px;
+    min-height: 38px;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 16px;
+    padding: 2px 16px;
+    border: none;
+    border-radius: 3px;
+    background: none;
+    cursor: pointer;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  .create-button {
+    width: auto;
+    height: 38px;
+    transition: background-color 0.17s ease, color 0.17s ease;
+    border: none;
+    border-radius: 3px;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 16px;
+    padding: 2px 16px;
+
+    &.active {
+      color: #fff;
+      background-color: #5865f2;
+      cursor: pointer;
+
+      &:hover {
+        background-color: #4955d6;
+      }
+
+      &:active {
+        background-color: #3e49c2;
+      }
+    }
+
+    &.disabled {
+      color: #91939a;
+      background-color: #434b94;
+      cursor: not-allowed;
+    }
+  }
+`;

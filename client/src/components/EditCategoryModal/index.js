@@ -10,6 +10,7 @@ import {
   DeleteButton,
   IconContainer,
   Content,
+  Footer,
 } from "./EditCategoryModal.styles";
 // Assets
 import { ReactComponent as CloseIcon } from "../../assets/close-icon.svg";
@@ -21,8 +22,8 @@ const EditCategoryModal = ({ closeModal, data, onEditCategory }) => {
     setEditedCategoryName(e.target.value);
   };
 
-  const onKeyPressEditCategoryName = (e) => {
-    if (editedCategoryName.length > 0 && e.key === "Enter") {
+  const onClickConfirm = (e) => {
+    if (editedCategoryName.length > 0) {
       onEditCategory(data.category._id, { name: editedCategoryName });
       closeModal();
     }
@@ -78,8 +79,20 @@ const EditCategoryModal = ({ closeModal, data, onEditCategory }) => {
             placeholder="Text Channels"
             value={editedCategoryName}
             onChange={onChangeEditCategoryName}
-            onKeyPress={onKeyPressEditCategoryName}
           />
+          <Footer>
+            <button onClick={closeModal} className="cancel-button">
+              Cancel
+            </button>
+            <button
+              className={`create-button ${
+                editedCategoryName.length > 0 ? "active" : "disabled"
+              }`}
+              onClick={onClickConfirm}
+            >
+              Confirm Changes
+            </button>
+          </Footer>
         </Content>
         <IconContainer>
           <CloseIcon onClick={closeModal} />
