@@ -30,6 +30,7 @@ const NewServerModal = ({ isOpen, closeModal, onNewServer }) => {
     if (newServerName.length > 0) {
       onNewServer(newServerName);
       closeModal();
+      setNewServerName("");
     }
   };
 
