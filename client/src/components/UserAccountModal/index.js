@@ -26,11 +26,13 @@ const UserAccountModal = ({
   const [newUserName, setNewUserName] = useState(user.name);
   const [newLegend, setNewLegend] = useState(user.legend);
   const [newAvatarUrl, setNewAvatarUrl] = useState(user.avatarUrl);
+  const [newBannerColor, setNewBannerColor] = useState(user.bannerColor);
 
   const validStateChange =
     (newUserName !== user.name && newUserName.length > 0) ||
     newLegend !== user.legend ||
-    newAvatarUrl !== user.avatarUrl;
+    newAvatarUrl !== user.avatarUrl ||
+    newBannerColor !== user.bannerColor;
 
   if (!data) {
     return <></>;
@@ -42,6 +44,7 @@ const UserAccountModal = ({
         name: newUserName,
         legend: newLegend,
         avatarUrl: newAvatarUrl,
+        bannerColor: newBannerColor,
       });
       closeModal();
     }
@@ -87,9 +90,10 @@ const UserAccountModal = ({
           </OptionSidebarContainer>
         </OptionSidebar>
         <Content>
-          <h2>Overview</h2>
+          <h2>My Account</h2>
           <h5>Username</h5>
           <input
+            type="text"
             autoFocus
             value={newUserName}
             placeholder={user.name}
@@ -97,12 +101,18 @@ const UserAccountModal = ({
           />
           <h5>Avatar</h5>
           <input
-            autoFocus
+            type="text"
             value={newAvatarUrl}
             placeholder="http://imgur.com/mycoolprofilepic"
             onChange={(e) => setNewAvatarUrl(e.target.value)}
           />
           <img src={newAvatarUrl} alt="new avatar url" />
+          <h5>Banner Color</h5>
+          <input
+            type="color"
+            value={newBannerColor}
+            onChange={(e) => setNewBannerColor(e.target.value)}
+          />
           <h5>Legend</h5>
           <textarea
             value={newLegend}

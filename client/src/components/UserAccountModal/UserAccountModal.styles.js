@@ -119,7 +119,7 @@ export const Content = styled.div`
     margin-bottom: 8px;
   }
 
-  input {
+  input[type="text"] {
     padding: 10px;
     height: 40px;
     font-size: 16px;
