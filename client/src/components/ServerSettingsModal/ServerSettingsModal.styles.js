@@ -2,10 +2,9 @@ import styled from "styled-components";
 
 export const Container = styled.div`
   display: flex;
-  flex-direction: row;
   background-color: #36393f;
-  width: 100%;
   height: 100%;
+  overflow: hidden;
 
   svg {
     width: 36px;
@@ -13,10 +12,6 @@ export const Container = styled.div`
     color: #dcddde;
     cursor: pointer;
   }
-`;
-
-export const IconContainer = styled.div`
-  padding-top: 50px;
 `;
 
 export const OptionSidebar = styled.div`
@@ -97,11 +92,18 @@ export const DeleteButton = styled.div`
 `;
 
 export const Content = styled.div`
-  padding: 60px 40px 80px;
-  max-width: 740px;
-  width: 740px;
-  min-width: 460px;
-  min-height: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  min-width: 1000px;
+  padding: 40px;
+`;
+
+export const ServerSettingsForm = styled.div`
+  display: flex;
+  width: 800px;
+  flex: 1;
+  flex-direction: column;
 
   h2 {
     text-transform: uppercase;
@@ -119,7 +121,7 @@ export const Content = styled.div`
     margin-bottom: 8px;
   }
 
-  input {
+  input[type="text"] {
     padding: 10px;
     height: 40px;
     font-size: 16px;
@@ -131,9 +133,13 @@ export const Content = styled.div`
     margin-bottom: 20px;
   }
 
+  input[type="color"] {
+    margin-bottom: 20px;
+  }
+
   textarea {
     padding: 10px;
-    height: 150px;
+    height: 100px;
     font-size: 16px;
     width: 100%;
     color: #dcddde;
@@ -154,12 +160,67 @@ export const Content = styled.div`
   }
 `;
 
+export const ImageColumn = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  height: 100%;
+  min-width: 40%;
+`;
+
+export const IconContainer = styled.div`
+  align-self: flex-end;
+  height: 5%;
+`;
+
+export const ServerSettingsIcons = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 600px;
+
+  .server-banner-image {
+    height: 70px;
+    width: 300px;
+  }
+
+  .server-icon-container {
+    background-color: #4f545c;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+  }
+
+  .server-icon-image {
+    margin: auto;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    border: 2px solid #7e8389;
+  }
+
+  .server-banner-color {
+    margin-top: 30px;
+    width: 300px;
+    height: 143px;
+    border-radius: 8px;
+  }
+`;
+
+export const Minibanner = styled.div`
+  height: 70px;
+  background-color: ${(props) => props.backgroundColor};
+  width: 80%;
+  margin-top: 30px;
+  border-radius: 8px, 8px, 0, 0;
+`;
+
 export const Footer = styled.div`
   display: flex;
   justify-content: flex-end;
-  align-items: center;
-  width: 100%;
-  height: 70px;
+  align-items: flex-end;
+  width: auto;
   padding: 16px;
 
   .cancel-button {
