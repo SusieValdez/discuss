@@ -62,14 +62,20 @@ const UserList = ({ name, users, openUserModal, onClickKick }) => {
       <h2>
         {name} — {users.length}
       </h2>
-      {users.map((user) => (
-        <User
-          key={user._id}
-          {...user}
-          openUserModal={openUserModal(user)}
-          onClickKick={onClickKick(user._id)}
-        />
-      ))}
+      {users
+        .sort((u1, u2) => {
+          const name1 = u1.name.toUpperCase();
+          const name2 = u2.name.toUpperCase();
+          return name1 < name2 ? -1 : name1 > name2 ? 1 : 0;
+        })
+        .map((user) => (
+          <User
+            key={user._id}
+            {...user}
+            openUserModal={openUserModal(user)}
+            onClickKick={onClickKick(user._id)}
+          />
+        ))}
     </div>
   );
 };
