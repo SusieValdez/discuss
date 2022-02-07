@@ -47,7 +47,6 @@ export const AccountInfo = styled.div`
   flex-direction: column;
   width: 55%;
   height: auto;
-  flex-direction: column;
 
   button {
     background-color: #5865f2;

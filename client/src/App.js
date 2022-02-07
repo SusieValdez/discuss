@@ -12,6 +12,7 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { arrayToMap } from "./utils";
 import ServerDiscoveryPage from "./pages/ServerDiscoveryPage";
+import ServerInvitePage from "./pages/ServerInvitePage";
 
 const ws = new WebSocket(`ws://${window.location.hostname}:8080`);
 
@@ -268,6 +269,7 @@ function App() {
             <Route path="channels/:channelId" element={serverPage} />
           </Route>
           <Route path="/server-discovery" element={serverDiscoveryPage} />
+          <Route path="/invite" element={<ServerInvitePage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </Container>
