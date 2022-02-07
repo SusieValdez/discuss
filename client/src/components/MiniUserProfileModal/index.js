@@ -9,6 +9,7 @@ import {
   RoleDiv,
   Footer,
   RoleDot,
+  AboutMe,
 } from "./MiniUserProfile.styles";
 
 const width = 300;
@@ -71,7 +72,14 @@ const MiniUserProfileModal = ({ closeModal, data }) => {
       contentLabel="User Profile"
     >
       <Container style={{ width }}>
-        <Banner style={{ width, backgroundColor: user.bannerColor }}></Banner>
+        <Banner
+          style={{
+            width,
+            background: user.bannerImageUrl
+              ? `url(${user.bannerImageUrl})`
+              : user.bannerColor,
+          }}
+        ></Banner>
         <img
           src={user.avatarUrl || "/default-user-logo.svg"}
           style={{
@@ -85,6 +93,12 @@ const MiniUserProfileModal = ({ closeModal, data }) => {
         </Header>
         <hr className="solid" />
         <Content>
+          <h3>About Me</h3>
+          <AboutMe>
+            {user.aboutMe.split("\n").map((row) => (
+              <p>{row}</p>
+            ))}
+          </AboutMe>
           <h3>{rolesWithoutEveryone.length === 0 ? "No Roles" : "Roles"}</h3>
           <RoleContainer>
             {rolesWithoutEveryone.map((role) => (

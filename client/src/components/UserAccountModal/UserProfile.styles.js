@@ -103,8 +103,27 @@ export const UserSettingImageColumn = styled.div`
 export const MiniUserProfile = styled.div`
   background-color: #18191c;
   width: 240px;
-  height: 200px;
+  height: 320px;
   border-radius: 8px;
+
+  h3 {
+    padding: 10px;
+
+    text-transform: uppercase;
+    color: #b9bbbe;
+    margin-bottom: 8px;
+    font-size: 12px;
+    line-height: 16px;
+  }
+`;
+
+export const AboutMe = styled.div`
+  margin: auto;
+  color: #bbbcbd;
+  width: 220px;
+  max-height: 100px;
+  overflow-y: scroll;
+  margin-bottom: 10px;
 `;
 
 export const UserBannerDisplay = styled.div`

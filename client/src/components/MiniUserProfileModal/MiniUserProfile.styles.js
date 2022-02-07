@@ -96,6 +96,13 @@ export const RoleDiv = styled.div`
   font-size: 12px;
 `;
 
+export const AboutMe = styled.div`
+  color: #bbbcbd;
+  max-height: 100px;
+  overflow-y: scroll;
+  margin-bottom: 10px;
+`;
+
 export const RoleDot = styled.div`
   width: 12px;
   height: 12px;

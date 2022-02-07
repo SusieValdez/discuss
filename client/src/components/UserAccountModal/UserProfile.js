@@ -8,6 +8,7 @@ import {
   MiniUserProfile,
   UserBannerDisplay,
   Footer,
+  AboutMe,
 } from "./UserProfile.styles";
 
 const UserProfile = ({ user, onEditUserAccount }) => {
@@ -85,6 +86,12 @@ const UserProfile = ({ user, onEditUserAccount }) => {
               alt="new banner image"
             />
             <img src={newAvatarUrl} alt="new avatar url" />
+            <h3>About Me</h3>
+            <AboutMe>
+              {user.aboutMe.split("\n").map((row) => (
+                <p>{row}</p>
+              ))}
+            </AboutMe>
           </MiniUserProfile>
         </UserSettingImageColumn>
       </Content>
