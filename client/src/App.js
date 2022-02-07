@@ -13,6 +13,7 @@ import { useEffect } from "react";
 import { arrayToMap } from "./utils";
 import ServerDiscoveryPage from "./pages/ServerDiscoveryPage";
 import ServerInvitePage from "./pages/ServerInvitePage";
+import QrConfirmationPage from "./pages/QrConfirmationPage";
 
 const ws = new WebSocket(`ws://${window.location.hostname}:8080`);
 
@@ -257,6 +258,10 @@ function App() {
   return (
     <BrowserRouter>
       <Container>
+        <Routes>
+          <Route path="/qr-confirm" element={<QrConfirmationPage />} />
+        </Routes>
+
         <ServerNavbar
           servers={state.servers.filter(({ users }) =>
             users.map(({ userId }) => userId).includes(localUser._id)
