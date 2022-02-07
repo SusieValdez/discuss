@@ -16,6 +16,9 @@ export const Container = styled.div`
 `;
 
 export const IconContainer = styled.div`
+  position: absolute;
+  top: -10px;
+  right: 50px;
   padding-top: 50px;
 `;
 

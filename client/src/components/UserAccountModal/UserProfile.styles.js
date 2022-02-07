@@ -1,11 +1,29 @@
 import styled from "styled-components";
 
-export const Content = styled.div`
+export const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
   padding: 60px 40px 80px;
-  max-width: 740px;
-  width: 740px;
-  min-width: 460px;
-  min-height: 100%;
+  height: 100%;
+  width: 100%;
+`;
+
+export const Content = styled.div`
+  display: flex;
+  justify-content: space-between;
+  height: 100%;
+  width: 80%;
+  padding: 20px;
+`;
+
+export const UserSettingsDetailsColumn = styled.div`
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  height: 100%;
+  margin-right: 30px;
+  min-width: 550px;
 
   h2 {
     text-transform: uppercase;
@@ -35,6 +53,10 @@ export const Content = styled.div`
     margin-bottom: 20px;
   }
 
+  input[type="color"] {
+    margin-bottom: 10px;
+  }
+
   textarea {
     padding: 10px;
     height: 150px;
@@ -55,16 +77,49 @@ export const Content = styled.div`
     line-height: 20px;
     font-weight: 400;
     margin-bottom: 10px;
-  } */
+  }
+`;
+
+export const UserSettingImageColumn = styled.div`
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 200px;
+  margin-left: 20px;
+
+  //background-color: #292b2f;
+
+  img {
+    position: relative;
+    border-radius: 50%;
+    width: 80px;
+    height: 80px;
+    border: 6px solid #18191c;
+    top: -25px;
+    left: 16px;
+  }
+`;
+
+export const MiniUserProfile = styled.div`
+  background-color: #18191c;
+  width: 240px;
+  height: 200px;
+  border-radius: 8px;
+`;
+
+export const UserBannerDisplay = styled.div`
+  background-size: contain;
+  height: 60px;
+  width: 240px;
+  border: 2px solid #43424a;
+  border-radius: 8px 8px 0 0;
 `;
 
 export const Footer = styled.div`
   display: flex;
   justify-content: flex-end;
-  align-items: center;
-  width: 100%;
-  height: 70px;
-  padding: 16px;
+  align-self: flex-end;
+  height: 100%;
 
   .cancel-button {
     width: auto;

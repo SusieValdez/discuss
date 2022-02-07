@@ -1,6 +1,14 @@
 import React, { useState } from "react";
 // Styles
-import { Content, Footer } from "./UserProfile.styles";
+import {
+  Container,
+  Content,
+  UserSettingsDetailsColumn,
+  UserSettingImageColumn,
+  MiniUserProfile,
+  UserBannerDisplay,
+  Footer,
+} from "./UserProfile.styles";
 
 const UserProfile = ({ user, onEditUserAccount }) => {
   const [newAboutMe, setNewAboutMe] = useState(user.aboutMe);
@@ -35,35 +43,51 @@ const UserProfile = ({ user, onEditUserAccount }) => {
   };
 
   return (
-    <Content>
-      <h2>User Profile</h2>
-      <h5>Avatar</h5>
-      <input
-        type="text"
-        value={newAvatarUrl}
-        placeholder="http://imgur.com/mycoolprofilepic"
-        onChange={(e) => setNewAvatarUrl(e.target.value)}
-      />
-      <img src={newAvatarUrl} alt="new avatar url" />
-      <h5>Banner Color</h5>
-      <input
-        type="color"
-        value={newBannerColor}
-        onChange={(e) => setNewBannerColor(e.target.value)}
-      />
-      <h5>Banner Image</h5>
-      <input
-        type="text"
-        value={newBannerImageUrl}
-        placeholder="https://imgur.com/myepicbanner.jpg"
-        onChange={(e) => setNewBannerImageUrl(e.target.value)}
-      />
-      <h5>About Me</h5>
-      <textarea
-        value={newAboutMe}
-        placeholder="Write something epic about yourself!"
-        onChange={(e) => setNewAboutMe(e.target.value)}
-      />
+    <Container>
+      <Content>
+        <UserSettingsDetailsColumn>
+          <h2>User Profile</h2>
+          <h5>Avatar</h5>
+          <input
+            type="text"
+            value={newAvatarUrl}
+            placeholder="http://imgur.com/mycoolprofilepic"
+            onChange={(e) => setNewAvatarUrl(e.target.value)}
+          />
+          <h5>Banner Color</h5>
+          <input
+            type="color"
+            value={newBannerColor}
+            onChange={(e) => setNewBannerColor(e.target.value)}
+          />
+          <h5>Banner Image</h5>
+          <input
+            type="text"
+            value={newBannerImageUrl}
+            placeholder="https://imgur.com/myepicbanner.jpg"
+            onChange={(e) => setNewBannerImageUrl(e.target.value)}
+          />
+          <h5>About Me</h5>
+          <textarea
+            value={newAboutMe}
+            placeholder="Write something epic about yourself!"
+            onChange={(e) => setNewAboutMe(e.target.value)}
+          />
+        </UserSettingsDetailsColumn>
+        <UserSettingImageColumn>
+          <MiniUserProfile>
+            <UserBannerDisplay
+              style={{
+                background: newBannerImageUrl
+                  ? `url(${newBannerImageUrl})`
+                  : newBannerColor,
+              }}
+              alt="new banner image"
+            />
+            <img src={newAvatarUrl} alt="new avatar url" />
+          </MiniUserProfile>
+        </UserSettingImageColumn>
+      </Content>
       <Footer>
         <button onClick={onCancel} className="cancel-button">
           Cancel
@@ -77,7 +101,7 @@ const UserProfile = ({ user, onEditUserAccount }) => {
           Confirm Changes
         </button>
       </Footer>
-    </Content>
+    </Container>
   );
 };
 
