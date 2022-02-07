@@ -85,10 +85,16 @@ const UserProfile = ({ user, onEditUserAccount }) => {
               }}
               alt="new banner image"
             />
-            <img src={newAvatarUrl} alt="new avatar url" />
+            <img
+              src={newAvatarUrl || "/default-user-logo.svg"}
+              alt="new avatar url"
+              style={{
+                backgroundColor: newAvatarUrl ? "#18191c" : newBannerColor,
+              }}
+            />
             <h3>About Me</h3>
             <AboutMe>
-              {user.aboutMe.split("\n").map((row) => (
+              {newAboutMe.split("\n").map((row) => (
                 <p>{row}</p>
               ))}
             </AboutMe>
