@@ -1,5 +1,7 @@
 import React from "react";
 import Modal from "react-modal";
+// Components
+import MyAccount from "./MyAccount";
 // Styles
 import {
   Container,
@@ -9,12 +11,11 @@ import {
   Divider,
   RedButton,
   IconContainer,
-  Content,
-  Footer,
 } from "./UserAccountModal.styles";
 // Assets
 import { ReactComponent as CloseIcon } from "../../assets/close-icon.svg";
 import { useState } from "react";
+import UserProfile from "./UserProfile";
 
 const UserAccountModal = ({
   closeModal,
@@ -23,37 +24,35 @@ const UserAccountModal = ({
   onEditUserAccount,
   onClickLogout,
 }) => {
-  const [newUserName, setNewUserName] = useState(user.name);
-  const [newLegend, setNewLegend] = useState(user.legend);
-  const [newAvatarUrl, setNewAvatarUrl] = useState(user.avatarUrl);
-  const [newBannerColor, setNewBannerColor] = useState(user.bannerColor);
+  const [subsectionName, setSubsectionName] = useState("My Account");
 
-  const validStateChange =
-    (newUserName !== user.name && newUserName.length > 0) ||
-    newLegend !== user.legend ||
-    newAvatarUrl !== user.avatarUrl ||
-    newBannerColor !== user.bannerColor;
+  const onAfterClose = () => {
+    setSubsectionName("My Account");
+  };
 
   if (!data) {
     return <></>;
   }
 
-  const onClickConfirm = () => {
-    if (validStateChange) {
-      onEditUserAccount({
-        name: newUserName,
-        legend: newLegend,
-        avatarUrl: newAvatarUrl,
-        bannerColor: newBannerColor,
-      });
-      closeModal();
-    }
-  };
+  let content;
+  switch (subsectionName) {
+    case "My Account":
+      content = <MyAccount user={user} onEditUserAccount={onEditUserAccount} />;
+      break;
+    case "User Profile":
+      content = (
+        <UserProfile user={user} onEditUserAccount={onEditUserAccount} />
+      );
+      break;
+    default:
+      break;
+  }
 
   return (
     <Modal
       isOpen={true}
       onRequestClose={closeModal}
+      onAfterClose={onAfterClose}
       style={{
         overlay: {
           backgroundColor: "rgba(6, 5, 8, 0.918)",
@@ -80,8 +79,10 @@ const UserAccountModal = ({
               <h3>{user.name}</h3>
             </OptionSidebarHeader>
             <div>
-              <p>My Account</p>
-              <p>User Profile</p>
+              <p onClick={() => setSubsectionName("My Account")}>My Account</p>
+              <p onClick={() => setSubsectionName("User Profile")}>
+                User Profile
+              </p>
             </div>
             <Divider />
             <RedButton>
@@ -89,50 +90,7 @@ const UserAccountModal = ({
             </RedButton>
           </OptionSidebarContainer>
         </OptionSidebar>
-        <Content>
-          <h2>My Account</h2>
-          <h5>Username</h5>
-          <input
-            type="text"
-            autoFocus
-            value={newUserName}
-            placeholder={user.name}
-            onChange={(e) => setNewUserName(e.target.value)}
-          />
-          <h5>Avatar</h5>
-          <input
-            type="text"
-            value={newAvatarUrl}
-            placeholder="http://imgur.com/mycoolprofilepic"
-            onChange={(e) => setNewAvatarUrl(e.target.value)}
-          />
-          <img src={newAvatarUrl} alt="new avatar url" />
-          <h5>Banner Color</h5>
-          <input
-            type="color"
-            value={newBannerColor}
-            onChange={(e) => setNewBannerColor(e.target.value)}
-          />
-          <h5>Legend</h5>
-          <textarea
-            value={newLegend}
-            placeholder={user.legend || "Server description"}
-            onChange={(e) => setNewLegend(e.target.value)}
-          />
-          <Footer>
-            <button onClick={closeModal} className="cancel-button">
-              Cancel
-            </button>
-            <button
-              className={`create-button ${
-                validStateChange ? "active" : "disabled"
-              }`}
-              onClick={onClickConfirm}
-            >
-              Confirm Changes
-            </button>
-          </Footer>
-        </Content>
+        {content}
         <IconContainer>
           <CloseIcon onClick={closeModal} />
         </IconContainer>

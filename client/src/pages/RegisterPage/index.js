@@ -41,7 +41,7 @@ const RegisterPage = ({ onClickRegister }) => {
       return;
     }
     onClickRegister({
-      username,
+      name: username,
       email,
       password,
       dateOfBirth: `${year}-${month}-${date}`,

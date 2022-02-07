@@ -120,8 +120,19 @@ export async function setTypingUserStatus(
   }
 }
 
-export async function newUser(user) {
-  const { name, email, password, dateOfBirth, avatarUrl, legend } = user;
+export async function newUser(name, email, password, dateOfBirth) {
+  const user = {
+    name,
+    email,
+    password,
+    dateOfBirth,
+    avatarUrl: "",
+    legend: "",
+    aboutMe: "",
+    bannerColor: getRandomColor(),
+    bannerImageUrl: "",
+    onlineStatus: "offline",
+  };
   const { insertedId } = await db.collection("users").insertOne(user);
   return { userId: insertedId.toString() };
 }

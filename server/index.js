@@ -26,7 +26,6 @@ import {
   getUser,
   updateUser,
 } from "./db.js";
-import { getRandomColor } from "./utils.js";
 
 const wss = new WebSocketServer({ port: 8080 });
 
@@ -191,14 +190,9 @@ wss.on("connection", async (ws) => {
         break;
       }
       case "REGISTER": {
-        const user = {
-          ...action.payload,
-          name: action.payload.username,
-          avatarUrl: "",
-          legend: "Discuss is Poggers",
-          bannerColor: getRandomColor(),
-        };
-        loggedInUserId = (await newUser(user)).userId;
+        const { name, email, password, dateOfBirth } = action.payload;
+        loggedInUserId = (await newUser(name, email, password, dateOfBirth))
+          .userId;
         const cookie = nanoid();
         await addUserCookie(cookie, loggedInUserId);
         await sendState(ws, cookie, loggedInUserId);
