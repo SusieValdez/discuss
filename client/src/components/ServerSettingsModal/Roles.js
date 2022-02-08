@@ -1,4 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
+// Components
+import RoleEdit from "./RoleEdit";
 // Styles
 import {
   Container,
@@ -16,16 +18,36 @@ import { ReactComponent as UserIcon } from "../../assets/single-user-solid.svg";
 import { ReactComponent as SearchIcon } from "../../assets/search-solid.svg";
 
 const Roles = ({ users, roles }) => {
-  const roleCounts = {};
+  const [selectedRole, setSelectedRole] = useState(undefined);
 
+  const roleCounts = {};
   for (const role of roles) {
     roleCounts[role._id] = 0;
   }
-
   for (const user of users) {
     for (const roleId of user.roles) {
       roleCounts[roleId]++;
     }
+  }
+
+  const onSelectRole = (role) => () => {
+    setSelectedRole(role);
+  };
+
+  const onDeselectRole = () => {
+    setSelectedRole(undefined);
+  };
+
+  if (selectedRole) {
+    return (
+      <RoleEdit
+        onSelectRole={onSelectRole}
+        onClickBack={onDeselectRole}
+        roles={roles}
+        selectedRole={selectedRole}
+        users={users}
+      />
+    );
   }
 
   return (
@@ -59,7 +81,7 @@ const Roles = ({ users, roles }) => {
         </RolesContainer>
 
         {roles.map((role) => (
-          <RoleRow key={role._id}>
+          <RoleRow key={role._id} onClick={onSelectRole(role)}>
             <h2>{role.name}</h2>
             <div>
               <span>
