@@ -184,6 +184,13 @@ function App() {
     });
   };
 
+  const onClickDeleteRole = (serverId) => (roleId) => {
+    send({
+      kind: "DELETE_ROLE",
+      payload: { serverId, roleId },
+    });
+  };
+
   const onClickLogout = () => {
     localStorage.removeItem("cookie");
     setCookie(undefined);
@@ -251,6 +258,7 @@ function App() {
       onEditChannel={onEditChannel}
       onClickDeleteChannel={onClickDeleteChannel}
       onClickAddRole={onClickAddRole}
+      onClickDeleteRole={onClickDeleteRole}
     />
   );
 

@@ -43,6 +43,7 @@ const Sidebar = ({
   onEditCategory,
   onClickDeleteCategory,
   onClickAddRole,
+  onClickDeleteRole,
 }) => {
   const navigate = useNavigate();
 
@@ -137,6 +138,7 @@ const Sidebar = ({
         onEditServerSettings={onEditServerSettings}
         onClickDeleteServer={onClickDeleteServer}
         onClickAddRole={onClickAddRole}
+        onClickDeleteRole={onClickDeleteRole}
       />
       <UserAccountModal
         closeModal={() => setUserAccountModalData(undefined)}

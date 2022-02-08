@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 // Components
 import RoleEdit from "./RoleEdit";
 // Styles
@@ -17,7 +17,7 @@ import { ReactComponent as UsersIcon } from "../../assets/user-friends-solid.svg
 import { ReactComponent as UserIcon } from "../../assets/single-user-solid.svg";
 import { ReactComponent as SearchIcon } from "../../assets/search-solid.svg";
 
-const Roles = ({ users, roles, onClickAddRole }) => {
+const Roles = ({ users, roles, onClickAddRole, onClickDeleteRole }) => {
   const [selectedRole, setSelectedRole] = useState(undefined);
 
   const roleCounts = {};
@@ -30,9 +30,12 @@ const Roles = ({ users, roles, onClickAddRole }) => {
     }
   }
 
-  const onSelectRole = (role) => () => {
-    setSelectedRole(role);
-  };
+  const onSelectRole = useCallback(
+    (role) => () => {
+      setSelectedRole(role);
+    },
+    [setSelectedRole]
+  );
 
   const onDeselectRole = () => {
     setSelectedRole(undefined);
@@ -47,6 +50,7 @@ const Roles = ({ users, roles, onClickAddRole }) => {
         selectedRole={selectedRole}
         users={users}
         onClickAddRole={onClickAddRole}
+        onClickDeleteRole={onClickDeleteRole}
       />
     );
   }

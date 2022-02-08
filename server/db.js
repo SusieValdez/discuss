@@ -306,3 +306,12 @@ export async function addRole(serverId) {
   );
   return role;
 }
+
+export async function deleteRole(serverId, roleId) {
+  await db
+    .collection("servers")
+    .updateOne(
+      { _id: ObjectId(serverId) },
+      { $pull: { roles: { _id: roleId } } }
+    );
+}

@@ -25,6 +25,7 @@ function ServerPage({
   onEditChannel,
   onClickDeleteChannel,
   onClickAddRole,
+  onClickDeleteRole,
 }) {
   let { serverId, channelId } = useParams();
 
@@ -87,6 +88,7 @@ function ServerPage({
         onEditCategory={onEditCategory(serverId)}
         onClickDeleteCategory={onClickDeleteCategory(serverId)}
         onClickAddRole={onClickAddRole(serverId)}
+        onClickDeleteRole={onClickDeleteRole(serverId)}
       />
       <Chat
         activeChannel={expandedActiveChannel}

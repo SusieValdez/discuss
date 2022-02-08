@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 // Styles
 import {
   Container,
@@ -10,6 +10,7 @@ import {
   Content,
   Header,
   SubMenu,
+  DeleteButton,
 } from "./RoleEdit.styles";
 // Assets
 import { ReactComponent as ArrowBack } from "../../assets/arrow-left-solid.svg";
@@ -22,6 +23,7 @@ const RoleEdit = ({
   selectedRole,
   users,
   onClickAddRole,
+  onClickDeleteRole,
 }) => {
   const roleCounts = {};
   for (const role of roles) {
@@ -32,6 +34,17 @@ const RoleEdit = ({
       roleCounts[roleId]++;
     }
   }
+
+  useEffect(() => {
+    onSelectRole(roles[0])();
+  }, [roles, onSelectRole]);
+
+  const onClickDeleteRoleButton = () => {
+    if (selectedRole.name === "everyone") {
+      return;
+    }
+    onClickDeleteRole(selectedRole._id);
+  };
 
   return (
     <Container>
@@ -72,6 +85,12 @@ const RoleEdit = ({
           Members use the color of the highest role they have on the roles list.
         </p>
         <input type="color" value={selectedRole.color} />
+        <DeleteButton
+          onClick={onClickDeleteRoleButton}
+          className={selectedRole.name === "everyone" ? "disabled" : "active"}
+        >
+          Delete Role
+        </DeleteButton>
       </Content>
     </Container>
   );

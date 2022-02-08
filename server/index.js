@@ -26,6 +26,7 @@ import {
   getUser,
   updateUser,
   addRole,
+  deleteRole,
 } from "./db.js";
 
 const wss = new WebSocketServer({ port: 8080 });
@@ -393,6 +394,21 @@ wss.on("connection", async (ws) => {
           payload: {
             serverId,
             role,
+          },
+        };
+        wss.clients.forEach((client) => {
+          client.send(JSON.stringify(event));
+        });
+        break;
+      }
+      case "DELETE_ROLE": {
+        const { serverId, roleId } = action.payload;
+        await deleteRole(serverId, roleId);
+        const event = {
+          kind: "DELETE_ROLE",
+          payload: {
+            serverId,
+            roleId,
           },
         };
         wss.clients.forEach((client) => {
