@@ -177,6 +177,13 @@ function App() {
     });
   };
 
+  const onClickAddRole = (serverId) => () => {
+    send({
+      kind: "ADD_ROLE",
+      payload: { serverId },
+    });
+  };
+
   const onClickLogout = () => {
     localStorage.removeItem("cookie");
     setCookie(undefined);
@@ -243,6 +250,7 @@ function App() {
       onClickNewChannel={onClickNewChannel}
       onEditChannel={onEditChannel}
       onClickDeleteChannel={onClickDeleteChannel}
+      onClickAddRole={onClickAddRole}
     />
   );
 

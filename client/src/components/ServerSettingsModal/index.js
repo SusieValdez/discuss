@@ -24,6 +24,7 @@ const ServerSettingsModal = ({
   data,
   server,
   onClickDeleteServer,
+  onClickAddRole,
 }) => {
   const [subsectionName, setSubsectionName] = useState("Overview");
 
@@ -41,7 +42,13 @@ const ServerSettingsModal = ({
       content = <Overview server={server} />;
       break;
     case "Roles":
-      content = <Roles users={server.users} roles={server.roles} />;
+      content = (
+        <Roles
+          users={server.users}
+          roles={server.roles}
+          onClickAddRole={onClickAddRole}
+        />
+      );
       break;
     case "Members":
       content = <Members />;

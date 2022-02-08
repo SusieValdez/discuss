@@ -21,6 +21,7 @@ const RoleEdit = ({
   roles,
   selectedRole,
   users,
+  onClickAddRole,
 }) => {
   const roleCounts = {};
   for (const role of roles) {
@@ -40,7 +41,7 @@ const RoleEdit = ({
             <ArrowBack onClick={onClickBack} />
             <h2>Back</h2>
           </div>
-          <Plus />
+          <Plus onClick={onClickAddRole} />
         </SidebarSubmenu>
         <SidebarContent>
           {roles.map((role) => (

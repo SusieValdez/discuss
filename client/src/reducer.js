@@ -184,6 +184,13 @@ const deleteChannel = (state, { serverId, channelId }) =>
     (channels) => channels.filter(({ _id }) => _id !== channelId)
   );
 
+const addRole = (state, { serverId, role }) =>
+  deepUpdate(
+    state,
+    ["servers", (server) => server._id === serverId, "roles"],
+    (roles) => [...roles.slice(0, -1), role, roles[roles.length - 1]]
+  );
+
 const reducers = {
   NEW_SERVER: newServer,
   EDIT_SERVER: editServer,
@@ -203,6 +210,7 @@ const reducers = {
   ADD_CHANNEL: addChannel,
   EDIT_CHANNEL: editChannel,
   DELETE_CHANNEL: deleteChannel,
+  ADD_ROLE: addRole,
 };
 
 const rootReducer = (state, action) => {

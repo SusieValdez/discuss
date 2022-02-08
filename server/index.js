@@ -25,6 +25,7 @@ import {
   addUserToServer,
   getUser,
   updateUser,
+  addRole,
 } from "./db.js";
 
 const wss = new WebSocketServer({ port: 8080 });
@@ -377,6 +378,21 @@ wss.on("connection", async (ws) => {
           payload: {
             serverId,
             channelId,
+          },
+        };
+        wss.clients.forEach((client) => {
+          client.send(JSON.stringify(event));
+        });
+        break;
+      }
+      case "ADD_ROLE": {
+        const { serverId } = action.payload;
+        const role = await addRole(serverId);
+        const event = {
+          kind: "ADD_ROLE",
+          payload: {
+            serverId,
+            role,
           },
         };
         wss.clients.forEach((client) => {

@@ -286,3 +286,23 @@ export async function deleteChannel(serverId, channelId) {
       { $pull: { channels: { _id: channelId } } }
     );
 }
+
+export async function addRole(serverId) {
+  const role = {
+    _id: nanoid(),
+    name: "new role",
+    color: "#fff",
+  };
+  await db.collection("servers").updateOne(
+    { _id: ObjectId(serverId) },
+    {
+      $push: {
+        roles: {
+          $each: [role],
+          $position: -1,
+        },
+      },
+    }
+  );
+  return role;
+}

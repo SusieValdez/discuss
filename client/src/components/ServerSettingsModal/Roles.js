@@ -17,7 +17,7 @@ import { ReactComponent as UsersIcon } from "../../assets/user-friends-solid.svg
 import { ReactComponent as UserIcon } from "../../assets/single-user-solid.svg";
 import { ReactComponent as SearchIcon } from "../../assets/search-solid.svg";
 
-const Roles = ({ users, roles }) => {
+const Roles = ({ users, roles, onClickAddRole }) => {
   const [selectedRole, setSelectedRole] = useState(undefined);
 
   const roleCounts = {};
@@ -46,6 +46,7 @@ const Roles = ({ users, roles }) => {
         roles={roles}
         selectedRole={selectedRole}
         users={users}
+        onClickAddRole={onClickAddRole}
       />
     );
   }
@@ -66,7 +67,7 @@ const Roles = ({ users, roles }) => {
           </div>
           <ChevronRightIcon />
         </DefaultPermissions>
-        <CreateNewRole>
+        <CreateNewRole onClick={onClickAddRole}>
           <input type="text" placeholder="Search Roles" />
           <SearchIcon />
           <ButtonCreateRole>Create Role</ButtonCreateRole>
