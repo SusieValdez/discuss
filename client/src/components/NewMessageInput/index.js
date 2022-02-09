@@ -2,7 +2,11 @@ import React, { useEffect, useRef, useState } from "react";
 // Styles
 import { Container, Input } from "./NewMessageInput.styles";
 
-const NewMessageInput = ({ onNewMessage, onTypingIndicatorChanged }) => {
+const NewMessageInput = ({
+  activeChannel,
+  onNewMessage,
+  onTypingIndicatorChanged,
+}) => {
   const [newMessage, setNewMessage] = useState("");
 
   const inputRef = useRef(null);
@@ -33,7 +37,7 @@ const NewMessageInput = ({ onNewMessage, onTypingIndicatorChanged }) => {
       <Input
         ref={inputRef}
         type="text"
-        placeholder="Message #general"
+        placeholder={`Message #${activeChannel}`}
         value={newMessage}
         onChange={onChangeNewMessage}
         onKeyDown={onKeyDownNewMessage}

@@ -3,6 +3,7 @@ import styled from "styled-components";
 export const Container = styled.div`
   width: 100%;
   display: flex;
+  padding-top: 15px;
 `;
 
 export const Input = styled.textarea`
@@ -15,4 +16,5 @@ export const Input = styled.textarea`
   margin: 0 20px 10px 20px;
   width: 100%;
   height: 44px;
+  resize: none;
 `;
