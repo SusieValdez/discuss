@@ -29,6 +29,7 @@ import Tooltip from "../../ui/Tooltip";
 
 const Sidebar = ({
   server,
+  serverUsers,
   categories,
   channels,
   activeChannel,
@@ -137,6 +138,7 @@ const Sidebar = ({
         closeModal={() => setServerSettingsModalData(undefined)}
         data={serverSettingsModalData}
         server={server}
+        serverUsers={serverUsers}
         onEditServerSettings={onEditServerSettings}
         onClickDeleteServer={onClickDeleteServer}
         onClickAddRole={onClickAddRole}

@@ -1,4 +1,8 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
+// Components
+import SubmenuSectionDisplay from "./SubmenuSectionDisplay";
+import SubmenuSectionPermissions from "./SubmenuSectionPermissions";
+import SubmenuSectionManageMembers from "./SubmenuSectionManageMembers";
 // Styles
 import {
   Container,
@@ -7,10 +11,9 @@ import {
   SidebarContent,
   RoleSubsection,
   RoleColor,
-  Content,
+  EditContainer,
   Header,
   SubMenu,
-  DeleteButton,
 } from "./RoleEdit.styles";
 // Assets
 import { ReactComponent as ArrowBack } from "../../assets/arrow-left-solid.svg";
@@ -22,39 +25,56 @@ const RoleEdit = ({
   roles,
   selectedRole,
   users,
+  roleCounts,
   onClickAddRole,
   onClickDeleteRole,
 }) => {
-  const roleCounts = {};
-  for (const role of roles) {
-    roleCounts[role._id] = 0;
-  }
-  for (const user of users) {
-    for (const roleId of user.roles) {
-      roleCounts[roleId]++;
-    }
-  }
+  const [submenuSection, setSubmenuSection] = useState("Display");
 
   useEffect(() => {
     onSelectRole(roles[0])();
   }, [roles, onSelectRole]);
 
-  const onClickDeleteRoleButton = () => {
-    if (selectedRole.name === "everyone") {
-      return;
-    }
-    onClickDeleteRole(selectedRole._id);
-  };
+  let content;
+  switch (submenuSection) {
+    case "Display":
+      content = (
+        <SubmenuSectionDisplay
+          selectedRole={selectedRole}
+          onClickDeleteRole={onClickDeleteRole}
+        />
+      );
+      break;
+    case "Permissions":
+      content = <SubmenuSectionPermissions />;
+      break;
+    case "Manage Members":
+      content = (
+        <SubmenuSectionManageMembers
+          users={users}
+          selectedRole={selectedRole}
+        />
+      );
+      break;
+    default:
+      break;
+  }
 
   return (
     <Container>
       <RolesColumn>
         <SidebarSubmenu>
           <div className="submenu-back-button">
-            <ArrowBack onClick={onClickBack} />
+            <ArrowBack
+              onClick={onClickBack}
+              style={{ width: "20px", height: "20px" }}
+            />
             <h2>Back</h2>
           </div>
-          <Plus onClick={onClickAddRole} />
+          <Plus
+            onClick={onClickAddRole}
+            style={{ width: "20px", height: "20px" }}
+          />
         </SidebarSubmenu>
         <SidebarContent>
           {roles.map((role) => (
@@ -69,29 +89,19 @@ const RoleEdit = ({
           ))}
         </SidebarContent>
       </RolesColumn>
-      <Content>
+      <EditContainer>
         <Header>
           <h1>Edit Role — {selectedRole.name}</h1>
         </Header>
         <SubMenu>
-          <p>Display</p>
-          <p>Permissions</p>
-          <p>Manage Members({roleCounts[selectedRole._id]})</p>
+          <p onClick={() => setSubmenuSection("Display")}>Display</p>
+          <p onClick={() => setSubmenuSection("Permissions")}>Permissions</p>
+          <p onClick={() => setSubmenuSection("Manage Members")}>
+            Manage Members({roleCounts[selectedRole._id]})
+          </p>
         </SubMenu>
-        <h5>Role Name</h5>
-        <input type="text" value={selectedRole.name} />
-        <h5>Role Color</h5>
-        <p>
-          Members use the color of the highest role they have on the roles list.
-        </p>
-        <input type="color" value={selectedRole.color} />
-        <DeleteButton
-          onClick={onClickDeleteRoleButton}
-          className={selectedRole.name === "everyone" ? "disabled" : "active"}
-        >
-          Delete Role
-        </DeleteButton>
-      </Content>
+        {content}
+      </EditContainer>
     </Container>
   );
 };

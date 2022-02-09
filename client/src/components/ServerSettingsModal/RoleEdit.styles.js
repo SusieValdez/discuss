@@ -15,7 +15,9 @@ export const RolesColumn = styled.div`
 
 export const SidebarSubmenu = styled.div`
   display: flex;
+  width: auto;
   justify-content: space-between;
+  align-items: center;
   margin-bottom: 20px;
 
   .submenu-back-button {
@@ -32,8 +34,9 @@ export const SidebarSubmenu = styled.div`
   }
 
   svg {
-    width: 20px;
-    height: 20px;
+    width: 18px;
+    height: 18px;
+    padding: 2px;
   }
 `;
 
@@ -77,7 +80,7 @@ export const RoleColor = styled.div`
   background-color: ${(props) => props.backgroundColor};
 `;
 
-export const Content = styled.div`
+export const EditContainer = styled.div`
   padding-left: 20px;
 
   input[type="text"] {
@@ -140,50 +143,18 @@ export const Header = styled.div`
 
 export const SubMenu = styled.div`
   display: flex;
+  width: 100%;
   justify-content: space-between;
   border-bottom: 2px solid #3c3f45;
   margin-top: 16px;
   margin-bottom: 20px;
-  cursor: pointer;
 
   p {
+    width: 150px;
     font-size: 16px;
     line-height: 20px;
     color: #fff;
     margin-right: 32px;
-  }
-`;
-
-export const DeleteButton = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #fff;
-  width: 150px;
-  height: 34px;
-  transition: background-color 0.17s ease, color 0.17s ease;
-  border: none;
-  border-radius: 3px;
-  font-size: 14px;
-  font-weight: 500;
-  line-height: 16px;
-  padding: 2px 16px;
-  cursor: pointer;
-
-  &.active {
-    background-color: #ed4245;
-
-    :hover {
-      background-color: #c03537;
-    }
-
-    :active {
-      background-color: #cb373a;
-    }
-  }
-
-  &.disabled {
-    background-color: #b5868b;
-    cursor: not-allowed;
+    cursor: pointer;
   }
 `;

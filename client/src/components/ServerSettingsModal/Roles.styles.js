@@ -3,6 +3,7 @@ import styled from "styled-components";
 export const Container = styled.div`
   height: 100%;
   width: 100%;
+  overflow-y: scroll;
 `;
 
 export const Content = styled.div`
@@ -27,7 +28,7 @@ export const Content = styled.div`
     background-color: #202225;
     margin: 15px 15px 15px 0;
     border: none;
-    min-width: 75%;
+    min-width: 65%;
     height: 34px;
     border-radius: 4px;
     padding: 10px;
@@ -53,8 +54,6 @@ export const DefaultPermissions = styled.div`
   }
 
   > div {
-    margin-left: -420px;
-
     p {
       font-size: 12px;
     }
@@ -66,8 +65,8 @@ export const DefaultPermissions = styled.div`
   }
 
   svg {
-    width: 24px;
-    height: 24px;
+    width: 22px;
+    height: 22px;
   }
 `;
 
@@ -90,6 +89,8 @@ export const ButtonCreateRole = styled.div`
   display: flex;
   align-items: center;
   background-color: #5865f2;
+  justify-content: center;
+  width: 150px;
   color: #fff;
   height: 34px;
   transition: background-color 0.17s ease, color 0.17s ease;
@@ -111,7 +112,9 @@ export const ButtonCreateRole = styled.div`
   }
 `;
 
-export const RolesContainer = styled.div`
+export const RolesContainer = styled.div``;
+
+export const RolesTitles = styled.div`
   display: flex;
   justify-content: flex-start;
   margin-top: 50px;

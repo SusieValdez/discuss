@@ -23,6 +23,7 @@ const ServerSettingsModal = ({
   closeModal,
   data,
   server,
+  serverUsers,
   onClickDeleteServer,
   onClickAddRole,
   onClickDeleteRole,
@@ -45,7 +46,7 @@ const ServerSettingsModal = ({
     case "Roles":
       content = (
         <Roles
-          users={server.users}
+          users={serverUsers}
           roles={server.roles}
           onClickAddRole={onClickAddRole}
           onClickDeleteRole={onClickDeleteRole}

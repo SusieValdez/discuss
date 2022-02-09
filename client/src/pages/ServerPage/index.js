@@ -72,6 +72,7 @@ function ServerPage({
     <Container>
       <Sidebar
         server={server}
+        serverUsers={serverUsers}
         categories={categories}
         channels={channels}
         activeChannel={expandedActiveChannel}
