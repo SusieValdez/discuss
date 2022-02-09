@@ -19,6 +19,11 @@ export const Category = styled.div`
       }
     }
 
+    .svg-container {
+      width: 15px;
+      height: 15px;
+    }
+
     svg {
       width: 12px;
       height: 12px;

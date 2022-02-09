@@ -9,6 +9,7 @@ import { Container, Title, Content, ChatArea } from "./Chat.styles";
 // Assets
 import { ReactComponent as UsersListIcon } from "../../assets/user-friends-solid.svg";
 import { ReactComponent as MySite } from "../../assets/question-circle-solid.svg";
+import Tooltip from "../../ui/Tooltip";
 
 const Chat = ({
   activeChannel,
@@ -55,10 +56,14 @@ const Chat = ({
       <Title>
         <h3>Discuss #{activeChannel.name.toLowerCase()}</h3>
         <div>
-          <UsersListIcon onClick={onClickShowUsersSidebar} />
-          <a href="https://susie.mx">
-            <MySite />
-          </a>
+          <Tooltip title="Hide members list" placement="bottom">
+            <UsersListIcon onClick={onClickShowUsersSidebar} />
+          </Tooltip>
+          <Tooltip title="Take a cheeky look" placement="bottom">
+            <a href="https://susie.mx">
+              <MySite />
+            </a>
+          </Tooltip>
         </div>
       </Title>
       <Content>
@@ -70,6 +75,7 @@ const Chat = ({
             onClickDeleteMessage={onClickDeleteMessage}
           />
           <NewMessageInput
+            activeChannel={activeChannel.name}
             onNewMessage={onNewMessage}
             onTypingIndicatorChanged={onTypingIndicatorChanged}
           />

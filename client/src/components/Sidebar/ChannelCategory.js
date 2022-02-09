@@ -7,6 +7,7 @@ import { MenuItem, useMenuState } from "@szhsin/react-menu";
 import { Menu } from "../../ui/Menus";
 import { ReactComponent as AddChannel } from "../../assets/plus-solid.svg";
 import { isActiveChannel } from "../../utils";
+import Tooltip from "../../ui/Tooltip";
 
 const ChannelCategory = ({
   name,
@@ -41,7 +42,11 @@ const ChannelCategory = ({
           />
           {name}
         </div>
-        <AddChannel onClick={onClickNewChannel} />
+        <Tooltip title="Add category">
+          <div className="svg-container" onClick={onClickNewChannel}>
+            <AddChannel />
+          </div>
+        </Tooltip>
       </div>
       <div>
         {(showChannels

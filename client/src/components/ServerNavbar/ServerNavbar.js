@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+
 // Styles
 import {
   Container,
@@ -13,9 +14,12 @@ import { ReactComponent as ExploreGreenIcon } from "../../assets/compass-solid-g
 import { ReactComponent as AddServerGreenIcon } from "../../assets/plus-solid-green.svg";
 import { ReactComponent as Logo } from "../../assets/logo.svg";
 import NewServerModal from "../NewServerModal";
+// Utils
+import Tooltip from "../../ui/Tooltip";
 
 const ServerNavbar = ({ servers, onNewServer }) => {
   const [newServerModalOpen, setNewServerModalOpen] = useState(false);
+
   return (
     <Container>
       <NewServerModal
@@ -25,44 +29,52 @@ const ServerNavbar = ({ servers, onNewServer }) => {
       />
       <div>
         <Link to="/">
-          <Item>
-            <SvgIcon iconColor="#dcddde" hoverBackgroundColor="#5865F2">
-              <Logo />
-            </SvgIcon>
-          </Item>
+          <Tooltip title="Home" arrow placement="right">
+            <Item>
+              <SvgIcon iconColor="#dcddde" hoverBackgroundColor="#5865F2">
+                <Logo />
+              </SvgIcon>
+            </Item>
+          </Tooltip>
         </Link>
       </div>
       <Separator />
       <div>
-        {servers.map(({ _id, iconUrl, bannerColor }) => (
+        {servers.map(({ _id, name, iconUrl, bannerColor }) => (
           <Link to={`/servers/${_id}`} key={_id}>
-            <Item>
-              <Icon>
-                <img
-                  style={{ backgroundColor: bannerColor }}
-                  src={iconUrl || "/default-user-logo.svg"}
-                  alt=""
-                />
-              </Icon>
-            </Item>
+            <Tooltip title={name} arrow placement="right">
+              <Item>
+                <Icon>
+                  <img
+                    style={{ backgroundColor: bannerColor }}
+                    src={iconUrl || "/default-user-logo.svg"}
+                    alt=""
+                  />
+                </Icon>
+              </Item>
+            </Tooltip>
           </Link>
         ))}
       </div>
-      <Item>
-        <SvgIcon
-          iconColor="#3ba55d"
-          hoverBackgroundColor="#3ba55d"
-          onClick={() => setNewServerModalOpen(true)}
-        >
-          <AddServerGreenIcon />
-        </SvgIcon>
-      </Item>
-      <Link to="/server-discovery">
+      <Tooltip title="Add a server" arrow placement="right">
         <Item>
-          <SvgIcon iconColor="#3ba55d" hoverBackgroundColor="#3ba55d">
-            <ExploreGreenIcon />
+          <SvgIcon
+            iconColor="#3ba55d"
+            hoverBackgroundColor="#3ba55d"
+            onClick={() => setNewServerModalOpen(true)}
+          >
+            <AddServerGreenIcon />
           </SvgIcon>
         </Item>
+      </Tooltip>
+      <Link to="/server-discovery">
+        <Tooltip title="Explore servers" arrow placement="right">
+          <Item>
+            <SvgIcon iconColor="#3ba55d" hoverBackgroundColor="#3ba55d">
+              <ExploreGreenIcon />
+            </SvgIcon>
+          </Item>
+        </Tooltip>
       </Link>
     </Container>
   );

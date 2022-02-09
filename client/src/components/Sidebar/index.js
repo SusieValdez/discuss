@@ -24,6 +24,8 @@ import UserAccountModal from "../UserAccountModal";
 import { isActiveChannel } from "../../utils";
 import ChannelTitle from "./ChannelTitle";
 import { useNavigate } from "react-router-dom";
+// Utils
+import Tooltip from "../../ui/Tooltip";
 
 const Sidebar = ({
   server,
@@ -231,9 +233,11 @@ const Sidebar = ({
             <p>{localUser.legend}</p>
           </div>
         </UserTag>
-        <IconContainer onClick={() => setUserAccountModalData({})}>
-          <img src={gearIcon} alt="settings" />
-        </IconContainer>
+        <Tooltip title="User settings" placement="top">
+          <IconContainer onClick={() => setUserAccountModalData({})}>
+            <img src={gearIcon} alt="settings" />
+          </IconContainer>
+        </Tooltip>
       </UserPanel>
     </Container>
   );
