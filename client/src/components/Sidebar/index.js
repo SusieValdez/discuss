@@ -58,6 +58,8 @@ const Sidebar = ({
   const statusMenu = useMenuState();
   const statusRef = useRef(null);
 
+  const [copiedTooltipIsOpen, setCopiedTooltipOpen] = useState(false);
+
   const [userAccountModalData, setUserAccountModalData] = useState(undefined);
   const [serverSettingsModalData, setServerSettingsModalData] =
     useState(undefined);
@@ -101,6 +103,13 @@ const Sidebar = ({
       loneChannels.push(channel);
     }
   }
+
+  const onClickInvitePeople = () => {
+    setCopiedTooltipOpen(true);
+    navigator.clipboard.writeText(
+      `${process.env.REACT_APP_CLIENT_URL}/invite/${server._id}`
+    );
+  };
 
   return (
     <Container>
@@ -152,17 +161,31 @@ const Sidebar = ({
         onEditUserAccount={onEditUserAccount}
       />
       <div>
-        <Header onClick={onClickHeader} ref={headerRef}>
-          {server.name}
-        </Header>
+        <Tooltip
+          open={copiedTooltipIsOpen}
+          title="Copied!"
+          placement="bottom-end"
+          arrow={false}
+        >
+          <Header onClick={onClickHeader} ref={headerRef}>
+            {server.name}
+          </Header>
+        </Tooltip>
         <Menu
           state={headerMenu.state}
           endTransition={headerMenu.endTransition}
           anchorRef={headerRef}
-          onClose={() => headerMenu.toggleMenu(false)}
+          onClose={() => {
+            setTimeout(() => {
+              setCopiedTooltipOpen(false);
+            }, 1000);
+            setHeaderMenuIsOpen(false);
+            headerMenu.toggleMenu(false);
+          }}
           offsetY={10}
           offsetX={10}
         >
+          <MenuItem onClick={onClickInvitePeople}>Invite People</MenuItem>
           <MenuItem onClick={() => setServerSettingsModalData({})}>
             Server Settings
           </MenuItem>

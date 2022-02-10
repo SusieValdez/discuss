@@ -40,9 +40,8 @@ export const Header = styled.div`
     margin: 10px;
   }
 
-  div {
+  .server-icon {
     margin: auto;
-    background-color: #4752c4;
     border-radius: 16px;
     width: 64px;
     height: 64px;

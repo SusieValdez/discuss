@@ -328,7 +328,17 @@ function App() {
             <Route path="channels/:channelId" element={serverPage} />
           </Route>
           <Route path="/server-discovery" element={serverDiscoveryPage} />
-          <Route path="/invite" element={<ServerInvitePage />} />
+          <Route
+            path="/invite/:inviteCode"
+            element={
+              <ServerInvitePage
+                servers={state.servers}
+                localUser={localUser}
+                userMap={userMap}
+                onAcceptInvite={onUserJoinedServer}
+              />
+            }
+          />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </Container>

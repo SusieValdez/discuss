@@ -9,29 +9,58 @@ import {
   AcceptButton,
 } from "./ServerInvitePage.styles";
 import backgroundDrop from "../../assets/login-background.svg";
+import { Navigate, useParams } from "react-router-dom";
+import { isUserInServer } from "../../utils";
 
-const ServerInvitePage = () => {
+const ServerInvitePage = ({ servers, localUser, userMap, onAcceptInvite }) => {
+  const { inviteCode } = useParams();
+
+  const serverId = inviteCode;
+
+  const server = servers.find((s) => s._id === serverId);
+  if (!server) {
+    return <Navigate to="/" replace={true} />;
+  }
+
+  const onClickAcceptInvite = () => {
+    onAcceptInvite(server._id);
+  };
+
+  if (isUserInServer(localUser, server)) {
+    return <Navigate to={`/servers/${server._id}`} replace={true} />;
+  }
+
+  const online = server.users
+    .map(({ userId }) => userMap[userId])
+    .filter(({ onlineStatus }) => onlineStatus === "online");
+  const numUsers = server.users.length;
+
   return (
     <Container background={backgroundDrop}>
       <Card>
         <ServerInfo>
           <Header>
-            <div></div>
+            <img
+              className="server-icon"
+              style={{ backgroundColor: server.bannerColor }}
+              src={server.iconUrl || "/default-user-logo.svg"}
+              alt="server icon"
+            ></img>
             <p>You have been invited to join</p>
-            <h3>Server Name</h3>
+            <h3>{server.name}</h3>
           </Header>
           <Members>
             <div>
               <div className="online" />
-              <p>528 Online</p>
+              <p>{online.length} Online</p>
             </div>
             <div>
               <div className="offline" />
-              <p>680 Members</p>
+              <p>{numUsers} Members</p>
             </div>
           </Members>
         </ServerInfo>
-        <AcceptButton>Accept Invite</AcceptButton>
+        <AcceptButton onClick={onClickAcceptInvite}>Accept Invite</AcceptButton>
       </Card>
     </Container>
   );

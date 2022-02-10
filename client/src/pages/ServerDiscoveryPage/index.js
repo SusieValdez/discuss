@@ -74,22 +74,6 @@ const ServerDiscoveryPage = ({
     setServerModalData({ server });
   };
 
-  const categoriseOnlineStatus = (serverUsers) => {
-    const startValue = {
-      online: [],
-      offline: [],
-    };
-    return serverUsers
-      .map(({ userId }) => userMap[userId])
-      .reduce((result, user) => {
-        const status = user.onlineStatus;
-        return {
-          ...result,
-          [status]: [...result[status], user],
-        };
-      }, startValue);
-  };
-
   const searchedServers =
     searchQuery === ""
       ? servers
@@ -180,7 +164,10 @@ const ServerDiscoveryPage = ({
       <h1>Featured communities</h1>
       <CardContainer>
         {searchedServers.map((server) => {
-          const { online, offline } = categoriseOnlineStatus(server.users);
+          const online = server.users
+            .map(({ userId }) => userMap[userId])
+            .filter(({ onlineStatus }) => onlineStatus === "online");
+          const numUsers = server.users.length;
           return (
             <ServerCard key={server._id} onClick={onClickServerCard(server)}>
               {" "}
@@ -208,13 +195,11 @@ const ServerDiscoveryPage = ({
               <Members>
                 <div>
                   <div className="online" />
-                  {online.length} {online.length > 1 ? "Members" : "Member"}{" "}
-                  online
+                  {online.length} Online
                 </div>
                 <div>
                   <div className="offline" />
-                  {offline.length} {offline.length > 1 ? "Members" : "Member"}{" "}
-                  offline
+                  {numUsers} {numUsers > 1 ? "Members" : "Member"}
                 </div>
               </Members>
             </ServerCard>

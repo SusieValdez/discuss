@@ -2,7 +2,7 @@ import MuiTooltip, { tooltipClasses } from "@mui/material/Tooltip";
 import { styled } from "@mui/material/styles";
 
 const Tooltip = styled(({ className, ...props }) => (
-  <MuiTooltip {...props} arrow classes={{ popper: className }} />
+  <MuiTooltip arrow classes={{ popper: className }} {...props} />
 ))(({ theme }) => ({
   [`& .${tooltipClasses.arrow}`]: {
     color: theme.palette.common.black,
