@@ -126,8 +126,10 @@ const Overview = ({ server, onEditServerSettings }) => {
               alt="new server icon"
             />
           </div>
-          <div
+          <img
             className="server-banner-color"
+            alt="new server banner"
+            src={newServerBannerImageUrl || newServerBannerColor}
             style={{
               background: newServerBannerImageUrl
                 ? `url(${newServerBannerImageUrl})`

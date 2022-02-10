@@ -102,6 +102,11 @@ const User = ({
 
   const opacity = onlineStatus === "online" ? "1" : "0.3";
 
+  const onClickKickButton = (e) => {
+    e.syntheticEvent.stopPropagation();
+    onClickKick();
+  };
+
   return (
     <UserContainer onClick={openUserModal} onContextMenu={onRightClickUser}>
       <ProfileImage
@@ -119,7 +124,7 @@ const User = ({
         anchorPoint={anchorPoint}
         onClose={() => userMenu.toggleMenu(false)}
       >
-        <MenuItem onClick={onClickKick}>Kick User</MenuItem>
+        <MenuItem onClick={onClickKickButton}>Kick User</MenuItem>
       </Menu>
     </UserContainer>
   );

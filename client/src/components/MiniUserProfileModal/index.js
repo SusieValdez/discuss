@@ -95,8 +95,8 @@ const MiniUserProfileModal = ({ closeModal, data }) => {
         <Content>
           <h3>About Me</h3>
           <AboutMe>
-            {user.aboutMe.split("\n").map((row) => (
-              <p>{row}</p>
+            {user.aboutMe.split("\n").map((row, i) => (
+              <p key={i}>{row}</p>
             ))}
           </AboutMe>
           <h3>{rolesWithoutEveryone.length === 0 ? "No Roles" : "Roles"}</h3>
