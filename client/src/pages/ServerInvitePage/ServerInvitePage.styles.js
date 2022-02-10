@@ -101,8 +101,13 @@ export const AcceptButton = styled.button`
   padding: 2px 16px;
   background-color: #5865f2;
   color: #fafbfe;
+  cursor: pointer;
 
   &:hover {
     background-color: #4752c4;
+  }
+
+  &:active {
+    background-color: #3b439d;
   }
 `;
