@@ -203,6 +203,12 @@ function App() {
       localStorage.setItem("cookie", event.payload.cookie);
       setCookie(event.payload.cookie);
     }
+    // This is defends against such superfluous messages which might crash the app.
+    // TODO: Prevent server from sending events to users who don't care about such messages
+    //       For example, loggout out users, or users who aren't in servers receiving text messages
+    if (!state && event.kind !== "SET_STATE") {
+      return;
+    }
     dispatch(event);
   };
 
