@@ -13,7 +13,7 @@ import {
 import QRCode from "qrcode.react";
 import backgroundDrop from "../../assets/login-background.svg";
 
-const LoginPage = ({ onClickLogin }) => {
+const LoginPage = ({ onClickLogin, loginCode }) => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -68,7 +68,11 @@ const LoginPage = ({ onClickLogin }) => {
         </AccountInfo>
         <QrLogin>
           <QrContainer>
-            <QRCode value="http://facebook.github.io/react/" />
+            {loginCode && (
+              <QRCode
+                value={`${process.env.REACT_APP_CLIENT_URL}/qr-confirm/${loginCode}`}
+              />
+            )}
           </QrContainer>
           <h3>Login with QR Code</h3>
           <p>

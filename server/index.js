@@ -29,6 +29,8 @@ import {
   deleteRole,
 } from "./db.js";
 
+const mapLoginCodeToClient = new Map();
+
 const wss = new WebSocketServer({ port: 8080 });
 
 const sendState = async (ws, cookie, userId) => {
@@ -211,6 +213,38 @@ wss.on("connection", async (ws) => {
         await sendState(ws, cookie, loggedInUserId);
         await updateOnlineStatus(wss.clients, loggedInUserId, "online");
         break;
+      }
+      case "REQUEST_LOGIN_CODE": {
+        const loginCode = nanoid();
+        mapLoginCodeToClient.set(loginCode, ws);
+        ws.send(
+          JSON.stringify({
+            kind: "SET_LOGIN_CODE",
+            payload: {
+              loginCode,
+            },
+          })
+        );
+        break;
+      }
+      case "CONFIRM_LOGIN_CODE": {
+        if (!loggedInUserId) {
+          return;
+        }
+        const { loginCode } = action.payload;
+        const client = mapLoginCodeToClient.get(loginCode);
+        const cookie = nanoid();
+        await addUserCookie(cookie, loggedInUserId);
+        await sendState(client, cookie, loggedInUserId);
+        await updateOnlineStatus(wss.clients, loggedInUserId, "online");
+        ws.send(
+          JSON.stringify({
+            kind: "SET_LOGIN_CODE_STATUS",
+            payload: {
+              status: "successful",
+            },
+          })
+        );
       }
       case "VERIFY_COOKIE": {
         const userCookie = await getUserCookie(action.payload.cookie);

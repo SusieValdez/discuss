@@ -20,22 +20,28 @@ const ws = new WebSocket(`ws://${window.location.hostname}:8080`);
 function App() {
   const [state, dispatch] = useReducer(reducer, undefined);
   const [cookie, setCookie] = useState(localStorage.getItem("cookie"));
+  const [loginCode, setLoginCode] = useState(undefined);
+  const [loginCodeStatus, setLoginCodeStatus] = useState("not-started");
 
   const send = (action) => {
     ws.send(JSON.stringify(action));
   };
 
   useEffect(() => {
-    if (!cookie) {
-      return;
-    }
     ws.onopen = () => {
-      send({
-        kind: "VERIFY_COOKIE",
-        payload: {
-          cookie,
-        },
-      });
+      if (!cookie) {
+        send({
+          kind: "REQUEST_LOGIN_CODE",
+          payload: {},
+        });
+      } else {
+        send({
+          kind: "VERIFY_COOKIE",
+          payload: {
+            cookie,
+          },
+        });
+      }
     };
   }, [cookie]);
 
@@ -50,6 +56,14 @@ function App() {
     send({
       kind: "LOGIN",
       payload,
+    });
+  };
+
+  const confirmLoginCode = (loginCode) => () => {
+    setLoginCodeStatus("pending");
+    send({
+      kind: "CONFIRM_LOGIN_CODE",
+      payload: { loginCode },
     });
   };
 
@@ -199,6 +213,14 @@ function App() {
   ws.onmessage = ({ data }) => {
     const event = JSON.parse(data);
     console.log(event);
+    if (event.kind === "SET_LOGIN_CODE") {
+      setLoginCode(event.payload.loginCode);
+      return;
+    }
+    if (event.kind === "SET_LOGIN_CODE_STATUS") {
+      setLoginCodeStatus(event.payload.status);
+      return;
+    }
     if (!cookie && event.kind === "SET_STATE") {
       localStorage.setItem("cookie", event.payload.cookie);
       setCookie(event.payload.cookie);
@@ -227,7 +249,9 @@ function App() {
             />
             <Route
               path="*"
-              element={<LoginPage onClickLogin={onClickLogin} />}
+              element={
+                <LoginPage onClickLogin={onClickLogin} loginCode={loginCode} />
+              }
             />
           </Routes>
         </Container>
@@ -281,7 +305,15 @@ function App() {
     <BrowserRouter>
       <Container>
         <Routes>
-          <Route path="/qr-confirm" element={<QrConfirmationPage />} />
+          <Route
+            path="/qr-confirm/:loginCode"
+            element={
+              <QrConfirmationPage
+                confirmLoginCode={confirmLoginCode}
+                loginCodeStatus={loginCodeStatus}
+              />
+            }
+          />
         </Routes>
 
         <ServerNavbar
