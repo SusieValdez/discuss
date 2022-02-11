@@ -30,10 +30,11 @@ const RoleEdit = ({
   onClickDeleteRole,
 }) => {
   const [submenuSection, setSubmenuSection] = useState("Display");
-
   useEffect(() => {
-    onSelectRole(roles[0])();
-  }, [roles, onSelectRole]);
+    if (selectedRole.name === "everyone") {
+      setSubmenuSection("Permissions");
+    }
+  }, [selectedRole.name]);
 
   let content;
   switch (submenuSection) {
@@ -59,6 +60,13 @@ const RoleEdit = ({
     default:
       break;
   }
+
+  const onClickSubmenuItem = (newSection) => {
+    if (selectedRole.name === "everyone") {
+      return;
+    }
+    setSubmenuSection(newSection);
+  };
 
   return (
     <Container>
@@ -94,9 +102,21 @@ const RoleEdit = ({
           <h1>Edit Role — {selectedRole.name}</h1>
         </Header>
         <SubMenu>
-          <p onClick={() => setSubmenuSection("Display")}>Display</p>
-          <p onClick={() => setSubmenuSection("Permissions")}>Permissions</p>
-          <p onClick={() => setSubmenuSection("Manage Members")}>
+          <p
+            style={{
+              cursor: selectedRole.name === "everyone" && "not-allowed",
+            }}
+            onClick={() => onClickSubmenuItem("Display")}
+          >
+            Display
+          </p>
+          <p onClick={() => onClickSubmenuItem("Permissions")}>Permissions</p>
+          <p
+            style={{
+              cursor: selectedRole.name === "everyone" && "not-allowed",
+            }}
+            onClick={() => onClickSubmenuItem("Manage Members")}
+          >
             Manage Members({roleCounts[selectedRole._id]})
           </p>
         </SubMenu>

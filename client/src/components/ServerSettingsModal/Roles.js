@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useState } from "react";
 // Components
 import RoleEdit from "./RoleEdit";
 // Styles
@@ -17,10 +17,14 @@ import { ReactComponent as ChevronRightIcon } from "../../assets/chevron-right-s
 import { ReactComponent as UsersIcon } from "../../assets/user-friends-solid.svg";
 import { ReactComponent as UserIcon } from "../../assets/single-user-solid.svg";
 import { ReactComponent as SearchIcon } from "../../assets/search-solid.svg";
-import { sortByQuery } from "../../utils";
+import { getEveryoneRole, sortByQuery } from "../../utils";
 
 const Roles = ({ users, roles, onClickAddRole, onClickDeleteRole }) => {
   const [selectedRole, setSelectedRole] = useState(undefined);
+  if (selectedRole && !roles.find(({ _id }) => _id === selectedRole._id)) {
+    setSelectedRole(roles[0]);
+  }
+
   const [searchQuery, setSearchQuery] = useState("");
 
   const roleCounts = {};
@@ -33,12 +37,7 @@ const Roles = ({ users, roles, onClickAddRole, onClickDeleteRole }) => {
     }
   }
 
-  const onSelectRole = useCallback(
-    (role) => () => {
-      setSelectedRole(role);
-    },
-    [setSelectedRole]
-  );
+  const onSelectRole = (role) => () => setSelectedRole(role);
 
   const onDeselectRole = () => {
     setSelectedRole(undefined);
@@ -69,7 +68,7 @@ const Roles = ({ users, roles, onClickAddRole, onClickDeleteRole }) => {
           Use roles to organize your server members and customize their
           permissions
         </p>
-        <DefaultPermissions>
+        <DefaultPermissions onClick={onSelectRole(getEveryoneRole(roles))}>
           <UsersIcon />
           <div>
             <h3>Default Permissions</h3>
