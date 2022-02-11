@@ -304,18 +304,6 @@ function App() {
   return (
     <BrowserRouter>
       <Container>
-        <Routes>
-          <Route
-            path="/qr-confirm/:loginCode"
-            element={
-              <QrConfirmationPage
-                confirmLoginCode={confirmLoginCode}
-                loginCodeStatus={loginCodeStatus}
-              />
-            }
-          />
-        </Routes>
-
         <ServerNavbar
           servers={state.servers.filter(({ users }) =>
             users.map(({ userId }) => userId).includes(localUser._id)
@@ -336,6 +324,15 @@ function App() {
                 localUser={localUser}
                 userMap={userMap}
                 onAcceptInvite={onUserJoinedServer}
+              />
+            }
+          />
+          <Route
+            path="/qr-confirm/:loginCode"
+            element={
+              <QrConfirmationPage
+                confirmLoginCode={confirmLoginCode}
+                loginCodeStatus={loginCodeStatus}
               />
             }
           />
