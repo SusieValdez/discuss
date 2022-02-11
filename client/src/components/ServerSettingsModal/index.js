@@ -57,10 +57,10 @@ const ServerSettingsModal = ({
       );
       break;
     case "Members":
-      content = <Members />;
+      content = <Members users={serverUsers} roles={server.roles} />;
       break;
     case "Bans":
-      content = <Bans />;
+      content = <Bans users={serverUsers} />;
       break;
     default:
       break;

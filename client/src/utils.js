@@ -58,3 +58,13 @@ export const isActiveChannel = (activeChannel) => (channel) =>
 
 export const isUserInServer = (user, server) =>
   server.users.map(({ userId }) => userId).includes(user._id);
+
+export const userHasRole = (user, role) => {
+  return user.roles.map(({ _id }) => _id).includes(role._id);
+};
+
+export const topRoleColor = (user) => {
+  return user.roles[0].color;
+};
+
+export const getEveryoneRole = (roles) => roles[roles.length - 1];
