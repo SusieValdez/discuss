@@ -269,7 +269,7 @@ function App() {
   const serverPage = (
     <ServerPage
       servers={state.servers}
-      userMap={userMap}
+      users={state.users}
       localUser={localUser}
       onUserLeftServer={onUserLeftServer}
       onEditUserAccount={onEditUserAccount}

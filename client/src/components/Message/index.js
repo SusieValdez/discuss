@@ -13,6 +13,7 @@ import { Menu } from "../../ui/Menus";
 
 import { MenuItem, useMenuState } from "@szhsin/react-menu";
 import "@szhsin/react-menu/dist/index.css";
+import { topRoleColor } from "../../utils";
 
 const urlRegex =
   /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#/%?=~_|!:,.;]*[-A-Z0-9+&@#/%=~_|])/gi;
@@ -132,7 +133,7 @@ const Message = ({
           <Username
             onClick={openUserModal(user)}
             onContextMenu={onRightClickUser}
-            style={{ color: user.roles[0].color }}
+            style={{ color: topRoleColor(user) }}
           >
             {user.name}
           </Username>

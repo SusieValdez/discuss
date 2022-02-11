@@ -32,6 +32,9 @@ const Roles = ({ users, roles, onClickAddRole, onClickDeleteRole }) => {
     roleCounts[role._id] = 0;
   }
   for (const user of users) {
+    if (!user.roles) {
+      continue;
+    }
     for (const role of user.roles) {
       roleCounts[role._id]++;
     }

@@ -7,7 +7,7 @@ import { Container } from "./ServerPage.styles";
 function ServerPage({
   servers,
   localUser,
-  userMap,
+  users,
   onUserLeftServer,
   onEditUserAccount,
   onEditServerSettings,
@@ -33,7 +33,7 @@ function ServerPage({
   if (!server) {
     return <Navigate to="/" replace={true} />;
   }
-  const { categories, roles, channels, users: serverUserData } = server;
+  const { categories, roles, channels, users: serverUserInfo } = server;
 
   if (!isUserInServer(localUser, server)) {
     return <Navigate to="/" replace={true} />;
@@ -52,19 +52,20 @@ function ServerPage({
     );
   }
 
+  const serverUserMap = arrayToMap(serverUserInfo, "userId");
   const rolesMap = arrayToMap(roles);
-  const serverUsers = serverUserData.map(({ userId, roles }) => ({
-    ...userMap[userId],
-    roles: roles.map((roleId) => rolesMap[roleId]),
+  const serverUsers = users.map((user) => ({
+    ...user,
+    roles: serverUserMap[user._id]?.roles.map((roleId) => rolesMap[roleId]),
   }));
-  const serverUserMap = arrayToMap(serverUsers);
+  const userMap = arrayToMap(serverUsers);
 
   const expandedActiveChannel = {
     ...activeChannel,
     ...channels.find((channel) => channel._id === channelId),
     messages: activeChannel.messages.map((message) => ({
       ...message,
-      user: serverUserMap[message.userId],
+      user: userMap[message.userId],
     })),
   };
 
@@ -92,10 +93,11 @@ function ServerPage({
         onClickDeleteRole={onClickDeleteRole(serverId)}
       />
       <Chat
+        server={server}
         activeChannel={expandedActiveChannel}
         localUser={localUser}
         roles={roles}
-        users={serverUserMap}
+        users={serverUsers}
         onNewMessage={onNewMessage(serverId, channelId)}
         onMessageEdit={onMessageEdit(serverId, channelId)}
         onTypingIndicatorChanged={onTypingIndicatorChanged(serverId, channelId)}

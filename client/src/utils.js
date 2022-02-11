@@ -60,11 +60,11 @@ export const isUserInServer = (user, server) =>
   server.users.map(({ userId }) => userId).includes(user._id);
 
 export const userHasRole = (user, role) => {
-  return user.roles.map(({ _id }) => _id).includes(role._id);
+  return user.roles?.map(({ _id }) => _id).includes(role._id) ?? false;
 };
 
-export const topRoleColor = (user) => {
-  return user.roles[0].color;
+export const topRoleColor = ({ roles }) => {
+  return roles ? roles[0].color : "#ffffff";
 };
 
 export const getEveryoneRole = (roles) => roles[roles.length - 1];

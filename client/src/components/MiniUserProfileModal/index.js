@@ -46,7 +46,7 @@ const MiniUserProfileModal = ({ closeModal, data }) => {
     }
   };
 
-  const rolesWithoutEveryone = user.roles.filter(
+  const rolesWithoutEveryone = user.roles?.filter(
     ({ name }) => name !== "everyone"
   );
 
@@ -99,9 +99,15 @@ const MiniUserProfileModal = ({ closeModal, data }) => {
               <p key={i}>{row}</p>
             ))}
           </AboutMe>
-          <h3>{rolesWithoutEveryone.length === 0 ? "No Roles" : "Roles"}</h3>
+          <h3>
+            {rolesWithoutEveryone
+              ? rolesWithoutEveryone.length === 0
+                ? "No Roles"
+                : "Roles"
+              : ""}
+          </h3>
           <RoleContainer>
-            {rolesWithoutEveryone.map((role) => (
+            {rolesWithoutEveryone?.map((role) => (
               <span>
                 <RoleDiv key={role._id}>
                   <RoleDot color={role.color} />

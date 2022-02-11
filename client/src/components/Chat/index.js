@@ -10,8 +10,10 @@ import { Container, Title, Content, ChatArea } from "./Chat.styles";
 import { ReactComponent as UsersListIcon } from "../../assets/user-friends-solid.svg";
 import { ReactComponent as MySite } from "../../assets/question-circle-solid.svg";
 import Tooltip from "../../ui/Tooltip";
+import { isUserInServer } from "../../utils";
 
 const Chat = ({
+  server,
   activeChannel,
   localUser,
   onNewMessage,
@@ -85,7 +87,7 @@ const Chat = ({
         </ChatArea>
         {showUsersSidebar && (
           <UsersSidebar
-            users={Object.values(users)}
+            users={users.filter((user) => isUserInServer(user, server))}
             roles={roles}
             openUserModal={openUserModal}
             onClickKick={onClickKick}

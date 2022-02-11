@@ -1,6 +1,7 @@
 import { MenuItem, useMenuState } from "@szhsin/react-menu";
 import React, { useState } from "react";
 import { Menu } from "../../ui/Menus";
+import { topRoleColor } from "../../utils";
 // Styles
 import {
   Container,
@@ -115,7 +116,7 @@ const User = ({
         style={{ opacity }}
       />
       <UserContent style={{ opacity }}>
-        <Username color={roles[0].color}>{name}</Username>
+        <Username color={topRoleColor({ roles })}>{name}</Username>
         <Legend>{legend}</Legend>
       </UserContent>
       <Menu
