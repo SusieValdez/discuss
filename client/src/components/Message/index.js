@@ -99,10 +99,8 @@ const Message = ({
 
   if (!user) {
     user = {
-      name: `Unknown: ${userId}`,
-      avatarUrl: `https://thumbs.dreamstime.com/b/ask-icon-vector-question-mark-male-user-person-profile-avatar-symbol-help-sign-glyph-pictogram-illustration-ask-icon-168789141.jpg`,
-      bannerColor: "#111",
-      roles: [{ color: "#111" }],
+      name: `Deleted User#0000`,
+      bannerColor: "#5C64F4",
     };
   }
 

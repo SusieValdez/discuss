@@ -7,7 +7,6 @@ import {
   Content,
   RoleContainer,
   RoleDiv,
-  Footer,
   RoleDot,
   AboutMe,
 } from "./MiniUserProfile.styles";
@@ -93,9 +92,9 @@ const MiniUserProfileModal = ({ closeModal, data }) => {
         </Header>
         <hr className="solid" />
         <Content>
-          <h3>About Me</h3>
+          {user.aboutMe && <h3>About Me</h3>}
           <AboutMe>
-            {user.aboutMe.split("\n").map((row, i) => (
+            {user.aboutMe?.split("\n").map((row, i) => (
               <p key={i}>{row}</p>
             ))}
           </AboutMe>
@@ -116,8 +115,8 @@ const MiniUserProfileModal = ({ closeModal, data }) => {
               </span>
             ))}
           </RoleContainer>
-          <h3>Note</h3>
-          <textarea placeholder="Click to add a note" />
+          {/* <h3>Note</h3>
+          <textarea placeholder="Click to add a note" /> */}
           {/* {Array.from({ length: Math.floor(Math.random() * 10) + 5 }).map(
             (_, i) => (
               <p key={i}>hello</p>
@@ -125,9 +124,9 @@ const MiniUserProfileModal = ({ closeModal, data }) => {
           )} */}
           {/* <button onClick={closeModal}>close</button> */}
         </Content>
-        <Footer>
+        {/* <Footer>
           <input placeholder={`Message @${user.name}`} />
-        </Footer>
+        </Footer> */}
       </Container>
     </Modal>
   );
