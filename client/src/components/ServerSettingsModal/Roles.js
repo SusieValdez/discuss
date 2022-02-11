@@ -17,41 +17,7 @@ import { ReactComponent as ChevronRightIcon } from "../../assets/chevron-right-s
 import { ReactComponent as UsersIcon } from "../../assets/user-friends-solid.svg";
 import { ReactComponent as UserIcon } from "../../assets/single-user-solid.svg";
 import { ReactComponent as SearchIcon } from "../../assets/search-solid.svg";
-
-const levenshteinDistance = (s, t) => {
-  if (!s.length) return t.length;
-  if (!t.length) return s.length;
-  const arr = [];
-  for (let i = 0; i <= t.length; i++) {
-    arr[i] = [i];
-    for (let j = 1; j <= s.length; j++) {
-      arr[i][j] =
-        i === 0
-          ? j
-          : Math.min(
-              arr[i - 1][j] + 1,
-              arr[i][j - 1] + 1,
-              arr[i - 1][j - 1] + (s[j - 1] === t[i - 1] ? 0 : 1)
-            );
-    }
-  }
-  return arr[t.length][s.length];
-};
-
-const substrings = (str, len) => {
-  const substrings = [];
-  for (let i = 0; i <= str.length - len; i++) {
-    substrings.push(str.slice(i, i + len));
-  }
-  return substrings;
-};
-
-const minLevensteinDistanceOfSubstrings = (str1, substringLength, str2) =>
-  Math.min(
-    ...substrings(str1, substringLength).map((substring) =>
-      levenshteinDistance(substring, str2)
-    )
-  );
+import { sortByQuery } from "../../utils";
 
 const Roles = ({ users, roles, onClickAddRole, onClickDeleteRole }) => {
   const [selectedRole, setSelectedRole] = useState(undefined);
@@ -93,25 +59,7 @@ const Roles = ({ users, roles, onClickAddRole, onClickDeleteRole }) => {
     );
   }
 
-  const searchedRoles =
-    searchQuery === ""
-      ? roles
-      : [...roles].sort((s1, s2) => {
-          const queryLength = searchQuery.length;
-          const query = searchQuery.toLowerCase();
-          return (
-            minLevensteinDistanceOfSubstrings(
-              s1.name.toLowerCase(),
-              queryLength,
-              query
-            ) -
-            minLevensteinDistanceOfSubstrings(
-              s2.name.toLowerCase(),
-              queryLength,
-              query
-            )
-          );
-        });
+  const searchedRoles = sortByQuery(roles, "name", searchQuery);
 
   return (
     <Container>

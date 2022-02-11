@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Modal from "react-modal";
 import { useNavigate } from "react-router-dom";
-import { isUserInServer } from "../../utils";
+import { isUserInServer, sortByQuery } from "../../utils";
 import {
   Container,
   DiscoveryHeroImage,
@@ -18,41 +18,6 @@ import {
 import HeroImage from "../../assets/login-background.svg";
 
 // const hasSubstring = (str1, str2) => str1.search(str2) !== -1;
-
-const levenshteinDistance = (s, t) => {
-  if (!s.length) return t.length;
-  if (!t.length) return s.length;
-  const arr = [];
-  for (let i = 0; i <= t.length; i++) {
-    arr[i] = [i];
-    for (let j = 1; j <= s.length; j++) {
-      arr[i][j] =
-        i === 0
-          ? j
-          : Math.min(
-              arr[i - 1][j] + 1,
-              arr[i][j - 1] + 1,
-              arr[i - 1][j - 1] + (s[j - 1] === t[i - 1] ? 0 : 1)
-            );
-    }
-  }
-  return arr[t.length][s.length];
-};
-
-const substrings = (str, len) => {
-  const substrings = [];
-  for (let i = 0; i <= str.length - len; i++) {
-    substrings.push(str.slice(i, i + len));
-  }
-  return substrings;
-};
-
-const minLevensteinDistanceOfSubstrings = (str1, substringLength, str2) =>
-  Math.min(
-    ...substrings(str1, substringLength).map((substring) =>
-      levenshteinDistance(substring, str2)
-    )
-  );
 
 const ServerDiscoveryPage = ({
   localUser,
@@ -74,25 +39,7 @@ const ServerDiscoveryPage = ({
     setServerModalData({ server });
   };
 
-  const searchedServers =
-    searchQuery === ""
-      ? servers
-      : [...servers].sort((s1, s2) => {
-          const queryLength = searchQuery.length;
-          const query = searchQuery.toLowerCase();
-          return (
-            minLevensteinDistanceOfSubstrings(
-              s1.name.toLowerCase(),
-              queryLength,
-              query
-            ) -
-            minLevensteinDistanceOfSubstrings(
-              s2.name.toLowerCase(),
-              queryLength,
-              query
-            )
-          );
-        });
+  const searchedServers = sortByQuery(servers, "name", searchQuery);
 
   const onClickJoin = () => {
     if (isUserInServer(localUser, serverModalData.server)) {
