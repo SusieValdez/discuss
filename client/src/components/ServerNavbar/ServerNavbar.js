@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 // Styles
 import {
@@ -18,6 +18,7 @@ import NewServerModal from "../NewServerModal";
 import Tooltip from "../../ui/Tooltip";
 
 const ServerNavbar = ({ servers, onNewServer }) => {
+  const { pathname } = useLocation();
   const [newServerModalOpen, setNewServerModalOpen] = useState(false);
 
   return (
@@ -34,6 +35,7 @@ const ServerNavbar = ({ servers, onNewServer }) => {
               <SvgIcon iconColor="#dcddde" hoverBackgroundColor="#5865F2">
                 <Logo />
               </SvgIcon>
+              <div className={`pill ${pathname === "/" && "active"}`} />
             </Item>
           </Tooltip>
         </Link>
@@ -51,6 +53,7 @@ const ServerNavbar = ({ servers, onNewServer }) => {
                     alt=""
                   />
                 </Icon>
+                <div className={`pill ${pathname.includes(_id) && "active"}`} />
               </Item>
             </Tooltip>
           </Link>
@@ -65,6 +68,7 @@ const ServerNavbar = ({ servers, onNewServer }) => {
           >
             <AddServerGreenIcon />
           </SvgIcon>
+          <div className="pill" />
         </Item>
       </Tooltip>
       <Link to="/server-discovery">
@@ -73,6 +77,9 @@ const ServerNavbar = ({ servers, onNewServer }) => {
             <SvgIcon iconColor="#3ba55d" hoverBackgroundColor="#3ba55d">
               <ExploreGreenIcon />
             </SvgIcon>
+            <div
+              className={`pill ${pathname === "/server-discovery" && "active"}`}
+            />
           </Item>
         </Tooltip>
       </Link>
