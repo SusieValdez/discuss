@@ -231,7 +231,7 @@ const addRoleToUser = (state, { serverId, userId, roleId }) =>
       (user) => user.userId === userId,
       "roles",
     ],
-    (roles) => [...roles, roleId]
+    (roles) => [...roles.slice(0, -1), roleId, roles[roles.length - 1]]
   );
 
 const removeRoleFromUser = (state, { serverId, userId, roleId }) =>

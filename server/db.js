@@ -334,12 +334,17 @@ export async function deleteRole(serverId, roleId) {
 }
 
 export async function addRoleToUser(serverId, userId, roleId) {
-  await db
-    .collection("servers")
-    .updateOne(
-      { _id: ObjectId(serverId), "users.userId": userId },
-      { $push: { "users.$.roles": roleId } }
-    );
+  await db.collection("servers").updateOne(
+    { _id: ObjectId(serverId), "users.userId": userId },
+    {
+      $push: {
+        "users.$.roles": {
+          $each: [roleId],
+          $position: -1,
+        },
+      },
+    }
+  );
 }
 
 export async function removeRoleFromUser(serverId, userId, roleId) {
