@@ -27,8 +27,6 @@ const Members = ({ users, roles }) => {
 
   const filteredUsers = users.filter((user) => userHasRole(user, selectedRole));
 
-  const rolesWithoutEveryone = roles.filter(({ name }) => name !== "everyone");
-
   return (
     <Content>
       <h1>Server Members </h1>
@@ -65,7 +63,7 @@ const Members = ({ users, roles }) => {
                 </div>
               </MemberDetails>
               <MemberRoles>
-                {rolesWithoutEveryone.map((role) => (
+                {user.roles.map((role) => (
                   <RoleDiv key={role._id}>
                     <RoleDot color={role.color} />
                     {role.name}
