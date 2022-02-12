@@ -108,7 +108,7 @@ export async function setTypingUserStatus(
       .collection("servers")
       .updateOne(
         { _id: ObjectId(serverId), "channels._id": channelId },
-        { $push: { "channels.$.typingUsers": userId } }
+        { $addToSet: { "channels.$.typingUsers": userId } }
       );
   } else {
     await db

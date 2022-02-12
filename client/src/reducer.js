@@ -101,7 +101,8 @@ const typingIndicatorChanged = (
         (channel) => channel._id === channelId,
         "typingUsers",
       ],
-      (typingUsers) => [...typingUsers, userId]
+      (typingUsers) =>
+        typingUsers.includes(userId) ? typingUsers : [...typingUsers, userId]
     );
   } else {
     return deepUpdate(

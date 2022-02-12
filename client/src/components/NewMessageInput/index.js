@@ -16,18 +16,15 @@ const NewMessageInput = ({
 
   const onChangeNewMessage = (e) => {
     const changedNewMessage = e.target.value;
-    if (newMessage.length === 0 && changedNewMessage.length > 0) {
-      onTypingIndicatorChanged(true);
-    } else if (newMessage.length > 0 && changedNewMessage.length === 0) {
-      onTypingIndicatorChanged(false);
-    }
     setNewMessage(changedNewMessage);
+    onTypingIndicatorChanged(true);
   };
 
   const onKeyDownNewMessage = (e) => {
     if (newMessage.length > 0 && e.key === "Enter") {
       onNewMessage(newMessage);
       setNewMessage("");
+      onTypingIndicatorChanged(false);
       e.preventDefault();
     }
   };

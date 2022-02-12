@@ -104,6 +104,7 @@ function ServerPage({
         localUser={localUser}
         roles={roles}
         users={serverUsers}
+        userMap={userMap}
         onNewMessage={onNewMessage(serverId, channelId)}
         onMessageEdit={onMessageEdit(serverId, channelId)}
         onTypingIndicatorChanged={onTypingIndicatorChanged(serverId, channelId)}

@@ -37,6 +37,8 @@ const mapLoginCodeToClient = new Map();
 
 const wss = new WebSocketServer({ port: 8080 });
 
+const typingTimeouts = {};
+
 const sendState = async (ws, cookie, userId) => {
   ws.send(
     JSON.stringify({
@@ -274,6 +276,34 @@ wss.on("connection", async (ws) => {
           return;
         }
         const { serverId, channelId, typingStatus } = action.payload;
+        if (typingStatus) {
+          const savedLoggedInUserId = loggedInUserId;
+          const key = `${serverId}-${channelId}-${savedLoggedInUserId}`;
+          if (typingTimeouts[key]) {
+            clearTimeout(typingTimeouts[key]);
+          }
+          typingTimeouts[key] = setTimeout(async () => {
+            await setTypingUserStatus(
+              serverId,
+              channelId,
+              savedLoggedInUserId,
+              false
+            );
+            wss.clients.forEach((client) => {
+              client.send(
+                JSON.stringify({
+                  kind: "TYPING_INDICATOR_CHANGED",
+                  payload: {
+                    serverId,
+                    channelId,
+                    userId: savedLoggedInUserId,
+                    typingStatus: false,
+                  },
+                })
+              );
+            });
+          }, 5000);
+        }
         await setTypingUserStatus(
           serverId,
           channelId,

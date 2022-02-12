@@ -19,6 +19,7 @@ const Chat = ({
   onNewMessage,
   roles,
   users,
+  userMap,
   onTypingIndicatorChanged,
   onClickKick,
   onMessageEdit,
@@ -40,8 +41,10 @@ const Chat = ({
   };
 
   const typingUsers = activeChannel.typingUsers
-    .filter((userId) => userId !== localUser._id && users[userId] !== undefined)
-    .map((userId) => users[userId].name);
+    .filter(
+      (userId) => userId !== localUser._id && userMap[userId] !== undefined
+    )
+    .map((userId) => userMap[userId].name);
 
   let typingUsersMessage = "";
   if (typingUsers.length > 2) {
