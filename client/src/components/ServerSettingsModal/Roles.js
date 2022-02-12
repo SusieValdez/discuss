@@ -23,6 +23,7 @@ const Roles = ({
   users,
   roles,
   onClickAddRole,
+  onEditRole,
   onClickDeleteRole,
   onAddNewRoleToUser,
   onRemoveRoleFromUser,
@@ -63,6 +64,7 @@ const Roles = ({
         users={users}
         roleCounts={roleCounts}
         onClickAddRole={onClickAddRole}
+        onEditRole={onEditRole}
         onClickDeleteRole={onClickDeleteRole}
         onAddNewRoleToUser={onAddNewRoleToUser}
         onRemoveRoleFromUser={onRemoveRoleFromUser}

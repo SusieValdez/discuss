@@ -27,6 +27,7 @@ const RoleEdit = ({
   users,
   roleCounts,
   onClickAddRole,
+  onEditRole,
   onClickDeleteRole,
   onAddNewRoleToUser,
   onRemoveRoleFromUser,
@@ -45,6 +46,7 @@ const RoleEdit = ({
         <SubmenuSectionDisplay
           selectedRole={selectedRole}
           onClickDeleteRole={onClickDeleteRole}
+          onEditRole={onEditRole}
         />
       );
       break;

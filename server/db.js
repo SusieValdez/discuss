@@ -291,7 +291,7 @@ export async function addRole(serverId) {
   const role = {
     _id: nanoid(),
     name: "new role",
-    color: "#fff",
+    color: "#eeeeee",
   };
   await db.collection("servers").updateOne(
     { _id: ObjectId(serverId) },
@@ -305,6 +305,23 @@ export async function addRole(serverId) {
     }
   );
   return role;
+}
+
+export async function editRole(serverId, roleId, updatedRole) {
+  const setQuery = Object.entries(updatedRole).reduce(
+    (query, [field, value]) => ({
+      ...query,
+      [`roles.$[role].${field}`]: value,
+    }),
+    {}
+  );
+  await db
+    .collection("servers")
+    .updateOne(
+      { _id: ObjectId(serverId) },
+      { $set: setQuery },
+      { arrayFilters: [{ "role._id": roleId }] }
+    );
 }
 
 export async function deleteRole(serverId, roleId) {

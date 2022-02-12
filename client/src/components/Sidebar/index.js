@@ -46,6 +46,7 @@ const Sidebar = ({
   onEditCategory,
   onClickDeleteCategory,
   onClickAddRole,
+  onEditRole,
   onClickDeleteRole,
   onAddNewRoleToUser,
   onRemoveRoleFromUser,
@@ -153,6 +154,7 @@ const Sidebar = ({
         onEditServerSettings={onEditServerSettings}
         onClickDeleteServer={onClickDeleteServer}
         onClickAddRole={onClickAddRole}
+        onEditRole={onEditRole}
         onClickDeleteRole={onClickDeleteRole}
         onAddNewRoleToUser={onAddNewRoleToUser}
         onRemoveRoleFromUser={onRemoveRoleFromUser}

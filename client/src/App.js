@@ -198,6 +198,13 @@ function App() {
     });
   };
 
+  const onEditRole = (serverId) => (roleId, updatedRole) => {
+    send({
+      kind: "EDIT_ROLE",
+      payload: { serverId, roleId, updatedRole },
+    });
+  };
+
   const onClickDeleteRole = (serverId) => (roleId) => {
     send({
       kind: "DELETE_ROLE",
@@ -302,6 +309,7 @@ function App() {
       onEditChannel={onEditChannel}
       onClickDeleteChannel={onClickDeleteChannel}
       onClickAddRole={onClickAddRole}
+      onEditRole={onEditRole}
       onClickDeleteRole={onClickDeleteRole}
       onAddNewRoleToUser={onAddNewRoleToUser}
       onRemoveRoleFromUser={onRemoveRoleFromUser}

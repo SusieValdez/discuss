@@ -25,6 +25,7 @@ function ServerPage({
   onEditChannel,
   onClickDeleteChannel,
   onClickAddRole,
+  onEditRole,
   onClickDeleteRole,
   onAddNewRoleToUser,
   onRemoveRoleFromUser,
@@ -92,6 +93,7 @@ function ServerPage({
         onEditCategory={onEditCategory(serverId)}
         onClickDeleteCategory={onClickDeleteCategory(serverId)}
         onClickAddRole={onClickAddRole(serverId)}
+        onEditRole={onEditRole(serverId)}
         onClickDeleteRole={onClickDeleteRole(serverId)}
         onAddNewRoleToUser={onAddNewRoleToUser(serverId)}
         onRemoveRoleFromUser={onRemoveRoleFromUser(serverId)}

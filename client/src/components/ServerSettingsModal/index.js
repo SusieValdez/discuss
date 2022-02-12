@@ -26,6 +26,7 @@ const ServerSettingsModal = ({
   serverUsers,
   onClickDeleteServer,
   onClickAddRole,
+  onEditRole,
   onClickDeleteRole,
   onEditServerSettings,
   onAddNewRoleToUser,
@@ -54,6 +55,7 @@ const ServerSettingsModal = ({
           users={serverUsers}
           roles={server.roles}
           onClickAddRole={onClickAddRole}
+          onEditRole={onEditRole}
           onClickDeleteRole={onClickDeleteRole}
           onAddNewRoleToUser={onAddNewRoleToUser}
           onRemoveRoleFromUser={onRemoveRoleFromUser}

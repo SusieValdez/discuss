@@ -191,6 +191,21 @@ const addRole = (state, { serverId, role }) =>
     (roles) => [...roles.slice(0, -1), role, roles[roles.length - 1]]
   );
 
+const editRole = (state, { serverId, roleId, updatedRole }) =>
+  deepUpdate(
+    state,
+    [
+      "servers",
+      (server) => server._id === serverId,
+      "roles",
+      (role) => role._id === roleId,
+    ],
+    (role) => ({
+      ...role,
+      ...updatedRole,
+    })
+  );
+
 const deleteRole = (state, { serverId, roleId }) =>
   deepUpdate(
     deepUpdate(
@@ -252,6 +267,7 @@ const reducers = {
   EDIT_CHANNEL: editChannel,
   DELETE_CHANNEL: deleteChannel,
   ADD_ROLE: addRole,
+  EDIT_ROLE: editRole,
   DELETE_ROLE: deleteRole,
   ADD_ROLE_TO_USER: addRoleToUser,
   REMOVE_ROLE_FROM_USER: removeRoleFromUser,

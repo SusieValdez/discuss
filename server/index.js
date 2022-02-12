@@ -30,6 +30,7 @@ import {
   removeRoleFromUser,
   addRoleToUser,
   removeRoleFromAllUsers,
+  editRole,
 } from "./db.js";
 
 const mapLoginCodeToClient = new Map();
@@ -431,6 +432,22 @@ wss.on("connection", async (ws) => {
           payload: {
             serverId,
             role,
+          },
+        };
+        wss.clients.forEach((client) => {
+          client.send(JSON.stringify(event));
+        });
+        break;
+      }
+      case "EDIT_ROLE": {
+        const { serverId, roleId, updatedRole } = action.payload;
+        await editRole(serverId, roleId, updatedRole);
+        const event = {
+          kind: "EDIT_ROLE",
+          payload: {
+            serverId,
+            roleId,
+            updatedRole,
           },
         };
         wss.clients.forEach((client) => {
