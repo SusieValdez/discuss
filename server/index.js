@@ -95,7 +95,9 @@ wss.on("connection", async (ws) => {
             server,
           },
         };
-        ws.send(JSON.stringify(event));
+        wss.clients.forEach((client) => {
+          client.send(JSON.stringify(event));
+        });
         break;
       }
       case "EDIT_SERVER": {
@@ -108,7 +110,9 @@ wss.on("connection", async (ws) => {
             updatedServer,
           },
         };
-        ws.send(JSON.stringify(event));
+        wss.clients.forEach((client) => {
+          client.send(JSON.stringify(event));
+        });
         break;
       }
       case "DELETE_SERVER": {
@@ -120,7 +124,9 @@ wss.on("connection", async (ws) => {
             serverId,
           },
         };
-        ws.send(JSON.stringify(event));
+        wss.clients.forEach((client) => {
+          client.send(JSON.stringify(event));
+        });
         break;
       }
       case "EDIT_USER": {
@@ -136,7 +142,9 @@ wss.on("connection", async (ws) => {
             updatedUser,
           },
         };
-        ws.send(JSON.stringify(event));
+        wss.clients.forEach((client) => {
+          client.send(JSON.stringify(event));
+        });
         break;
       }
       case "NEW_MESSAGE": {
