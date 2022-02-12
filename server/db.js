@@ -315,3 +315,30 @@ export async function deleteRole(serverId, roleId) {
       { $pull: { roles: { _id: roleId } } }
     );
 }
+
+export async function addRoleToUser(serverId, userId, roleId) {
+  await db
+    .collection("servers")
+    .updateOne(
+      { _id: ObjectId(serverId), "users.userId": userId },
+      { $push: { "users.$.roles": roleId } }
+    );
+}
+
+export async function removeRoleFromUser(serverId, userId, roleId) {
+  await db
+    .collection("servers")
+    .updateOne(
+      { _id: ObjectId(serverId), "users.userId": userId },
+      { $pull: { "users.$.roles": roleId } }
+    );
+}
+
+export async function removeRoleFromAllUsers(serverId, roleId) {
+  await db
+    .collection("servers")
+    .updateOne(
+      { _id: ObjectId(serverId) },
+      { $pull: { "users.$[].roles": roleId } }
+    );
+}

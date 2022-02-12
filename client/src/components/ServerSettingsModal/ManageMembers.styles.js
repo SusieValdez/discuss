@@ -70,6 +70,7 @@ export const MemberRow = styled.div`
     width: 20px;
     height: 20px;
     padding: 2px;
+    margin-right: 10px;
   }
 `;
 

@@ -193,9 +193,43 @@ const addRole = (state, { serverId, role }) =>
 
 const deleteRole = (state, { serverId, roleId }) =>
   deepUpdate(
-    state,
+    deepUpdate(
+      state,
+      ["servers", (server) => server._id === serverId, "users"],
+      (users) =>
+        users.map((user) => ({
+          ...user,
+          roles: user.roles.filter((id) => id !== roleId),
+        }))
+    ),
     ["servers", (server) => server._id === serverId, "roles"],
     (roles) => roles.filter(({ _id }) => _id !== roleId)
+  );
+
+const addRoleToUser = (state, { serverId, userId, roleId }) =>
+  deepUpdate(
+    state,
+    [
+      "servers",
+      (server) => server._id === serverId,
+      "users",
+      (user) => user.userId === userId,
+      "roles",
+    ],
+    (roles) => [...roles, roleId]
+  );
+
+const removeRoleFromUser = (state, { serverId, userId, roleId }) =>
+  deepUpdate(
+    state,
+    [
+      "servers",
+      (server) => server._id === serverId,
+      "users",
+      (user) => user.userId === userId,
+      "roles",
+    ],
+    (roles) => roles.filter((id) => id !== roleId)
   );
 
 const reducers = {
@@ -219,6 +253,8 @@ const reducers = {
   DELETE_CHANNEL: deleteChannel,
   ADD_ROLE: addRole,
   DELETE_ROLE: deleteRole,
+  ADD_ROLE_TO_USER: addRoleToUser,
+  REMOVE_ROLE_FROM_USER: removeRoleFromUser,
 };
 
 const rootReducer = (state, action) => {

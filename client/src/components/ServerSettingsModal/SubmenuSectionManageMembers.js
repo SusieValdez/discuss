@@ -1,43 +1,26 @@
-import { React, useState } from "react";
+import { React } from "react";
 // Components
-import MiniUserProfileModal from "../MiniUserProfileModal";
 // Styles
 import {
   Container,
-  SearchSection,
-  ButtonAddMembers,
   MembersList,
   MemberRow,
   MemberDetails,
 } from "./ManageMembers.styles";
 // Assets
-import { ReactComponent as RemoveMember } from "../../assets/close-icon.svg";
+import { ReactComponent as RemoveIcon } from "../../assets/close-icon.svg";
+import { ReactComponent as AddIcon } from "../../assets/plus-circle-solid.svg";
 import { userHasRole } from "../../utils";
 
-const userNameMatchesSearch = (searchQuery) => (user) =>
-  user.name.toLowerCase().match(searchQuery.toLowerCase()) !== null;
-
-const SubmenuSectionManageMembers = ({ users, selectedRole }) => {
-  const [searchQuery, setSearchQuery] = useState("");
-  const [userModalData, setUserModalData] = useState(undefined);
-
-  const openUserModal = (user) => (e) => {
-    setUserModalData({ clickedTarget: e.target, user });
-  };
-
-  const closeUserModal = () => {
-    setUserModalData(undefined);
-  };
-
-  const filteredUsers = (
-    selectedRole
-      ? users.filter((user) => userHasRole(user, selectedRole))
-      : users
-  ).filter(userNameMatchesSearch(searchQuery));
-
+const SubmenuSectionManageMembers = ({
+  users,
+  selectedRole,
+  onAddNewRoleToUser,
+  onRemoveRoleFromUser,
+}) => {
   return (
     <Container>
-      <SearchSection>
+      {/* <SearchSection>
         <input
           type="text"
           placeholder="Search Members"
@@ -46,20 +29,31 @@ const SubmenuSectionManageMembers = ({ users, selectedRole }) => {
           value={searchQuery}
         />
         <ButtonAddMembers>Add Members</ButtonAddMembers>
-      </SearchSection>
+      </SearchSection> */}
       <MembersList>
-        {filteredUsers.map((user) => (
+        {users.map((user) => (
           <MemberRow key={user._id}>
-            <MemberDetails onClick={openUserModal(user)}>
+            <MemberDetails>
               <img src={user.avatarUrl} alt="user avatar" />
               <h2>{user.name}</h2>
               <span>{user.legend}</span>
             </MemberDetails>
-            <RemoveMember />
+            <div>
+              {userHasRole(user, selectedRole) ? (
+                <RemoveIcon
+                  onClick={() =>
+                    onRemoveRoleFromUser(user._id, selectedRole._id)
+                  }
+                />
+              ) : (
+                <AddIcon
+                  onClick={() => onAddNewRoleToUser(user._id, selectedRole._id)}
+                />
+              )}
+            </div>
           </MemberRow>
         ))}
       </MembersList>
-      <MiniUserProfileModal closeModal={closeUserModal} data={userModalData} />
     </Container>
   );
 };

@@ -27,6 +27,9 @@ import {
   updateUser,
   addRole,
   deleteRole,
+  removeRoleFromUser,
+  addRoleToUser,
+  removeRoleFromAllUsers,
 } from "./db.js";
 
 const mapLoginCodeToClient = new Map();
@@ -437,11 +440,44 @@ wss.on("connection", async (ws) => {
       }
       case "DELETE_ROLE": {
         const { serverId, roleId } = action.payload;
+        await removeRoleFromAllUsers(serverId, roleId);
         await deleteRole(serverId, roleId);
         const event = {
           kind: "DELETE_ROLE",
           payload: {
             serverId,
+            roleId,
+          },
+        };
+        wss.clients.forEach((client) => {
+          client.send(JSON.stringify(event));
+        });
+        break;
+      }
+      case "ADD_ROLE_TO_USER": {
+        const { serverId, userId, roleId } = action.payload;
+        await addRoleToUser(serverId, userId, roleId);
+        const event = {
+          kind: "ADD_ROLE_TO_USER",
+          payload: {
+            serverId,
+            userId,
+            roleId,
+          },
+        };
+        wss.clients.forEach((client) => {
+          client.send(JSON.stringify(event));
+        });
+        break;
+      }
+      case "REMOVE_ROLE_FROM_USER": {
+        const { serverId, userId, roleId } = action.payload;
+        await removeRoleFromUser(serverId, userId, roleId);
+        const event = {
+          kind: "REMOVE_ROLE_FROM_USER",
+          payload: {
+            serverId,
+            userId,
             roleId,
           },
         };

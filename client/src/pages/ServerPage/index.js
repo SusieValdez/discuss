@@ -26,6 +26,8 @@ function ServerPage({
   onClickDeleteChannel,
   onClickAddRole,
   onClickDeleteRole,
+  onAddNewRoleToUser,
+  onRemoveRoleFromUser,
 }) {
   let { serverId, channelId } = useParams();
 
@@ -91,6 +93,8 @@ function ServerPage({
         onClickDeleteCategory={onClickDeleteCategory(serverId)}
         onClickAddRole={onClickAddRole(serverId)}
         onClickDeleteRole={onClickDeleteRole(serverId)}
+        onAddNewRoleToUser={onAddNewRoleToUser(serverId)}
+        onRemoveRoleFromUser={onRemoveRoleFromUser(serverId)}
       />
       <Chat
         server={server}

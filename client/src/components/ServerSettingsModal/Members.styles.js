@@ -70,6 +70,7 @@ export const MemberRow = styled.div`
 export const MemberDetails = styled.div`
   display: flex;
   align-items: center;
+  width: 50%;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -101,6 +102,7 @@ export const MemberRoles = styled.div`
   display: flex;
   align-items: center;
   flex-wrap: wrap;
+  width: 50%;
 `;
 
 export const RoleDiv = styled.div`

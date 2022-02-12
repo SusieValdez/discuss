@@ -19,7 +19,14 @@ import { ReactComponent as UserIcon } from "../../assets/single-user-solid.svg";
 import { ReactComponent as SearchIcon } from "../../assets/search-solid.svg";
 import { getEveryoneRole, sortByQuery } from "../../utils";
 
-const Roles = ({ users, roles, onClickAddRole, onClickDeleteRole }) => {
+const Roles = ({
+  users,
+  roles,
+  onClickAddRole,
+  onClickDeleteRole,
+  onAddNewRoleToUser,
+  onRemoveRoleFromUser,
+}) => {
   const [selectedRole, setSelectedRole] = useState(undefined);
   if (selectedRole && !roles.find(({ _id }) => _id === selectedRole._id)) {
     setSelectedRole(roles[0]);
@@ -57,6 +64,8 @@ const Roles = ({ users, roles, onClickAddRole, onClickDeleteRole }) => {
         roleCounts={roleCounts}
         onClickAddRole={onClickAddRole}
         onClickDeleteRole={onClickDeleteRole}
+        onAddNewRoleToUser={onAddNewRoleToUser}
+        onRemoveRoleFromUser={onRemoveRoleFromUser}
       />
     );
   }

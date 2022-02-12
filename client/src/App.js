@@ -205,6 +205,20 @@ function App() {
     });
   };
 
+  const onAddNewRoleToUser = (serverId) => (userId, roleId) => {
+    send({
+      kind: "ADD_ROLE_TO_USER",
+      payload: { serverId, userId, roleId },
+    });
+  };
+
+  const onRemoveRoleFromUser = (serverId) => (userId, roleId) => {
+    send({
+      kind: "REMOVE_ROLE_FROM_USER",
+      payload: { serverId, userId, roleId },
+    });
+  };
+
   const onClickLogout = () => {
     localStorage.removeItem("cookie");
     setCookie(undefined);
@@ -289,6 +303,8 @@ function App() {
       onClickDeleteChannel={onClickDeleteChannel}
       onClickAddRole={onClickAddRole}
       onClickDeleteRole={onClickDeleteRole}
+      onAddNewRoleToUser={onAddNewRoleToUser}
+      onRemoveRoleFromUser={onRemoveRoleFromUser}
     />
   );
 

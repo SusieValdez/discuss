@@ -28,6 +28,8 @@ const ServerSettingsModal = ({
   onClickAddRole,
   onClickDeleteRole,
   onEditServerSettings,
+  onAddNewRoleToUser,
+  onRemoveRoleFromUser,
 }) => {
   const [subsectionName, setSubsectionName] = useState("Overview");
 
@@ -53,6 +55,8 @@ const ServerSettingsModal = ({
           roles={server.roles}
           onClickAddRole={onClickAddRole}
           onClickDeleteRole={onClickDeleteRole}
+          onAddNewRoleToUser={onAddNewRoleToUser}
+          onRemoveRoleFromUser={onRemoveRoleFromUser}
         />
       );
       break;

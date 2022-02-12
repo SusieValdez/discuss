@@ -28,6 +28,8 @@ const RoleEdit = ({
   roleCounts,
   onClickAddRole,
   onClickDeleteRole,
+  onAddNewRoleToUser,
+  onRemoveRoleFromUser,
 }) => {
   const [submenuSection, setSubmenuSection] = useState("Display");
   useEffect(() => {
@@ -54,6 +56,9 @@ const RoleEdit = ({
         <SubmenuSectionManageMembers
           users={users}
           selectedRole={selectedRole}
+          roles={roles}
+          onAddNewRoleToUser={onAddNewRoleToUser}
+          onRemoveRoleFromUser={onRemoveRoleFromUser}
         />
       );
       break;
