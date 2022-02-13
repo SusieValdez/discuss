@@ -18,7 +18,7 @@ const modalMargin = 10;
 
 Modal.setAppElement("#root");
 
-const MiniUserProfileModal = ({ closeModal, data, users }) => {
+const MiniUserProfileModal = ({ closeModal, data }) => {
   const contentRef = useRef(null);
 
   if (!data) {
