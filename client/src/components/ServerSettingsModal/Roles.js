@@ -28,10 +28,17 @@ const Roles = ({
   onAddNewRoleToUser,
   onRemoveRoleFromUser,
 }) => {
-  const [selectedRole, setSelectedRole] = useState(undefined);
-  if (selectedRole && !roles.find(({ _id }) => _id === selectedRole._id)) {
-    setSelectedRole(roles[0]);
+  const [selectedRoleId, setSelectedRoleId] = useState(undefined);
+  const selectedRole = roles.find(({ _id }) => _id === selectedRoleId);
+  if (selectedRoleId && !selectedRole) {
+    setSelectedRoleId(roles[0]._id);
   }
+
+  const onSelectRole = (role) => () => setSelectedRoleId(role._id);
+
+  const onDeselectRole = () => {
+    setSelectedRoleId(undefined);
+  };
 
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -47,12 +54,6 @@ const Roles = ({
       roleCounts[role._id]++;
     }
   }
-
-  const onSelectRole = (role) => () => setSelectedRole(role);
-
-  const onDeselectRole = () => {
-    setSelectedRole(undefined);
-  };
 
   if (selectedRole) {
     return (

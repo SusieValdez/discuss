@@ -51,7 +51,12 @@ const RoleEdit = ({
       );
       break;
     case "Permissions":
-      content = <SubmenuSectionPermissions />;
+      content = (
+        <SubmenuSectionPermissions
+          role={selectedRole}
+          onEditRole={onEditRole}
+        />
+      );
       break;
     case "Manage Members":
       content = (

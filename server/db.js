@@ -299,6 +299,14 @@ export async function addRole(serverId) {
     _id: nanoid(),
     name: "new role",
     color: "#eeeeee",
+    permissions: {
+      "view-channels": true,
+      "manage-channels": false,
+      "manage-roles": false,
+      "manage-server": false,
+      "kick-members": false,
+      "ban-members": false,
+    },
   };
   await db.collection("servers").updateOne(
     { _id: ObjectId(serverId) },
