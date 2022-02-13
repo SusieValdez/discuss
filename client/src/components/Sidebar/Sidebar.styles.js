@@ -40,14 +40,11 @@ export const UserTag = styled.div`
     height: 32px;
     cursor: pointer;
     border-radius: 50%;
+    margin-left: 10px;
 
     :hover {
       opacity: 0.8;
     }
-  }
-
-  div {
-    margin-left: 8px;
   }
 
   h3 {
@@ -64,6 +61,41 @@ export const UserTag = styled.div`
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+  }
+
+  .szh-menu__item {
+    padding: 12px;
+  }
+
+  .user-status {
+    display: flex;
+    justify-content: flex-start;
+  }
+`;
+
+export const OnlineStatusIndicatorIcon = styled.div`
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  position: relative;
+  right: 10px;
+  top: 12px;
+  border: 3px solid #2f3136;
+
+  &.online {
+    background-color: #3ba55d;
+  }
+
+  &.offline {
+    border: 3px solid #b9bbbe;
+  }
+
+  &.idle {
+    background-color: #faa81a;
+  }
+
+  &.do-not-disturb {
+    background-color: #ed4245;
   }
 `;
 

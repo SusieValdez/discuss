@@ -31,6 +31,32 @@ export const Banner = styled.div`
   height: 60px;
 `;
 
+export const OnlineStatusIndicatorIcon = styled.div`
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  position: relative;
+  top: 28px;
+  left: 70px;
+  border: 5px solid #18191c;
+
+  &.online {
+    background-color: #3ba55d;
+  }
+
+  &.offline {
+    border: 3px solid #b9bbbe;
+  }
+
+  &.idle {
+    background-color: #faa81a;
+  }
+
+  &.do-not-disturb {
+    background-color: #ed4245;
+  }
+`;
+
 export const Header = styled.div`
   padding: 64px 16px 16px 16px;
 

@@ -28,6 +28,7 @@ export const UserContainer = styled.div`
   align-items: center;
   justify-content: center;
   margin-right: 12px;
+  margin-top: 10px;
   border-radius: 4px;
   padding: 0 8px;
   cursor: pointer;
@@ -43,8 +44,35 @@ export const ProfileImage = styled.img`
   border-radius: 50%;
   flex: 0 0 auto;
   margin-right: 12px;
+  margin-top: 10px;
   background-color: ${(props) => props.backgroundColor};
   pointer-events: none;
+`;
+
+export const OnlineStatusIndicatorIcon = styled.div`
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  position: relative;
+  top: -15px;
+  left: 20px;
+  border: 3px solid #2f3136;
+
+  &.online {
+    background-color: #3ba55d;
+  }
+
+  &.offline {
+    display: none;
+  }
+
+  &.idle {
+    background-color: #faa81a;
+  }
+
+  &.do-not-disturb {
+    background-color: #ed4245;
+  }
 `;
 
 export const UserContent = styled.div`

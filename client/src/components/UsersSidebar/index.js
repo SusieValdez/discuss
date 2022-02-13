@@ -7,6 +7,7 @@ import {
   Container,
   UserContainer,
   ProfileImage,
+  OnlineStatusIndicatorIcon,
   UserContent,
   Username,
   Legend,
@@ -110,11 +111,14 @@ const User = ({
 
   return (
     <UserContainer onClick={openUserModal} onContextMenu={onRightClickUser}>
-      <ProfileImage
-        backgroundColor={avatarUrl ? "none" : bannerColor}
-        src={avatarUrl || "/default-user-logo.svg"}
-        style={{ opacity }}
-      />
+      <div>
+        <ProfileImage
+          backgroundColor={avatarUrl ? "none" : bannerColor}
+          src={avatarUrl || "/default-user-logo.svg"}
+          style={{ opacity }}
+        />
+        {<OnlineStatusIndicatorIcon className={onlineStatus} />}
+      </div>
       <UserContent style={{ opacity }}>
         <Username color={topRoleColor({ roles })}>{name}</Username>
         <Legend>{legend}</Legend>

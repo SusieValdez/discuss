@@ -3,6 +3,7 @@ import Modal from "react-modal";
 import {
   Container,
   Banner,
+  OnlineStatusIndicatorIcon,
   Header,
   Content,
   RoleContainer,
@@ -17,7 +18,7 @@ const modalMargin = 10;
 
 Modal.setAppElement("#root");
 
-const MiniUserProfileModal = ({ closeModal, data }) => {
+const MiniUserProfileModal = ({ closeModal, data, users }) => {
   const contentRef = useRef(null);
 
   if (!data) {
@@ -86,6 +87,7 @@ const MiniUserProfileModal = ({ closeModal, data }) => {
           }}
           alt="user avatar"
         />
+        {<OnlineStatusIndicatorIcon className={user.onlineStatus} />}
         <Header>
           <h2>{user.name}</h2>
           <p>{user.legend}</p>

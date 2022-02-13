@@ -57,7 +57,11 @@ const Chat = ({
 
   return (
     <Container>
-      <MiniUserProfileModal closeModal={closeUserModal} data={userModalData} />
+      <MiniUserProfileModal
+        closeModal={closeUserModal}
+        data={userModalData}
+        users={users}
+      />
       <Title>
         <h3>Discuss #{activeChannel.name.toLowerCase()}</h3>
         <div>

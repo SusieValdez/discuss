@@ -8,6 +8,7 @@ import {
   UserPanel,
   IconContainer,
   UserTag,
+  OnlineStatusIndicatorIcon,
 } from "./Sidebar.styles";
 // Assets
 import gearIcon from "../../assets/cog-solid.svg";
@@ -247,6 +248,7 @@ const Sidebar = ({
             ref={statusRef}
             onClick={onClickStatusProfilePic}
           />
+          {<OnlineStatusIndicatorIcon className={localUser.onlineStatus} />}
           <Menu
             state={statusMenu.state}
             endTransition={statusMenu.endTransition}
@@ -254,10 +256,55 @@ const Sidebar = ({
             onClose={() => statusMenu.toggleMenu(false)}
             offsetY={15}
           >
-            <MenuItem>Online</MenuItem>
-            <MenuItem>Idle</MenuItem>
-            <MenuItem>Do Not Disturb</MenuItem>
-            <MenuItem>Invisible</MenuItem>
+            <MenuItem className="user-status">
+              <div
+                style={{
+                  backgroundColor: "#3ba55d",
+                  borderRadius: "50%",
+                  width: "10px",
+                  height: "10px",
+                  marginRight: "10px",
+                }}
+              />
+              <div>Online</div>
+            </MenuItem>
+            <MenuItem className="user-status">
+              <div
+                style={{
+                  backgroundColor: "#faa81a",
+                  borderRadius: "50%",
+                  width: "10px",
+                  height: "10px",
+                  marginRight: "10px",
+                }}
+              />
+              <div>Idle</div>
+            </MenuItem>
+            <MenuItem className="user-status">
+              <div
+                style={{
+                  backgroundColor: "#ed4245",
+                  borderRadius: "50%",
+                  width: "10px",
+                  height: "10px",
+                  marginRight: "10px",
+                }}
+              />
+              <div>Do not disturb</div>
+            </MenuItem>
+            <MenuItem className="user-status">
+              <div
+                style={{
+                  backgroundColor: "transparent",
+                  borderRadius: "50%",
+                  border: "3px solid #b9bbbe",
+                  width: "10px",
+                  height: "10px",
+                  marginRight: "10px",
+                }}
+              />
+              <div>Invisible</div>
+            </MenuItem>
           </Menu>
           <div>
             <h3>{localUser.name}</h3>
