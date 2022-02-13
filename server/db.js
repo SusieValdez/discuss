@@ -22,9 +22,10 @@ export async function getServer(_id) {
 
 export async function newServer(name, ownerId) {
   const categoryId = nanoid();
-  const roleId = nanoid();
+  const everyoneRoleId = nanoid();
   const server = {
     name,
+    ownerId,
     iconUrl: "",
     description: "",
     bannerColor: getRandomColor(),
@@ -33,9 +34,17 @@ export async function newServer(name, ownerId) {
     )}/200/300`,
     roles: [
       {
-        _id: roleId,
+        _id: everyoneRoleId,
         name: "everyone",
-        color: "#eee",
+        color: "#eeeeee",
+        permissions: {
+          "view-channels": true,
+          "manage-channels": false,
+          "manage-roles": false,
+          "manage-server": false,
+          "kick-members": false,
+          "ban-members": false,
+        },
       },
     ],
     categories: [
@@ -53,7 +62,7 @@ export async function newServer(name, ownerId) {
         typingUsers: [],
       },
     ],
-    users: [{ userId: ownerId, roles: [roleId] }],
+    users: [{ userId: ownerId, roles: [everyoneRoleId] }],
   };
   const { insertedId } = await db.collection("servers").insertOne(server);
   return { _id: insertedId.toString(), ...server };

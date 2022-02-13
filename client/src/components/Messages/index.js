@@ -43,6 +43,8 @@ const groupMessagesByDay = (messages) => {
 
 const Messages = ({
   messages,
+  localUser,
+  server,
   openUserModal,
   onMessageEdit,
   onClickDeleteMessage,
@@ -73,6 +75,8 @@ const Messages = ({
           <Message
             key={message._id}
             {...message}
+            localUser={localUser}
+            server={server}
             openUserModal={openUserModal}
             onMessageEdit={onMessageEdit(message._id)}
             onClickDeleteMessage={onClickDeleteMessage(message._id)}

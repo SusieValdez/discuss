@@ -127,3 +127,9 @@ export const sortByQuery = (array, key, query) =>
           )
         );
       });
+
+// No precedence to these permissions with this implementation
+// A.K.A A higher role can not take away permissions from a lower one
+export const userHasPermission = (user, server, permissionName) =>
+  user._id === server.ownerId ||
+  user.roles.some((role) => role.permissions[permissionName]);

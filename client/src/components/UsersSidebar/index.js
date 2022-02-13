@@ -1,7 +1,7 @@
 import { MenuItem, useMenuState } from "@szhsin/react-menu";
 import React, { useState } from "react";
 import { Menu } from "../../ui/Menus";
-import { topRoleColor } from "../../utils";
+import { topRoleColor, userHasPermission } from "../../utils";
 // Styles
 import {
   Container,
@@ -13,7 +13,14 @@ import {
   Legend,
 } from "./UsersSidebar.styles";
 
-const UsersSidebar = ({ roles, users, openUserModal, onClickKick }) => {
+const UsersSidebar = ({
+  roles,
+  users,
+  localUser,
+  server,
+  openUserModal,
+  onClickKick,
+}) => {
   const userCategories = {
     online: new Map(),
     offline: [],
@@ -41,6 +48,8 @@ const UsersSidebar = ({ roles, users, openUserModal, onClickKick }) => {
           key={role._id}
           name={role.name}
           users={users}
+          localUser={localUser}
+          server={server}
           openUserModal={openUserModal}
           onClickKick={onClickKick}
         />
@@ -48,6 +57,8 @@ const UsersSidebar = ({ roles, users, openUserModal, onClickKick }) => {
       <UserList
         name="Offline"
         users={userCategories.offline}
+        localUser={localUser}
+        server={server}
         openUserModal={openUserModal}
         onClickKick={onClickKick}
       />
@@ -55,7 +66,14 @@ const UsersSidebar = ({ roles, users, openUserModal, onClickKick }) => {
   );
 };
 
-const UserList = ({ name, users, openUserModal, onClickKick }) => {
+const UserList = ({
+  name,
+  users,
+  localUser,
+  server,
+  openUserModal,
+  onClickKick,
+}) => {
   if (users.length === 0) {
     return <></>;
   }
@@ -74,6 +92,8 @@ const UserList = ({ name, users, openUserModal, onClickKick }) => {
           <User
             key={user._id}
             {...user}
+            localUser={localUser}
+            server={server}
             openUserModal={openUserModal(user)}
             onClickKick={onClickKick(user._id)}
           />
@@ -91,6 +111,8 @@ const User = ({
   bannerColor,
   openUserModal,
   onClickKick,
+  localUser,
+  server,
 }) => {
   const userMenu = useMenuState();
   const [anchorPoint, setAnchorPoint] = useState({ x: 0, y: 0 });
@@ -129,7 +151,9 @@ const User = ({
         anchorPoint={anchorPoint}
         onClose={() => userMenu.toggleMenu(false)}
       >
-        <MenuItem onClick={onClickKickButton}>Kick User</MenuItem>
+        {userHasPermission(localUser, server, "kick-members") && (
+          <MenuItem onClick={onClickKickButton}>Kick User</MenuItem>
+        )}
       </Menu>
     </UserContainer>
   );

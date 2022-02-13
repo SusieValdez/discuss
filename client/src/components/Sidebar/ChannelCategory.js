@@ -6,11 +6,13 @@ import chevronRight from "../../assets/chevron-right-solid.svg";
 import { MenuItem, useMenuState } from "@szhsin/react-menu";
 import { Menu } from "../../ui/Menus";
 import { ReactComponent as AddChannel } from "../../assets/plus-solid.svg";
-import { isActiveChannel } from "../../utils";
+import { isActiveChannel, userHasPermission } from "../../utils";
 import Tooltip from "../../ui/Tooltip";
 
 const ChannelCategory = ({
   name,
+  localUser,
+  server,
   channels,
   activeChannel,
   onClickNewChannel,
@@ -56,6 +58,8 @@ const ChannelCategory = ({
           <ChannelTitle
             key={channel._id}
             {...channel}
+            localUser={localUser}
+            server={server}
             isActive={isActiveChannel(activeChannel)(channel)}
             onClickEditChannel={() => onClickEditChannel(channel)}
             onClickDeleteChannel={() => onClickDeleteChannel(channel)}
@@ -68,8 +72,12 @@ const ChannelCategory = ({
         anchorPoint={anchorPoint}
         onClose={() => categoryMenu.toggleMenu(false)}
       >
-        <MenuItem onClick={onClickEditCategory}>Edit Category</MenuItem>
-        <MenuItem onClick={onClickDeleteCategory}>Delete Category</MenuItem>
+        {userHasPermission(localUser, server, "manage-channels") && (
+          <>
+            <MenuItem onClick={onClickEditCategory}>Edit Category</MenuItem>
+            <MenuItem onClick={onClickDeleteCategory}>Delete Category</MenuItem>
+          </>
+        )}
       </Menu>
     </Category>
   );

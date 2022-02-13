@@ -13,7 +13,7 @@ import { Menu } from "../../ui/Menus";
 
 import { MenuItem, useMenuState } from "@szhsin/react-menu";
 import "@szhsin/react-menu/dist/index.css";
-import { topRoleColor } from "../../utils";
+import { topRoleColor, userHasPermission } from "../../utils";
 
 const urlRegex =
   /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#/%?=~_|!:,.;]*[-A-Z0-9+&@#/%=~_|])/gi;
@@ -30,8 +30,9 @@ function isAllEmojis(text) {
 }
 
 const Message = ({
-  userId,
   user,
+  localUser,
+  server,
   timestamp,
   text,
   openUserModal,
@@ -174,7 +175,9 @@ const Message = ({
         anchorPoint={anchorPoint}
         onClose={() => userMenu.toggleMenu(false)}
       >
-        <MenuItem>Kick User</MenuItem>
+        {userHasPermission(localUser, server, "kick-members") && (
+          <MenuItem>Kick User</MenuItem>
+        )}
       </Menu>
     </Container>
   );

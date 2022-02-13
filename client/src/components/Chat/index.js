@@ -79,6 +79,8 @@ const Chat = ({
         <ChatArea>
           <Messages
             messages={activeChannel.messages}
+            localUser={localUser}
+            server={server}
             openUserModal={openUserModal}
             onMessageEdit={onMessageEdit}
             onClickDeleteMessage={onClickDeleteMessage}
@@ -96,6 +98,8 @@ const Chat = ({
           <UsersSidebar
             users={users.filter((user) => isUserInServer(user, server))}
             roles={roles}
+            localUser={localUser}
+            server={server}
             openUserModal={openUserModal}
             onClickKick={onClickKick}
           />

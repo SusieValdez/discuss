@@ -22,7 +22,7 @@ import EditCategoryModal from "../EditCategoryModal";
 import DeleteCategoryModal from "../DeleteCategoryModal";
 import ServerSettingsModal from "../ServerSettingsModal";
 import UserAccountModal from "../UserAccountModal";
-import { isActiveChannel } from "../../utils";
+import { isActiveChannel, userHasPermission } from "../../utils";
 import ChannelTitle from "./ChannelTitle";
 import { useNavigate } from "react-router-dom";
 // Utils
@@ -197,15 +197,23 @@ const Sidebar = ({
           offsetX={10}
         >
           <MenuItem onClick={onClickInvitePeople}>Invite People</MenuItem>
-          <MenuItem onClick={() => setServerSettingsModalData({})}>
-            Server Settings
-          </MenuItem>
-          <MenuItem onClick={() => setNewChannelModalData({})}>
-            Create Channel
-          </MenuItem>
-          <MenuItem onClick={() => setNewCategoryModalData({})}>
-            Create Category
-          </MenuItem>
+          {userHasPermission(localUser, server, "manage-server") && (
+            <>
+              <MenuItem onClick={() => setServerSettingsModalData({})}>
+                Server Settings
+              </MenuItem>
+            </>
+          )}
+          {userHasPermission(localUser, server, "manage-channels") && (
+            <>
+              <MenuItem onClick={() => setNewChannelModalData({})}>
+                Create Channel
+              </MenuItem>
+              <MenuItem onClick={() => setNewCategoryModalData({})}>
+                Create Category
+              </MenuItem>
+            </>
+          )}
           <MenuItem onClick={onClickLeaveServer} color="red">
             Leave Server
           </MenuItem>
@@ -214,6 +222,8 @@ const Sidebar = ({
           <ChannelTitle
             key={channel._id}
             {...channel}
+            localUser={localUser}
+            server={server}
             isActive={isActiveChannel(activeChannel)(channel)}
             onClickEditChannel={() => setEditChannelModalData({ channel })}
             onClickDeleteChannel={() => setDeleteChannelModalData({ channel })}
@@ -223,6 +233,8 @@ const Sidebar = ({
           <ChannelCategory
             key={category._id}
             name={category.name}
+            localUser={localUser}
+            server={server}
             channels={channels}
             activeChannel={activeChannel}
             onClickNewChannel={() => setNewChannelModalData({ category })}

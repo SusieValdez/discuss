@@ -6,10 +6,13 @@ import hashtag from "../../assets/hashtag-solid.svg";
 import { Link, useParams } from "react-router-dom";
 import { MenuItem, useMenuState } from "@szhsin/react-menu";
 import { Menu } from "../../ui/Menus.js";
+import { userHasPermission } from "../../utils.js";
 
 const ChannelTitle = ({
   _id,
   name,
+  localUser,
+  server,
   isActive,
   onClickEditChannel,
   onClickDeleteChannel,
@@ -40,8 +43,12 @@ const ChannelTitle = ({
         anchorPoint={anchorPoint}
         onClose={() => categoryMenu.toggleMenu(false)}
       >
-        <MenuItem onClick={onClickEditChannel}>Edit Channel</MenuItem>
-        <MenuItem onClick={onClickDeleteChannel}>Delete Channel</MenuItem>
+        {userHasPermission(localUser, server, "manage-channels") && (
+          <>
+            <MenuItem onClick={onClickEditChannel}>Edit Channel</MenuItem>
+            <MenuItem onClick={onClickDeleteChannel}>Delete Channel</MenuItem>
+          </>
+        )}
       </Menu>
     </div>
   );

@@ -62,6 +62,12 @@ function ServerPage({
     ...user,
     roles: serverUserMap[user._id]?.roles.map((roleId) => rolesMap[roleId]),
   }));
+  localUser = {
+    ...localUser,
+    roles: serverUserMap[localUser._id]?.roles.map(
+      (roleId) => rolesMap[roleId]
+    ),
+  };
   const userMap = arrayToMap(serverUsers);
 
   const expandedActiveChannel = {
