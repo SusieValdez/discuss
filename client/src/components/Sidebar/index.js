@@ -51,6 +51,7 @@ const Sidebar = ({
   onClickDeleteRole,
   onAddNewRoleToUser,
   onRemoveRoleFromUser,
+  onChangeOnlineStatus,
 }) => {
   const navigate = useNavigate();
 
@@ -253,10 +254,16 @@ const Sidebar = ({
             state={statusMenu.state}
             endTransition={statusMenu.endTransition}
             anchorRef={statusRef}
-            onClose={() => statusMenu.toggleMenu(false)}
+            onClose={() => {
+              setStatusMenuIsOpen(false);
+              statusMenu.toggleMenu(false);
+            }}
             offsetY={15}
           >
-            <MenuItem className="user-status">
+            <MenuItem
+              className="user-status"
+              onClick={() => onChangeOnlineStatus("online")}
+            >
               <div
                 style={{
                   backgroundColor: "#3ba55d",
@@ -268,7 +275,10 @@ const Sidebar = ({
               />
               <div>Online</div>
             </MenuItem>
-            <MenuItem className="user-status">
+            <MenuItem
+              className="user-status"
+              onClick={() => onChangeOnlineStatus("idle")}
+            >
               <div
                 style={{
                   backgroundColor: "#faa81a",
@@ -280,7 +290,10 @@ const Sidebar = ({
               />
               <div>Idle</div>
             </MenuItem>
-            <MenuItem className="user-status">
+            <MenuItem
+              className="user-status"
+              onClick={() => onChangeOnlineStatus("do-not-disturb")}
+            >
               <div
                 style={{
                   backgroundColor: "#ed4245",
@@ -292,7 +305,10 @@ const Sidebar = ({
               />
               <div>Do not disturb</div>
             </MenuItem>
-            <MenuItem className="user-status">
+            <MenuItem
+              className="user-status"
+              onClick={() => onChangeOnlineStatus("invisible")}
+            >
               <div
                 style={{
                   backgroundColor: "transparent",

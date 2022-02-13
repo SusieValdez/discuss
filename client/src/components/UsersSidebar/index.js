@@ -27,10 +27,10 @@ const UsersSidebar = ({ roles, users, openUserModal, onClickKick }) => {
     });
   }
   for (const user of users) {
-    if (user.onlineStatus === "online") {
-      userCategories.online.get(user.roles[0]._id).users.push(user);
-    } else {
+    if (user.onlineStatus === "offline") {
       userCategories.offline.push(user);
+    } else {
+      userCategories.online.get(user.roles[0]._id).users.push(user);
     }
   }
 
@@ -102,7 +102,7 @@ const User = ({
     userMenu.toggleMenu(true);
   };
 
-  const opacity = onlineStatus === "online" ? "1" : "0.3";
+  const opacity = onlineStatus === "offline" ? "0.3" : "1";
 
   const onClickKickButton = (e) => {
     e.syntheticEvent.stopPropagation();

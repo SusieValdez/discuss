@@ -87,7 +87,11 @@ export const OnlineStatusIndicatorIcon = styled.div`
   }
 
   &.offline {
+    background-color: #292b2f;
     border: 3px solid #b9bbbe;
+    height: 12px;
+    width: 12px;
+    margin-right: 3px;
   }
 
   &.idle {

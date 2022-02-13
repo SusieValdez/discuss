@@ -31,6 +31,7 @@ import {
   addRoleToUser,
   removeRoleFromAllUsers,
   editRole,
+  setDesiredOnlineStatus,
 } from "./db.js";
 
 const mapLoginCodeToClient = new Map();
@@ -56,6 +57,7 @@ const sendState = async (ws, cookie, userId) => {
 };
 
 const updateOnlineStatus = async (clients, userId, onlineStatus) => {
+  onlineStatus = onlineStatus === "invisible" ? "offline" : onlineStatus;
   await setOnlineStatus(userId, onlineStatus);
   for (const client of clients) {
     client.send(
@@ -209,15 +211,26 @@ wss.on("connection", async (ws) => {
       }
       case "REGISTER": {
         const { name, email, password, dateOfBirth } = action.payload;
-        loggedInUserId = (await newUser(name, email, password, dateOfBirth))
-          .userId;
+        const { _id, desiredOnlineStatus } = await newUser(
+          name,
+          email,
+          password,
+          dateOfBirth
+        );
+        loggedInUserId = _id;
         const cookie = nanoid();
         await addUserCookie(cookie, loggedInUserId);
         await sendState(ws, cookie, loggedInUserId);
-        await updateOnlineStatus(wss.clients, loggedInUserId, "online");
+        await updateOnlineStatus(
+          wss.clients,
+          loggedInUserId,
+          desiredOnlineStatus
+        );
       }
       case "LOGIN": {
-        const { _id, password } = await getUserByEmail(action.payload.email);
+        const { _id, password, desiredOnlineStatus } = await getUserByEmail(
+          action.payload.email
+        );
         if (action.payload.password !== password) {
           return;
         }
@@ -225,7 +238,11 @@ wss.on("connection", async (ws) => {
         const cookie = nanoid();
         await addUserCookie(cookie, loggedInUserId);
         await sendState(ws, cookie, loggedInUserId);
-        await updateOnlineStatus(wss.clients, loggedInUserId, "online");
+        await updateOnlineStatus(
+          wss.clients,
+          loggedInUserId,
+          desiredOnlineStatus
+        );
         break;
       }
       case "REQUEST_LOGIN_CODE": {
@@ -250,7 +267,6 @@ wss.on("connection", async (ws) => {
         const cookie = nanoid();
         await addUserCookie(cookie, loggedInUserId);
         await sendState(client, cookie, loggedInUserId);
-        await updateOnlineStatus(wss.clients, loggedInUserId, "online");
         ws.send(
           JSON.stringify({
             kind: "SET_LOGIN_CODE_STATUS",
@@ -268,7 +284,12 @@ wss.on("connection", async (ws) => {
         const { _id: cookie } = userCookie;
         loggedInUserId = userCookie.userId;
         await sendState(ws, cookie, loggedInUserId);
-        await updateOnlineStatus(wss.clients, loggedInUserId, "online");
+        const { desiredOnlineStatus } = await getUser(loggedInUserId);
+        await updateOnlineStatus(
+          wss.clients,
+          loggedInUserId,
+          desiredOnlineStatus
+        );
         break;
       }
       case "TYPING_INDICATOR_CHANGED": {
@@ -539,6 +560,12 @@ wss.on("connection", async (ws) => {
         wss.clients.forEach((client) => {
           client.send(JSON.stringify(event));
         });
+        break;
+      }
+      case "SET_ONLINE_STATUS": {
+        const { userId, desiredOnlineStatus } = action.payload;
+        await setDesiredOnlineStatus(userId, desiredOnlineStatus);
+        updateOnlineStatus(wss.clients, userId, desiredOnlineStatus);
         break;
       }
       default:

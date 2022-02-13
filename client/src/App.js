@@ -226,6 +226,13 @@ function App() {
     });
   };
 
+  const onChangeOnlineStatus = (userId) => (desiredOnlineStatus) => {
+    send({
+      kind: "SET_ONLINE_STATUS",
+      payload: { userId, desiredOnlineStatus },
+    });
+  };
+
   const onClickLogout = () => {
     localStorage.removeItem("cookie");
     setCookie(undefined);
@@ -313,6 +320,7 @@ function App() {
       onClickDeleteRole={onClickDeleteRole}
       onAddNewRoleToUser={onAddNewRoleToUser}
       onRemoveRoleFromUser={onRemoveRoleFromUser}
+      onChangeOnlineStatus={onChangeOnlineStatus}
     />
   );
 

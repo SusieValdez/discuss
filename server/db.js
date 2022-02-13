@@ -132,9 +132,10 @@ export async function newUser(name, email, password, dateOfBirth) {
     bannerColor: getRandomColor(),
     bannerImageUrl: "",
     onlineStatus: "offline",
+    desiredOnlineStatus: "online",
   };
   const { insertedId } = await db.collection("users").insertOne(user);
-  return { userId: insertedId.toString() };
+  return { ...user, _id: insertedId.toString() };
 }
 
 export async function getUsers() {
@@ -167,6 +168,12 @@ export async function setOnlineStatus(userId, onlineStatus) {
   await db
     .collection("users")
     .updateOne({ _id: ObjectId(userId) }, { $set: { onlineStatus } });
+}
+
+export async function setDesiredOnlineStatus(userId, desiredOnlineStatus) {
+  await db
+    .collection("users")
+    .updateOne({ _id: ObjectId(userId) }, { $set: { desiredOnlineStatus } });
 }
 
 export async function addUserToServer(userId, serverId) {

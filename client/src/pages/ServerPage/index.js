@@ -29,6 +29,7 @@ function ServerPage({
   onClickDeleteRole,
   onAddNewRoleToUser,
   onRemoveRoleFromUser,
+  onChangeOnlineStatus,
 }) {
   let { serverId, channelId } = useParams();
 
@@ -97,6 +98,7 @@ function ServerPage({
         onClickDeleteRole={onClickDeleteRole(serverId)}
         onAddNewRoleToUser={onAddNewRoleToUser(serverId)}
         onRemoveRoleFromUser={onRemoveRoleFromUser(serverId)}
+        onChangeOnlineStatus={onChangeOnlineStatus(localUser._id)}
       />
       <Chat
         server={server}
