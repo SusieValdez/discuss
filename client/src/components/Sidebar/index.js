@@ -27,6 +27,7 @@ import ChannelTitle from "./ChannelTitle";
 import { useNavigate } from "react-router-dom";
 // Utils
 import Tooltip from "../../ui/Tooltip";
+import UserLegendModal from "../UserLegendModal";
 
 const Sidebar = ({
   server,
@@ -77,6 +78,8 @@ const Sidebar = ({
   const [editCategoryModalData, setEditCategoryModalData] = useState(undefined);
   const [deleteCategoryModalData, setDeleteCategoryModalData] =
     useState(undefined);
+
+  const [userLegendModalOpen, setUserLegendModalOpen] = useState(false);
 
   const onClickHeader = () => {
     setHeaderMenuIsOpen(!headerMenuIsOpen);
@@ -321,7 +324,19 @@ const Sidebar = ({
               />
               <div>Invisible</div>
             </MenuItem>
+            <MenuItem
+              className="user-status"
+              onClick={() => setUserLegendModalOpen(true)}
+            >
+              😀 Set a custom legend
+            </MenuItem>
           </Menu>
+          <UserLegendModal
+            localUser={localUser}
+            isOpen={userLegendModalOpen}
+            closeModal={() => setUserLegendModalOpen(false)}
+            onEditUserAccount={onEditUserAccount}
+          />
           <div>
             <h3>{localUser.name}</h3>
             <p>{localUser.legend}</p>
