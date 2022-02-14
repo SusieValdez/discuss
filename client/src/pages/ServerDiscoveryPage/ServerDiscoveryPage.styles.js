@@ -1,12 +1,10 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
   height: 100vh;
   width: 100%;
   padding: 20px;
+  background-color: var(--bg-chat-area);
 
   > div {
     display: flex;
@@ -15,30 +13,42 @@ export const Container = styled.div`
   h1 {
     align-self: flex-start;
     margin: 30px 0 20px 70px;
-    color: #fff;
+    color: var(--font-white);
     text-align: left;
-    font-weight: 600;
+    font-weight: var(--font-weight-title);
     font-size: 20px;
     line-height: 24px;
   }
 `;
 
+export const PageContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+`;
+
 export const CardContainer = styled.div`
   display: flex;
   flex-direction: row;
+  justify-content: flex-start;
+  width: 100%;
   flex-wrap: wrap;
-  margin: 0 0 20px 70px;
   overflow-y: scroll;
+  overflow-x: hidden;
+  margin-bottom: 30px;
 `;
 
 export const DiscoveryHeroImage = styled.div`
+  display: flex;
   background: url(${(props) => props.background});
-  width: 90%;
+  width: 100%;
   min-height: 200px;
-  border-radius: 8px;
+  border-radius: var(--border-radius);
 
   input {
-    height: 30px;
+    height: 40px;
     align-self: center;
     margin: auto auto;
     width: 60%;
@@ -47,11 +57,12 @@ export const DiscoveryHeroImage = styled.div`
 `;
 
 export const ServerCard = styled.div`
-  background-color: #292b2f;
+  background-color: var(--user-menu-dark-gray);
   width: 300px;
   height: 320px;
   margin: 10px;
-  border-radius: 8px;
+  border-radius: var(--border-radius);
+
   cursor: pointer;
 
   &:hover {
@@ -59,42 +70,86 @@ export const ServerCard = styled.div`
     transform: translateY(-1px);
     box-shadow: 0 0 0 0.24;
   }
+`;
+
+export const CardHeader = styled.div`
+  height: auto;
 
   img {
     width: 100px;
     border-radius: 50%;
   }
-
-  h4 {
-    font-size: 16px;
-    line-height: 20px;
-    color: #fff;
-    font-weight: 600;
-    padding: 0 16px 16px;
-    margin-top: -20px;
-  }
-
-  p {
-    font-size: 14px;
-    line-height: 18px;
-    color: #b9bbbe;
-    margin: 4px 15px 40px 15px;
-  }
-
   .server-banner-color {
     height: 143px;
     border-radius: 8px 8px 0 0;
   }
 `;
 
+export const CardContent = styled.div`
+  height: 20%;
+
+  h4 {
+    font-size: 16px;
+    line-height: 20px;
+    color: var(--font-white);
+    font-weight: 600;
+    padding: 0 16px 16px;
+    margin-top: -20px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  p {
+    font-size: 14px;
+    line-height: 18px;
+    color: var(--font-darker-gray);
+    margin: 4px 15px 40px 15px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+`;
+
+export const CardFooter = styled.div`
+  display: flex;
+  justify-content: space-around;
+  height: 20%;
+
+  div {
+    display: flex;
+    align-items: center;
+
+    font-size: 0.75rem;
+    line-height: 1rem;
+    color: var(--font-darker-gray);
+  }
+
+  .online {
+    width: 10px;
+    height: 10px;
+    margin-right: 8px;
+    border-radius: 50%;
+    background-color: var(--online);
+  }
+
+  .offline {
+    width: 10px;
+    height: 10px;
+    margin-right: 8px;
+    border-radius: 50%;
+    background-color: #b9bbbe;
+  }
+`;
+
 export const ImageHolder = styled.div`
   img {
     position: relative;
-    width: 52px;
-    height: 52px;
+    width: 70px;
+    height: 70px;
     top: -30px;
     left: 20px;
-    border: 4px solid #292b2f;
+    border: 4px solid var(--user-menu-dark-gray);
   }
 `;
 
@@ -102,18 +157,17 @@ export const ModalContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  box-shadow: "0, 0, 0, 0.24";
-  background-color: #36393f;
-  border-radius: 8px;
+  box-shadow: var(--box-shadow);
+  background-color: var(--bg-chat-area);
+  border-radius: var(--border-radius);
   width: 100%;
   height: 100%;
-  border-radius: "6px";
-  box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.2);
+  box-shadow: var(--box-shadow);
 `;
 
 export const ModalHeader = styled.div`
   padding: 16px;
-  color: #fff;
+  color: var(--font-white);
   line-height: 30px;
 
   h3 {
@@ -126,10 +180,10 @@ export const ModalContent = styled.div`
   padding: 0 16px 20px;
 
   p {
-    color: #b9bbbe;
+    color: var(--font-darker-gray);
     font-size: 14px;
     line-height: 20px;
-    font-weight: 400;
+    font-weight: var(--font-weight-regular);
     margin-bottom: 10px;
   }
 `;
@@ -139,18 +193,18 @@ export const ModalFooter = styled.div`
   justify-content: flex-end;
   align-items: center;
   width: 100%;
-  background-color: #2f3136;
+  background-color: var(--bg-color-gray);
   height: 70px;
   padding: 16px;
 
   .cancel-button {
     width: auto;
     height: 38px;
-    color: #fff;
+    color: var(--font-white);
     min-width: 96px;
     min-height: 38px;
     font-size: 14px;
-    font-weight: 500;
+    font-weight: var(--font-weight-regular);
     line-height: 16px;
     padding: 2px 16px;
     border: none;
@@ -170,58 +224,28 @@ export const ModalFooter = styled.div`
     border: none;
     border-radius: 3px;
     font-size: 14px;
-    font-weight: 500;
+    font-weight: var(--font-weight-ttile);
     line-height: 16px;
     padding: 2px 16px;
 
     &.active {
       color: #fff;
-      background-color: #42ed56;
+      background-color: var(--blue);
       cursor: pointer;
 
       &:hover {
-        background-color: #3cc035;
+        background-color: var(--medium-blue);
       }
 
       &:active {
-        background-color: #2d9f31;
+        background-color: #3e49c2;
       }
     }
 
     &.disabled {
       color: #91939a;
-      background-color: #608075;
+      background-color: #434b94;
       cursor: not-allowed;
     }
-  }
-`;
-
-export const Members = styled.div`
-  display: flex;
-  justify-content: space-around;
-
-  div {
-    display: flex;
-    align-items: center;
-
-    font-size: 0.75rem;
-    line-height: 1rem;
-    color: #b9bbbe;
-  }
-
-  .online {
-    width: 10px;
-    height: 10px;
-    margin-right: 8px;
-    border-radius: 50%;
-    background-color: #1a981e;
-  }
-
-  .offline {
-    width: 10px;
-    height: 10px;
-    margin-right: 8px;
-    border-radius: 50%;
-    background-color: #b9bbbe;
   }
 `;
