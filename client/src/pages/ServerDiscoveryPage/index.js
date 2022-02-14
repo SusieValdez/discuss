@@ -9,10 +9,13 @@ import {
   ModalContent,
   ModalHeader,
   ModalFooter,
+  PageContent,
   CardContainer,
   ServerCard,
   ImageHolder,
-  Members,
+  CardHeader,
+  CardContent,
+  CardFooter,
 } from "./ServerDiscoveryPage.styles";
 // Assets
 import HeroImage from "../../assets/login-background.svg";
@@ -99,60 +102,66 @@ const ServerDiscoveryPage = ({
           </ModalContainer>
         )}
       </Modal>
-      <DiscoveryHeroImage background={HeroImage}>
-        <input
-          autoFocus
-          onChange={(e) => setSearchQuery(e.target.value)}
-          value={searchQuery}
-          type="text"
-          placeholder="Search servers"
-        />
-      </DiscoveryHeroImage>
-      <h1>Featured communities</h1>
-      <CardContainer>
-        {searchedServers.map((server) => {
-          const online = server.users
-            .map(({ userId }) => userMap[userId])
-            .filter(({ onlineStatus }) => onlineStatus === "online");
-          const numUsers = server.users.length;
-          return (
-            <ServerCard key={server._id} onClick={onClickServerCard(server)}>
-              {" "}
-              <div
-                className="server-banner-color"
-                style={{
-                  background: server.bannerImageUrl
-                    ? `url(${server.bannerImageUrl})`
-                    : server.bannerColor,
-                }}
-              />
-              <ImageHolder>
-                <img
-                  style={{ backgroundColor: server.bannerColor }}
-                  src={server.iconUrl || "/default-user-logo.svg"}
-                  alt="server icon"
-                />
-              </ImageHolder>
-              <div>
-                <h4>{server.name}</h4>
-              </div>
-              <div>
-                <p>{server.description}</p>
-              </div>
-              <Members>
-                <div>
-                  <div className="online" />
-                  {online.length} Online
-                </div>
-                <div>
-                  <div className="offline" />
-                  {numUsers} {numUsers > 1 ? "Members" : "Member"}
-                </div>
-              </Members>
-            </ServerCard>
-          );
-        })}
-      </CardContainer>
+      <PageContent>
+        <DiscoveryHeroImage background={HeroImage}>
+          <input
+            autoFocus
+            onChange={(e) => setSearchQuery(e.target.value)}
+            value={searchQuery}
+            type="text"
+            placeholder="Search servers"
+          />
+        </DiscoveryHeroImage>
+        <h1>Featured communities</h1>
+        <CardContainer>
+          {searchedServers.map((server) => {
+            const online = server.users
+              .map(({ userId }) => userMap[userId])
+              .filter(({ onlineStatus }) => onlineStatus === "online");
+            const numUsers = server.users.length;
+            return (
+              <ServerCard key={server._id} onClick={onClickServerCard(server)}>
+                {" "}
+                <CardHeader>
+                  <div
+                    className="server-banner-color"
+                    style={{
+                      background: server.bannerImageUrl
+                        ? `url(${server.bannerImageUrl})`
+                        : server.bannerColor,
+                    }}
+                  />
+                  <ImageHolder>
+                    <img
+                      style={{ backgroundColor: server.bannerColor }}
+                      src={server.iconUrl || "/default-user-logo.svg"}
+                      alt="server icon"
+                    />
+                  </ImageHolder>
+                </CardHeader>
+                <CardContent>
+                  <div>
+                    <h4>{server.name}</h4>
+                  </div>
+                  <div>
+                    <p>{server.description}</p>
+                  </div>
+                </CardContent>
+                <CardFooter>
+                  <div>
+                    <div className="online" />
+                    {online.length} Online
+                  </div>
+                  <div>
+                    <div className="offline" />
+                    {numUsers} {numUsers > 1 ? "Members" : "Member"}
+                  </div>
+                </CardFooter>
+              </ServerCard>
+            );
+          })}
+        </CardContainer>
+      </PageContent>
     </Container>
   );
 };
