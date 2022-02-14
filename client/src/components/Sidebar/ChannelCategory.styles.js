@@ -13,7 +13,10 @@ export const Category = styled.div`
     padding: 5px;
 
     .category-title {
-      width: 100%;
+      width: 180px;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
       :hover {
         color: #e1e2e3;
       }
