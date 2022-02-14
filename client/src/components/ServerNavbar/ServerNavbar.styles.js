@@ -3,7 +3,8 @@ import styled from "styled-components";
 export const Container = styled.div`
   width: 72px;
   height: 100%;
-  min-width: 72px;
+  min-width: 85px;
+  overflow-y: auto;
 `;
 
 export const Item = styled.div`
@@ -19,7 +20,7 @@ export const Item = styled.div`
     top: -45px;
     width: 8px;
     height: 20px;
-    background-color: #ffffff;
+    background-color: var(--font-color-white);
     border-radius: 4px;
   }
 
@@ -59,7 +60,7 @@ export const SvgIcon = styled.div`
 
   :hover {
     border-radius: 18px;
-    color: #fff;
+    color: var(--font-color-white);
     background-color: ${(props) => props.hoverBackgroundColor};
   }
 
@@ -92,7 +93,7 @@ export const Icon = styled.div`
 
   :hover {
     border-radius: 18px;
-    color: #fff;
+    color: var(--font-color-white);
   }
 
   span {

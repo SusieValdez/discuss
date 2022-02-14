@@ -41,6 +41,7 @@ const EditCategoryModal = ({ closeModal, data, onEditCategory }) => {
           backgroundColor: "rgba(6, 5, 8, 0.918)",
         },
         content: {
+          backgroundColor: "var(--bg-chat-area)",
           padding: 0,
           borderRadius: "8px",
           width: "100%",

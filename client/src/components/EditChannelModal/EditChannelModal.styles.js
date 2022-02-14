@@ -3,14 +3,14 @@ import styled from "styled-components";
 export const Container = styled.div`
   display: flex;
   flex-direction: row;
-  background-color: #36393f;
+  background-color: var(--bg-chat-area);
   width: 100%;
   height: 100%;
 
   svg {
     width: 36px;
     height: 36px;
-    color: #dcddde;
+    color: var(--font-light-gray);
     cursor: pointer;
   }
 `;
@@ -24,7 +24,7 @@ export const OptionSidebar = styled.div`
   flex-direction: column;
   height: 100%;
   min-width: 226px;
-  background-color: #2f3136;
+  background-color: var(--bg-color-gray);
 `;
 
 export const OptionSidebarContainer = styled.div`
@@ -40,11 +40,11 @@ export const OptionSidebarContainer = styled.div`
     padding: 6px;
     margin-bottom: 2px;
     border-radius: 4px;
-    font-weight: 500;
+    font-weight: var(--font-weight-regular);
     cursor: pointer;
 
     &:hover {
-      color: #dcddde;
+      color: var(--font-light-gray);
       background-color: #33363c;
     }
 
@@ -59,7 +59,7 @@ export const OptionSidebarHeader = styled.div`
   text-align: left;
   h3 {
     font-size: 12px;
-    font-weight: 700;
+    font-weight: var(--font-weight-title);
     line-height: 16px;
     text-transform: uppercase;
     color: #8e9297;
@@ -76,23 +76,23 @@ export const Divider = styled.div`
 
 export const DeleteButton = styled.div`
   p {
-  color: #de4043;
+  color: var(--red);
   font-size: 16px;
   line-height: 20px;
   padding: 6px;
   margin-bottom: 2px;
   border-radius: 4px;
-  font-weight: 500;
+  font-weight: var(--font-weight-regular);
   cursor: pointer;
 
   &:hover {
-    color: #de4043;
+    color: var(--medium-red);
     background-color: #33363c;
     }
 
     &:active {
       color: #e8e9e9
-      background-color: #de4043;
+      background-color: var(--red);
     }}
 `;
 
@@ -105,7 +105,7 @@ export const Content = styled.div`
 
   h2 {
     text-transform: uppercase;
-    color: #fff;
+    color: var(--font-white);
     font-size: 16px;
     line-height: 20px;
     margin-bottom: 20px;
@@ -113,7 +113,7 @@ export const Content = styled.div`
 
   h5 {
     text-transform: uppercase;
-    color: #b9bbbe;
+    color: var(--font-light-gray);
     font-size: 12px;
     line-height: 16px;
     margin-bottom: 8px;
@@ -127,15 +127,15 @@ export const Content = styled.div`
     color: #dcddde;
     border-radius: 3px;
     background-color: #313339;
-    border: 1px solid #040405;
+    border: var(--input-border)
     margin-bottom: 20px;
   }
 
   p {
-    color: #b9bbbe;
+    color: var(--font-darker-gray);
     font-size: 14px;
     line-height: 20px;
-    font-weight: 400;
+    font-weight: var(--font-weight-regular);
     margin-bottom: 10px;
   }
 `;
@@ -151,11 +151,11 @@ export const Footer = styled.div`
   .cancel-button {
     width: auto;
     height: 38px;
-    color: #fff;
+    color: var(--font-white);
     min-width: 96px;
     min-height: 38px;
     font-size: 14px;
-    font-weight: 500;
+    font-weight: var(--font-weight-regular);
     line-height: 16px;
     padding: 2px 16px;
     border: none;
@@ -175,21 +175,21 @@ export const Footer = styled.div`
     border: none;
     border-radius: 3px;
     font-size: 14px;
-    font-weight: 500;
+    font-weight: var(--font-weight-regular);
     line-height: 16px;
     padding: 2px 16px;
 
     &.active {
       color: #fff;
-      background-color: #5865f2;
+      background-color: var(--blue);
       cursor: pointer;
 
       &:hover {
-        background-color: #4955d6;
+        background-color: var(--medium-blue);
       }
 
       &:active {
-        background-color: #3e49c2;
+        background-color: var(--blue);
       }
     }
 

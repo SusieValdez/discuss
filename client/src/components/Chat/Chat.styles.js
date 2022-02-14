@@ -4,7 +4,7 @@ export const Container = styled.div`
   display: flex;
   width: 100%;
   height: 100vh;
-  background-color: #36393f;
+  background-color: var(--bg-chat-area);
   flex-direction: column;
 `;
 
@@ -13,15 +13,21 @@ export const Title = styled.div`
   width: 100%;
   height: 48px;
   padding: 16px;
-  box-shadow: 0 1px 0 rgba(4, 4, 5, 0.2), 0 1.5px 0 rgba(6, 6, 7, 0.05),
-    0 2px 0 rgba(4, 4, 5, 0.05);
-  color: #fff;
+  box-shadow: var(--box-shadow);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  font-weight: 600;
-  font-size: 14px;
-  line-height: 20px;
+
+  h3 {
+    width: 300px;
+    color: var(--font-white);
+    font-weight: var(--font-weight-title);
+    font-size: 14px;
+    line-height: 20px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
 
   svg {
     width: 24px;
@@ -32,7 +38,7 @@ export const Title = styled.div`
 
   a {
     text-decoration: none;
-    color: #fff;
+    color: var(--font-white);
   }
 `;
 
@@ -48,30 +54,29 @@ export const ChatArea = styled.div`
   flex-direction: column;
   overflow-y: hidden;
   width: 100%;
-  padding-bottom: 5px;
 
   .typing-indicator {
     font-size: 14px;
-    font-weight: 500;
-    color: #dcddde;
+    font-weight: var(--font-weight-regular);
+    color: var(--font-light-gray);
     padding: 20px;
   }
 `;
 
 export const Divider = styled.div`
   padding-top: -5px;
-  width: 95%;
+  width: 90%;
   margin: 10px auto;
   border-top: thin solid #42454a;
 
   span {
     text-align: center;
     display: block;
-    width: 100px;
+    width: 200px;
     margin: -8px auto 0 auto;
     background-color: #36393f;
     color: #72767d;
     font-size: 12px;
-    font-weight: 600;
+    font-weight: var(--font-weight-regular);
   }
 `;

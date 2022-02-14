@@ -5,8 +5,8 @@ export const Container = styled.div`
   flex-direction: column;
   box-shadow: "0, 0, 0, 0.24";
   padding: 20;
-  background-color: #18191c;
-  border-radius: 8px;
+  background-color: var(--bg-color-dark-gray);
+  border-radius: var(--border-radius);
   border-width: 0;
 
   img {
@@ -14,7 +14,7 @@ export const Container = styled.div`
     border-radius: 50%;
     width: 80px;
     height: 80px;
-    border: 6px solid #18191c;
+    border: 6px solid var(--bg-color-dark-gray);
     top: 30px;
     left: 16px;
   }
@@ -38,14 +38,14 @@ export const OnlineStatusIndicatorIcon = styled.div`
   position: relative;
   top: 28px;
   left: 70px;
-  border: 5px solid #18191c;
+  border: 5px solid var(--bg-color-dark-gray);
 
   &.online {
     background-color: #3ba55d;
   }
 
   &.offline {
-    border: 3px solid #b9bbbe;
+    border: 3px solid var(--font-darker-gray);
   }
 
   &.idle {
@@ -61,14 +61,14 @@ export const Header = styled.div`
   padding: 64px 16px 16px 16px;
 
   h2 {
-    color: #fff;
+    color: var(--font-white);
   }
 
   p {
     font-size: 14px;
     line-height: 18px;
-    font-weight: 500;
-    color: #b9bbbe;
+    font-weight: var(--font-weight-regular);
+    color: var(--font-darker-gray);
   }
 `;
 
@@ -77,7 +77,7 @@ export const Content = styled.div`
 
   h3 {
     text-transform: uppercase;
-    color: #b9bbbe;
+    color: var(--font-darker-gray);
     margin-bottom: 8px;
     font-size: 12px;
     line-height: 16px;
@@ -143,13 +143,13 @@ export const Footer = styled.div`
 
   input {
     font-size: 14px;
-    background-color: #292b2f;
+    background-color: var(--user-menu-dark-gray);
     padding: 10px;
     height: 40px;
     width: 100%;
     border-radius: 3px;
-    color: #dcddde;
-    border: 1px solid rgba(0, 0, 0, 0.3);
+    color: var(--font-light-gray);
+    border: var(--input-border);
     transition: border-color 0.2s ease-in-out;
 
     :hover {

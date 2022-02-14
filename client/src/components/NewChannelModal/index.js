@@ -4,10 +4,10 @@ import {
   Container,
   Header,
   Content,
-  PrivateSwitch,
+  // PrivateSwitch,
   Footer,
 } from "./NewChannelModal.styles";
-import Switch from "@mui/material/Switch";
+// import Switch from "@mui/material/Switch";
 
 const NewChannelModal = ({ closeModal, data, onClickNewChannel }) => {
   const [newChannelName, setNewChannelName] = useState("");
@@ -54,11 +54,11 @@ const NewChannelModal = ({ closeModal, data, onClickNewChannel }) => {
       }}
     >
       <Container>
-        <Header>
-          <h3>Create Channel</h3>
-          {category && <div>In {category.name}</div>}
-        </Header>
         <Content>
+          <Header>
+            <h3>Create Channel</h3>
+            {category && <div>In {category.name}</div>}
+          </Header>
           <div>
             <h5>Channel name</h5>
             <input
@@ -67,7 +67,7 @@ const NewChannelModal = ({ closeModal, data, onClickNewChannel }) => {
               onChange={onChangeNewChannelName}
             />
           </div>
-          <div>
+          {/* <div>
             <PrivateSwitch>
               <h5>Private Channel</h5>
               <Switch />
@@ -76,7 +76,7 @@ const NewChannelModal = ({ closeModal, data, onClickNewChannel }) => {
               By making a channel private, only select members and roles will be
               able to view this channel.
             </p>
-          </div>
+          </div> */}
         </Content>
         <Footer>
           <button onClick={closeModal} className="cancel-button">

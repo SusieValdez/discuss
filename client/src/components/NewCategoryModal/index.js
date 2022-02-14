@@ -4,10 +4,10 @@ import {
   Container,
   Header,
   Content,
-  PrivateCategory,
+  // PrivateCategory,
   Footer,
 } from "./NewCategoryModal.styles";
-import Switch from "@mui/material/Switch";
+// import Switch from "@mui/material/Switch";
 
 const NewCategoryModal = ({ closeModal, data, onClickNewCategory }) => {
   const [newCategoryName, setNewCategoryName] = useState("");
@@ -40,7 +40,6 @@ const NewCategoryModal = ({ closeModal, data, onClickNewCategory }) => {
           padding: 0,
           borderRadius: "8px",
           width: "440px",
-          height: "360px",
           border: "none",
           top: "50%",
           left: "50%",
@@ -52,10 +51,10 @@ const NewCategoryModal = ({ closeModal, data, onClickNewCategory }) => {
       }}
     >
       <Container>
-        <Header>
-          <h3>Create Category</h3>
-        </Header>
         <Content>
+          <Header>
+            <h3>Create Category</h3>
+          </Header>
           <div>
             <h5>Category name</h5>
             <input
@@ -64,7 +63,7 @@ const NewCategoryModal = ({ closeModal, data, onClickNewCategory }) => {
               onChange={onChangeNewCategoryName}
             />
           </div>
-          <div>
+          {/* <div>
             <PrivateCategory>
               <h5>Private Category</h5>
               <Switch />
@@ -74,7 +73,7 @@ const NewCategoryModal = ({ closeModal, data, onClickNewCategory }) => {
               be able to view this category. Synced channels in this category
               will automatically match to this setting.
             </p>
-          </div>
+          </div> */}
         </Content>
         <Footer>
           <button onClick={closeModal} className="cancel-button">

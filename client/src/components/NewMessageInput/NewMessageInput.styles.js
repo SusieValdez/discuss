@@ -11,7 +11,7 @@ export const Input = styled.textarea`
   border: none;
   outline: none;
   border-radius: 5px;
-  color: #dcddde;
+  color: var(--font-light-gray);
   padding: 10px;
   margin: 0 20px 10px 20px;
   width: 100%;

@@ -15,10 +15,10 @@ export const Container = styled.div`
     height: 40px;
     font-size: 16px;
     width: 100%;
-    color: #dcddde;
+    color: var(--font-light-gray);
     border-radius: 3px;
     background-color: #313339;
-    border: 1px solid #040405;
+    border: var(--input-border);
     margin-bottom: 20px;
   }
 `;
@@ -36,7 +36,7 @@ export const Avatar = styled.img`
 
 export const Username = styled.span`
   font-size: 1rem;
-  font-weight: 500;
+  font-weight: var(--font-weight-regular);
   margin-right: 0.25rem;
 
   :hover {
@@ -52,9 +52,9 @@ export const Timestamp = styled.span`
 `;
 
 export const Content = styled.div`
-  color: #dcddde;
+  color: var(--font-light-gray);
   font-size: 1rem;
-  font-weight: 400;
+  font-weight: var(--font-weight-regular);
   line-height: 1;
 
   a {

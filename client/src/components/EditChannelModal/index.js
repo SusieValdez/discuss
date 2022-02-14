@@ -41,6 +41,7 @@ const EditChannelModal = ({ closeModal, data, onEditChannel }) => {
           backgroundColor: "rgba(6, 5, 8, 0.918)",
         },
         content: {
+          backgrounColor: "var(--bg-chat-area)",
           padding: 0,
           borderRadius: "8px",
           width: "100%",

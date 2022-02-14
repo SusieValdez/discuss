@@ -5,7 +5,7 @@ export const Container = styled.div`
   justify-content: space-between;
   flex-direction: column;
   justify-content: center;
-  background-color: #ffffff;
+  background-color: var(--font-white);
   border-radius: 5px 5px 0 0;
   width: 100%;
   height: 100%;
@@ -13,7 +13,7 @@ export const Container = styled.div`
   svg {
     width: 24px;
     height: 24px;
-    color: #a6a9ae;
+    color: var(--font-darker-gray);
     cursor: pointer;
     position: absolute;
     top: 20px;
@@ -43,7 +43,7 @@ export const Content = styled.div`
   }
 
   strong {
-    font-weight: 600;
+    font-weight: var(--font-weight-title);
   }
 
   input {
@@ -54,7 +54,7 @@ export const Content = styled.div`
     color: #4d5155;
     border-radius: 3px;
     background-color: #fbfbfc;
-    border: 1px solid #b9bbbe;
+    border: 1px solid var(--font-darker-gray);
     margin-bottom: 10px;
   }
 
@@ -62,7 +62,7 @@ export const Content = styled.div`
     color: #575d67;
     font-size: 14px;
     line-height: 20px;
-    font-weight: 400;
+    font-weight: var(--font-weight-regular);
     margin-top: 8px;
     padding-bottom: 20px;
   }
@@ -95,7 +95,7 @@ export const BackButton = styled.button`
   border: none;
   cursor: pointer;
   font-size: 14px;
-  font-weight: 600;
+  font-weight: var(--font-weight-regular);
   line-height: 16px;
 `;
 
@@ -108,7 +108,7 @@ export const CreateButton = styled.button`
   border: none;
   border-radius: 3px;
   font-size: 14px;
-  font-weight: 500;
+  font-weight: var(--font-weight-title);
   line-height: 16px;
   padding: 2px 16px;
   cursor: ${(props) => (props.isActive ? "pointer" : "not-allowed")};

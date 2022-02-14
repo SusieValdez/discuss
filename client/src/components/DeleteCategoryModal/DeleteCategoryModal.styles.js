@@ -4,18 +4,15 @@ export const Container = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  box-shadow: "0, 0, 0, 0.24";
-  background-color: #36393f;
-  border-radius: 8px;
+  border-radius: var(--border-radius);
   width: 100%;
   height: 100%;
-  border-radius: "6px";
-  box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.2);
+  box-shadow: var(--box-shadow);
 `;
 
 export const Header = styled.div`
   padding: 16px;
-  color: #fff;
+  color: var(--font-white);
   line-height: 30px;
 
   h3 {
@@ -28,10 +25,10 @@ export const Content = styled.div`
   padding: 0 16px 20px;
 
   p {
-    color: #b9bbbe;
+    color: var(--font-darker-gray);
     font-size: 14px;
     line-height: 20px;
-    font-weight: 400;
+    font-weight: var(--font-weight-regular);
     margin-bottom: 10px;
   }
 `;
@@ -41,22 +38,22 @@ export const Footer = styled.div`
   justify-content: flex-end;
   align-items: center;
   width: 100%;
-  background-color: #2f3136;
+  background-color: var(--bg-color-gray);
   height: 70px;
   padding: 16px;
 
   .cancel-button {
     width: auto;
     height: 38px;
-    color: #fff;
+    color: var(--font-white);
     min-width: 96px;
     min-height: 38px;
     font-size: 14px;
-    font-weight: 500;
+    font-weight: var(--font-weight-regular);
     line-height: 16px;
     padding: 2px 16px;
     border: none;
-    border-radius: 3px;
+    border-radius: var(--border-radius);
     background: none;
     cursor: pointer;
 
@@ -68,23 +65,23 @@ export const Footer = styled.div`
   .delete-button {
     width: auto;
     height: 38px;
-    background-color: #ed4245;
-    color: #ffffff;
+    background-color: var(--red);
+    color: var(--font-white);
     transition: background-color 0.17s ease, color 0.17s ease;
     border: none;
-    border-radius: 3px;
+    border-radius: var(--border-radius);
     font-size: 14px;
-    font-weight: 500;
+    font-weight: var(--font-weight-regular);
     line-height: 16px;
     padding: 2px 16px;
     cursor: pointer;
 
     &:hover {
-      background-color: #c03537;
+      background-color: var(--medium-red);
     }
 
     &:active {
-      background-color: #9f2d2f;
+      background-color: var(--dark-red);
     }
   }
 `;
