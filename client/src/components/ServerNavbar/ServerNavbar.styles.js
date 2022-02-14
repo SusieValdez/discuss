@@ -5,6 +5,7 @@ export const Container = styled.div`
   height: 100%;
   min-width: 85px;
   overflow-y: auto;
+  overflow-x: hidden;
 `;
 
 export const Item = styled.div`
