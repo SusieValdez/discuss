@@ -34,6 +34,7 @@ export const Title = styled.div`
     height: 24px;
     cursor: pointer;
     margin: 0 8px;
+    color: var(--font-darker-gray);
   }
 
   a {
