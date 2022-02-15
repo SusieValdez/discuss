@@ -33,6 +33,7 @@ import {
   editRole,
   setDesiredOnlineStatus,
 } from "./db.js";
+import { hash } from "./utils.js";
 
 const mapLoginCodeToClient = new Map();
 
@@ -101,7 +102,7 @@ wss.on("connection", async (ws) => {
         const { _id, desiredOnlineStatus } = await newUser(
           name,
           email,
-          password,
+          hash(password),
           dateOfBirth
         );
         const cookie = nanoid();
@@ -112,12 +113,13 @@ wss.on("connection", async (ws) => {
         return;
       }
       case "LOGIN": {
-        const user = await getUserByEmail(action.payload.email);
+        const { email, password } = action.payload;
+        const user = await getUserByEmail(email);
         if (!user) {
           return;
         }
-        const { _id, password, desiredOnlineStatus } = user;
-        if (action.payload.password !== password) {
+        const { _id, password: userPassword, desiredOnlineStatus } = user;
+        if (hash(password) !== userPassword) {
           return;
         }
         const cookie = nanoid();
