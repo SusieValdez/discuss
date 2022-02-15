@@ -1,4 +1,5 @@
 import { React, useState } from "react";
+import { emptyPixelUrl } from "../../utils";
 // Styles
 import {
   Content,
@@ -127,8 +128,8 @@ const Overview = ({ server, onEditServerSettings }) => {
           </div>
           <img
             className="server-banner-color"
-            alt="new server banner"
-            src={newServerBannerImageUrl || newServerBannerColor}
+            alt=""
+            src={newServerBannerImageUrl || emptyPixelUrl}
             style={{
               background: newServerBannerImageUrl
                 ? `url(${newServerBannerImageUrl})`

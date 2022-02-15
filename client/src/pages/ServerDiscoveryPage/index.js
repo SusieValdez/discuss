@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Modal from "react-modal";
 import { useNavigate } from "react-router-dom";
-import { isUserInServer, sortByQuery } from "../../utils";
+import { emptyPixelUrl, isUserInServer, sortByQuery } from "../../utils";
 import {
   Container,
   DiscoveryHeroImage,
@@ -122,22 +122,23 @@ const ServerDiscoveryPage = ({
               <ServerCard key={server._id} onClick={onClickServerCard(server)}>
                 {" "}
                 <CardHeader>
-                  <div
-                    className="server-banner-color"
+                  <img
                     style={{
-                      background: server.bannerImageUrl
-                        ? `url(${server.bannerImageUrl})`
-                        : server.bannerColor,
+                      backgroundColor: server.bannerColor,
                     }}
+                    src={server.bannerImageUrl || emptyPixelUrl}
+                    alt=""
                   />
-                  <ImageHolder>
-                    <img
-                      style={{ backgroundColor: server.bannerColor }}
-                      src={server.iconUrl || "/default-user-logo.svg"}
-                      alt="server icon"
-                    />
-                  </ImageHolder>
                 </CardHeader>
+                <ImageHolder>
+                  <img
+                    style={{
+                      backgroundColor: server.bannerColor,
+                    }}
+                    src={server.iconUrl || "/default-user-logo.svg"}
+                    alt=""
+                  />
+                </ImageHolder>
                 <CardContent>
                   <div>
                     <h4>{server.name}</h4>

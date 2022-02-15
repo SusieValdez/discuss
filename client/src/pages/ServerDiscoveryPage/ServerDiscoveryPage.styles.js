@@ -24,9 +24,7 @@ export const Container = styled.div`
 export const PageContent = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
-  height: 100%;
 `;
 
 export const CardContainer = styled.div`
@@ -73,15 +71,15 @@ export const ServerCard = styled.div`
 `;
 
 export const CardHeader = styled.div`
-  height: auto;
+  border: none;
+  height: 143px;
+  display: flex;
 
   img {
-    width: 100px;
-    border-radius: 50%;
-  }
-  .server-banner-color {
-    height: 143px;
+    width: 100%;
     border-radius: 8px 8px 0 0;
+    vertical-align: middle;
+    object-fit: cover;
   }
 `;
 
@@ -144,6 +142,8 @@ export const CardFooter = styled.div`
 
 export const ImageHolder = styled.div`
   img {
+    width: 100px;
+    border-radius: 50%;
     position: relative;
     width: 70px;
     height: 70px;
