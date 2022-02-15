@@ -62,7 +62,7 @@ export const SvgIcon = styled.div`
 
   :hover {
     border-radius: 18px;
-    color: var(--font-color-white);
+    color: #ffffff;
     background-color: ${(props) => props.hoverBackgroundColor};
   }
 
