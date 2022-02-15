@@ -79,14 +79,15 @@ const MiniUserProfileModal = ({ closeModal, data }) => {
               ? `url(${user.bannerImageUrl})`
               : user.bannerColor,
           }}
-        ></Banner>
-        <img
-          src={user.avatarUrl || "/default-user-logo.svg"}
-          style={{
-            backgroundColor: user.avatarUrl ? "#18191c" : user.bannerColor,
-          }}
-          alt="user avatar"
-        />
+        >
+          <img
+            src={user.avatarUrl || "/default-user-logo.svg"}
+            style={{
+              backgroundColor: user.avatarUrl ? "#18191c" : user.bannerColor,
+            }}
+            alt="user avatar"
+          />
+        </Banner>
         {<OnlineStatusIndicatorIcon className={user.onlineStatus} />}
         <Header>
           <h2>{user.name}</h2>

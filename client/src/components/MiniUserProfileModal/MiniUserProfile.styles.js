@@ -9,16 +9,6 @@ export const Container = styled.div`
   border-radius: var(--border-radius);
   border-width: 0;
 
-  img {
-    position: absolute;
-    border-radius: 50%;
-    width: 80px;
-    height: 80px;
-    border: 6px solid var(--bg-color-dark-gray);
-    top: 30px;
-    left: 16px;
-  }
-
   hr {
     color: #262729;
     margin: 0 auto 12px auto;
@@ -29,6 +19,16 @@ export const Container = styled.div`
 
 export const Banner = styled.div`
   height: 60px;
+
+  img {
+    position: absolute;
+    border-radius: 50%;
+    width: 80px;
+    height: 80px;
+    border: 6px solid var(--bg-color-dark-gray);
+    top: 30px;
+    left: 16px;
+  }
 `;
 
 export const OnlineStatusIndicatorIcon = styled.div`
@@ -45,7 +45,10 @@ export const OnlineStatusIndicatorIcon = styled.div`
   }
 
   &.offline {
-    border: 3px solid var(--font-darker-gray);
+    width: 20px;
+    height: 20px;
+    background-color: #18191c;
+    border: 4px solid var(--font-darker-gray);
   }
 
   &.idle {
@@ -58,14 +61,14 @@ export const OnlineStatusIndicatorIcon = styled.div`
 `;
 
 export const Header = styled.div`
-  padding: 64px 16px 16px 16px;
+  padding: 35px 16px 16px 16px;
 
   h2 {
     color: var(--font-white);
   }
 
   p {
-    font-size: 14px;
+    font-size: 12px;
     line-height: 18px;
     font-weight: var(--font-weight-regular);
     color: var(--font-darker-gray);
@@ -78,33 +81,17 @@ export const Content = styled.div`
   h3 {
     text-transform: uppercase;
     color: var(--font-darker-gray);
-    margin-bottom: 8px;
+    margin-top: 4px;
+    margin-bottom: 15px;
     font-size: 12px;
     line-height: 16px;
-  }
-
-  textarea {
-    height: 36px;
-    background-color: transparent;
-    border: none;
-    color: #4c4e51;
-    font-size: 12px;
-    line-height: 14px;
-    width: 100%;
-    max-height: 88px;
-    padding: 4px;
-    resize: none;
-
-    &:focus {
-      background-color: #2022525;
-    }
   }
 `;
 
 export const RoleContainer = styled.div`
   display: flex;
   margin-bottom: 16px;
-  margin-top: 2px;
+  margin-top: 8px;
   flex-wrap: wrap;
 `;
 
@@ -125,8 +112,12 @@ export const RoleDiv = styled.div`
 export const AboutMe = styled.div`
   color: #bbbcbd;
   max-height: 100px;
-  overflow-y: scroll;
-  margin-bottom: 10px;
+  width: 270px;
+  overflow-y: auto;
+  margin-bottom: 13px;
+  font-size: 12px;
+  line-height: 18px;
+  word-wrap: break-word;
 `;
 
 export const RoleDot = styled.div`
