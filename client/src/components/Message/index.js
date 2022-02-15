@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { marked } from "marked";
 import { formatRelative } from "date-fns";
 
 // Styles
@@ -105,20 +106,6 @@ const Message = ({
     };
   }
 
-  const content = text.split(" ").map((word, i) => {
-    if (isLink(word)) {
-      if (images.includes(word)) {
-        return "";
-      }
-      return (
-        <a key={i} href={word}>
-          {word}
-        </a>
-      );
-    }
-    return ` ${word} `;
-  });
-
   return (
     <Container onContextMenu={onRightClickMessage}>
       <Avatar
@@ -145,18 +132,21 @@ const Message = ({
             onKeyDown={onKeyDownEditedMessage}
           />
         ) : (
-          <Content
-            style={{
-              fontSize: isAllEmojis(text) ? "48px" : "16px",
-            }}
-          >
-            {content}
+          <div>
+            <Content
+              style={{
+                fontSize: isAllEmojis(text) ? "48px" : "16px",
+              }}
+              dangerouslySetInnerHTML={{
+                __html: marked.parse(text, { breaks: true }),
+              }}
+            />
             <div>
               {images.map((src, i) => (
                 <img key={i} src={src} alt={src} />
               ))}
             </div>
-          </Content>
+          </div>
         )}
       </div>
       <Menu

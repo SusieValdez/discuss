@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { marked } from "marked";
 // Styles
 import {
   Container,
@@ -93,11 +94,11 @@ const UserProfile = ({ user, onEditUserAccount }) => {
               }}
             />
             <h3>About Me</h3>
-            <AboutMe>
-              {newAboutMe.split("\n").map((row, i) => (
-                <p key={i}>{row}</p>
-              ))}
-            </AboutMe>
+            <AboutMe
+              dangerouslySetInnerHTML={{
+                __html: marked.parse(newAboutMe, { breaks: true }),
+              }}
+            />
           </MiniUserProfile>
         </UserSettingImageColumn>
       </Content>

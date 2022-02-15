@@ -1,4 +1,5 @@
 import React, { useRef } from "react";
+import { marked } from "marked";
 import Modal from "react-modal";
 import Tooltip from "../../ui/Tooltip";
 import {
@@ -99,11 +100,11 @@ const MiniUserProfileModal = ({ closeModal, data }) => {
         <hr className="solid" />
         <Content>
           {user.aboutMe && <h3>About Me</h3>}
-          <AboutMe>
-            {user.aboutMe?.split("\n").map((row, i) => (
-              <p key={i}>{row}</p>
-            ))}
-          </AboutMe>
+          <AboutMe
+            dangerouslySetInnerHTML={{
+              __html: marked.parse(user.aboutMe, { breaks: true }),
+            }}
+          />
           <h3>
             {rolesWithoutEveryone
               ? rolesWithoutEveryone.length === 0
