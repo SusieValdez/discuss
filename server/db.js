@@ -167,6 +167,9 @@ export async function updateUser(userId, updatedUser) {
 
 export async function getUserByEmail(email) {
   const user = await db.collection("users").findOne({ email });
+  if (!user) {
+    return null;
+  }
   return {
     ...user,
     _id: user._id.toString(),

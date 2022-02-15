@@ -228,9 +228,11 @@ wss.on("connection", async (ws) => {
         );
       }
       case "LOGIN": {
-        const { _id, password, desiredOnlineStatus } = await getUserByEmail(
-          action.payload.email
-        );
+        const user = await getUserByEmail(action.payload.email);
+        if (!user) {
+          return;
+        }
+        const { _id, password, desiredOnlineStatus } = user;
         if (action.payload.password !== password) {
           return;
         }
