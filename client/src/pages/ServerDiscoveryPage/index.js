@@ -105,7 +105,6 @@ const ServerDiscoveryPage = ({
       <PageContent>
         <DiscoveryHeroImage background={HeroImage}>
           <input
-            autoFocus
             onChange={(e) => setSearchQuery(e.target.value)}
             value={searchQuery}
             type="text"

@@ -76,7 +76,6 @@ const Overview = ({ server, onEditServerSettings }) => {
           <h5>Server Name</h5>
           <input
             type="text"
-            autoFocus
             value={newServerName}
             placeholder={server.name}
             onChange={onNewChangeServerName}

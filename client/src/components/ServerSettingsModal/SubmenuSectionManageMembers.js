@@ -24,7 +24,6 @@ const SubmenuSectionManageMembers = ({
         <input
           type="text"
           placeholder="Search Members"
-          autoFocus
           onChange={(e) => setSearchQuery(e.target.value)}
           value={searchQuery}
         />

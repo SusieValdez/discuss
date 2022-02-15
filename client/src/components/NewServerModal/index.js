@@ -70,7 +70,6 @@ const NewServerModal = ({ isOpen, closeModal, onNewServer }) => {
           </p>
           <h5>Server name</h5>
           <input
-            autoFocus
             placeholder="Server Name"
             value={newServerName}
             onChange={onChangeNewServerName}

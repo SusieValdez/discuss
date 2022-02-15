@@ -95,7 +95,6 @@ const Roles = ({
           <input
             type="text"
             placeholder="Search Roles"
-            autoFocus
             onChange={(e) => setSearchQuery(e.target.value)}
             value={searchQuery}
           />

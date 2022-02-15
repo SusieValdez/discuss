@@ -57,11 +57,7 @@ const NewCategoryModal = ({ closeModal, data, onClickNewCategory }) => {
           </Header>
           <div>
             <h5>Category name</h5>
-            <input
-              autoFocus
-              value={newCategoryName}
-              onChange={onChangeNewCategoryName}
-            />
+            <input value={newCategoryName} onChange={onChangeNewCategoryName} />
           </div>
           {/* <div>
             <PrivateCategory>

@@ -76,7 +76,6 @@ const EditChannelModal = ({ closeModal, data, onEditChannel }) => {
           <h2>Overview</h2>
           <h5>Channel Name</h5>
           <input
-            autoFocus
             placeholder="Channel Name"
             value={editedChannelName}
             onChange={onChangeEditChannelName}

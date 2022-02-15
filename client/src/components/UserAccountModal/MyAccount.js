@@ -34,7 +34,6 @@ const MyAccount = ({ user, onEditUserAccount }) => {
       <h5>Username</h5>
       <input
         type="text"
-        autoFocus
         value={newUserName}
         placeholder={user.name}
         onChange={(e) => setNewUserName(e.target.value)}
@@ -42,7 +41,6 @@ const MyAccount = ({ user, onEditUserAccount }) => {
       <h5>Email</h5>
       <input
         type="text"
-        autoFocus
         value={newEmail}
         placeholder="me@example.com"
         onChange={(e) => setNewEmail(e.target.value)}
@@ -50,7 +48,6 @@ const MyAccount = ({ user, onEditUserAccount }) => {
       <h5>Password</h5>
       <input
         type="password"
-        autoFocus
         value={newPassword}
         onChange={(e) => setNewPassword(e.target.value)}
       />

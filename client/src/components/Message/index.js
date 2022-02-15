@@ -140,7 +140,6 @@ const Message = ({
         </div>
         {isEditing ? (
           <input
-            autoFocus
             value={editedMessage}
             onChange={onChangeEditedMessage}
             onKeyDown={onKeyDownEditedMessage}

@@ -61,11 +61,7 @@ const NewChannelModal = ({ closeModal, data, onClickNewChannel }) => {
           </Header>
           <div>
             <h5>Channel name</h5>
-            <input
-              autoFocus
-              value={newChannelName}
-              onChange={onChangeNewChannelName}
-            />
+            <input value={newChannelName} onChange={onChangeNewChannelName} />
           </div>
           {/* <div>
             <PrivateSwitch>
