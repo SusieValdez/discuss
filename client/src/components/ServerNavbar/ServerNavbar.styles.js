@@ -1,9 +1,9 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
-  width: 72px;
+  width: 72;
   height: 100%;
-  min-width: 85px;
+  min-width: 70px;
   overflow-y: auto;
   overflow-x: hidden;
   scrollbar-color: transparent transparent;
