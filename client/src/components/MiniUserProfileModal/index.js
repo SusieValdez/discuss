@@ -110,8 +110,8 @@ const MiniUserProfileModal = ({ closeModal, data }) => {
           </h3>
           <RoleContainer>
             {rolesWithoutEveryone?.map((role) => (
-              <span>
-                <RoleDiv key={role._id}>
+              <span key={role._id}>
+                <RoleDiv>
                   <RoleDot color={role.color} />
                   {role.name}
                 </RoleDiv>
