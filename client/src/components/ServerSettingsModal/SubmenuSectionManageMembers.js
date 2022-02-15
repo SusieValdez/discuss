@@ -33,7 +33,13 @@ const SubmenuSectionManageMembers = ({
         {users.map((user) => (
           <MemberRow key={user._id}>
             <MemberDetails>
-              <img src={user.avatarUrl} alt="user avatar" />
+              <img
+                style={{
+                  backgroundColor: user.avatarUrl ? "none" : user.bannerColor,
+                }}
+                src={user.avatarUrl || "/default-user-logo.svg"}
+                alt="profile pic"
+              />
               <h2>{user.name}</h2>
               <span>{user.legend}</span>
             </MemberDetails>

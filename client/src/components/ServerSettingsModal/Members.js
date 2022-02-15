@@ -56,7 +56,13 @@ const Members = ({ users, roles }) => {
           <div key={user._id}>
             <MemberRow>
               <MemberDetails>
-                <img src={user.avatarUrl} alt="user avatar" />
+                <img
+                  style={{
+                    backgroundColor: user.avatarUrl ? "none" : user.bannerColor,
+                  }}
+                  src={user.avatarUrl || "/default-user-logo.svg"}
+                  alt="profile pic"
+                />
                 <div>
                   <h2 styles={{ color: topRoleColor(user) }}>{user.name}</h2>
                   <span>{user.legend}</span>
