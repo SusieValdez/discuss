@@ -1,4 +1,4 @@
-import { React, useRef, useState } from "react";
+import { React, useEffect, useRef, useState } from "react";
 //Components
 import ChannelCategory from "./ChannelCategory";
 // Styles
@@ -64,7 +64,43 @@ const Sidebar = ({
   const statusMenu = useMenuState();
   const statusRef = useRef(null);
 
-  const [copiedTooltipIsOpen, setCopiedTooltipOpen] = useState(false);
+  const [copiedServerInviteTooltipIsOpen, setCopiedServerInviteTooltipOpen] =
+    useState(false);
+
+  const onClickInvitePeople = () => {
+    setCopiedServerInviteTooltipOpen(true);
+    navigator.clipboard.writeText(
+      `${process.env.REACT_APP_CLIENT_URL}/invite/${server._id}`
+    );
+  };
+
+  const [copyUsernameTooltipIsOpen, setCopyUsernameTooltipIsOpen] =
+    useState(false);
+
+  const onMouseEnterUsername = () => {
+    setCopyUsernameTooltipIsOpen(true);
+  };
+  const onMouseLeaveUsername = () => {
+    setCopyUsernameTooltipIsOpen(false);
+  };
+
+  const [wasUsernameClicked, setUsernameWasClicked] = useState(false);
+
+  const onClickUsername = () => {
+    setUsernameWasClicked(true);
+    navigator.clipboard.writeText(localUser.name);
+  };
+
+  useEffect(() => {
+    if (wasUsernameClicked) {
+      setTimeout(() => {
+        setCopyUsernameTooltipIsOpen(false);
+        setTimeout(() => {
+          setUsernameWasClicked(false);
+        }, 100);
+      }, 500);
+    }
+  }, [wasUsernameClicked]);
 
   const [userAccountModalData, setUserAccountModalData] = useState(undefined);
   const [serverSettingsModalData, setServerSettingsModalData] =
@@ -111,13 +147,6 @@ const Sidebar = ({
       loneChannels.push(channel);
     }
   }
-
-  const onClickInvitePeople = () => {
-    setCopiedTooltipOpen(true);
-    navigator.clipboard.writeText(
-      `${process.env.REACT_APP_CLIENT_URL}/invite/${server._id}`
-    );
-  };
 
   return (
     <Container>
@@ -173,7 +202,7 @@ const Sidebar = ({
       />
       <div>
         <Tooltip
-          open={copiedTooltipIsOpen}
+          open={copiedServerInviteTooltipIsOpen}
           title="Copied!"
           placement="bottom-end"
           arrow={false}
@@ -188,7 +217,7 @@ const Sidebar = ({
           anchorRef={headerRef}
           onClose={() => {
             setTimeout(() => {
-              setCopiedTooltipOpen(false);
+              setCopiedServerInviteTooltipOpen(false);
             }, 1000);
             setHeaderMenuIsOpen(false);
             headerMenu.toggleMenu(false);
@@ -351,10 +380,20 @@ const Sidebar = ({
             closeModal={() => setUserLegendModalOpen(false)}
             onEditUserAccount={onEditUserAccount}
           />
-          <div>
-            <h3>{localUser.name}</h3>
-            <p>{localUser.legend}</p>
-          </div>
+          <Tooltip
+            open={copyUsernameTooltipIsOpen}
+            title={wasUsernameClicked ? "Copied!" : "Click to copy usename"}
+            arrow={false}
+          >
+            <div
+              onClick={onClickUsername}
+              onMouseEnter={onMouseEnterUsername}
+              onMouseLeave={onMouseLeaveUsername}
+            >
+              <h3>{localUser.name}</h3>
+              <p>{localUser.legend}</p>
+            </div>
+          </Tooltip>
         </UserTag>
         <Tooltip title="User settings" placement="top">
           <IconContainer onClick={() => setUserAccountModalData({})}>
