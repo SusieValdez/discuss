@@ -1,6 +1,5 @@
 import { MongoClient, ObjectId } from "mongodb";
-import { nanoid } from "nanoid";
-import { getRandomColor } from "./utils.js";
+import { getRandomColor, getId } from "./utils.js";
 
 const url = "mongodb://localhost:27017";
 const dbName = "discuss";
@@ -21,8 +20,8 @@ export async function getServer(_id) {
 }
 
 export async function newServer(name, ownerId) {
-  const categoryId = nanoid();
-  const everyoneRoleId = nanoid();
+  const categoryId = getId();
+  const everyoneRoleId = getId();
   const server = {
     name,
     ownerId,
@@ -55,7 +54,7 @@ export async function newServer(name, ownerId) {
     ],
     channels: [
       {
-        _id: nanoid(),
+        _id: getId(),
         name: "Chat",
         categoryId,
         messages: [],
@@ -80,7 +79,7 @@ export async function deleteServer(serverId) {
 
 export async function addMessage(serverId, channelId, text, userId) {
   const message = {
-    _id: nanoid(),
+    _id: getId(),
     userId,
     timestamp: Date.now(),
     text,
@@ -228,7 +227,7 @@ export async function getUserCookie(cookie) {
 }
 
 export async function addCategory(serverId, name) {
-  const _id = nanoid();
+  const _id = getId();
   await db
     .collection("servers")
     .updateOne(
@@ -275,7 +274,7 @@ export async function deleteCategory(serverId, categoryId) {
 
 export async function addChannel(serverId, categoryId, name) {
   const channel = {
-    _id: nanoid(),
+    _id: getId(),
     name,
     categoryId,
     messages: [],
@@ -315,7 +314,7 @@ export async function deleteChannel(serverId, channelId) {
 
 export async function addRole(serverId) {
   const role = {
-    _id: nanoid(),
+    _id: getId(),
     name: "new role",
     color: "#eeeeee",
     permissions: {

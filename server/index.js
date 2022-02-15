@@ -1,5 +1,4 @@
 import { WebSocketServer } from "ws";
-import { nanoid } from "nanoid";
 import {
   addCategory,
   addChannel,
@@ -33,7 +32,7 @@ import {
   editRole,
   setDesiredOnlineStatus,
 } from "./db.js";
-import { hash } from "./utils.js";
+import { getId, hash } from "./utils.js";
 
 const mapLoginCodeToClient = new Map();
 
@@ -105,7 +104,7 @@ wss.on("connection", async (ws) => {
           hash(password),
           dateOfBirth
         );
-        const cookie = nanoid();
+        const cookie = getId();
         ws.userId = _id;
         await addUserCookie(cookie, ws.userId);
         await sendState(ws, cookie, ws.userId);
@@ -122,7 +121,7 @@ wss.on("connection", async (ws) => {
         if (hash(password) !== userPassword) {
           return;
         }
-        const cookie = nanoid();
+        const cookie = getId();
         ws.userId = _id;
         await addUserCookie(cookie, ws.userId);
         await sendState(ws, cookie, ws.userId);
@@ -142,7 +141,7 @@ wss.on("connection", async (ws) => {
         return;
       }
       case "REQUEST_LOGIN_CODE": {
-        const loginCode = nanoid();
+        const loginCode = getId();
         mapLoginCodeToClient.set(loginCode, ws);
         sendTo(ws, {
           kind: "SET_LOGIN_CODE",
@@ -163,7 +162,7 @@ wss.on("connection", async (ws) => {
       case "CONFIRM_LOGIN_CODE": {
         const { loginCode } = action.payload;
         const client = mapLoginCodeToClient.get(loginCode);
-        const cookie = nanoid();
+        const cookie = getId();
         client.userId = ws.userId;
         await addUserCookie(cookie, client.userId);
         await sendState(client, cookie, client.userId);

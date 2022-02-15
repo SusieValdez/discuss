@@ -1,4 +1,6 @@
 import { createHash } from "crypto";
+import { customAlphabet } from "nanoid";
+const nanoid = customAlphabet("1234567890", 18);
 
 export function getRandomColor() {
   var letters = "0123456789ABCDEF";
@@ -11,4 +13,8 @@ export function getRandomColor() {
 
 export function hash(string) {
   return createHash("sha256").update(string).digest("hex");
+}
+
+export function getId() {
+  return nanoid();
 }
