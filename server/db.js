@@ -78,13 +78,20 @@ export async function deleteServer(serverId) {
   await db.collection("servers").deleteOne({ _id: ObjectId(serverId) });
 }
 
-export async function addMessage(message, serverId, channelId) {
+export async function addMessage(serverId, channelId, text, userId) {
+  const message = {
+    _id: nanoid(),
+    userId,
+    timestamp: Date.now(),
+    text,
+  };
   await db
     .collection("servers")
     .updateOne(
       { _id: ObjectId(serverId), "channels._id": channelId },
       { $push: { "channels.$.messages": message } }
     );
+  return message;
 }
 
 export async function editMessage(serverId, channelId, messageId, text) {

@@ -36,179 +36,60 @@ import {
 
 const mapLoginCodeToClient = new Map();
 
-const wss = new WebSocketServer({ port: 8080 });
-
 const typingTimeouts = {};
 
-const sendState = async (ws, cookie, userId) => {
-  ws.send(
-    JSON.stringify({
-      kind: "SET_STATE",
-      payload: {
-        cookie,
-        state: {
-          userId,
-          servers: await getServers(),
-          users: await getUsers(),
-        },
-      },
-    })
-  );
+const wss = new WebSocketServer({ port: 8080 });
+
+const sendTo = (client, event) => {
+  client.send(JSON.stringify(event));
 };
 
-const updateOnlineStatus = async (clients, userId, onlineStatus) => {
+const broadcast = (event) => {
+  wss.clients.forEach((client) => {
+    sendTo(client, event);
+  });
+};
+
+const sendState = async (client, cookie, userId) => {
+  sendTo(client, {
+    kind: "SET_STATE",
+    payload: {
+      cookie,
+      state: {
+        userId,
+        servers: await getServers(),
+        users: await getUsers(),
+      },
+    },
+  });
+};
+
+const updateOnlineStatus = async (userId, onlineStatus) => {
   onlineStatus = onlineStatus === "invisible" ? "offline" : onlineStatus;
   await setOnlineStatus(userId, onlineStatus);
-  for (const client of clients) {
-    client.send(
-      JSON.stringify({
-        kind: "ONLINE_STATUS_CHANGED",
-        payload: {
-          userId,
-          onlineStatus,
-        },
-      })
-    );
-  }
+  broadcast({
+    kind: "ONLINE_STATUS_CHANGED",
+    payload: {
+      userId,
+      onlineStatus,
+    },
+  });
 };
 
 wss.on("connection", async (ws) => {
-  let loggedInUserId;
-
   ws.on("close", async () => {
-    if (!loggedInUserId) {
+    if (!ws.userId) {
       return;
     }
-    await updateOnlineStatus(wss.clients, loggedInUserId, "offline");
-    loggedInUserId = undefined;
+    await updateOnlineStatus(ws.userId, "offline");
+    ws.userId = undefined;
   });
 
   ws.on("message", async (data) => {
     const action = JSON.parse(data);
     console.log(action);
+
     switch (action.kind) {
-      case "NEW_SERVER": {
-        if (!loggedInUserId) {
-          return;
-        }
-        const { name } = action.payload;
-        const server = await newServer(name, loggedInUserId);
-        const event = {
-          kind: "NEW_SERVER",
-          payload: {
-            server,
-          },
-        };
-        wss.clients.forEach((client) => {
-          client.send(JSON.stringify(event));
-        });
-        break;
-      }
-      case "EDIT_SERVER": {
-        const { serverId, updatedServer } = action.payload;
-        await updateServer(serverId, updatedServer);
-        const event = {
-          kind: "EDIT_SERVER",
-          payload: {
-            serverId,
-            updatedServer,
-          },
-        };
-        wss.clients.forEach((client) => {
-          client.send(JSON.stringify(event));
-        });
-        break;
-      }
-      case "DELETE_SERVER": {
-        const { serverId } = action.payload;
-        await deleteServer(serverId);
-        const event = {
-          kind: "DELETE_SERVER",
-          payload: {
-            serverId,
-          },
-        };
-        wss.clients.forEach((client) => {
-          client.send(JSON.stringify(event));
-        });
-        break;
-      }
-      case "EDIT_USER": {
-        if (!loggedInUserId) {
-          return;
-        }
-        const { updatedUser } = action.payload;
-        await updateUser(loggedInUserId, updatedUser);
-        const event = {
-          kind: "EDIT_USER",
-          payload: {
-            userId: loggedInUserId,
-            updatedUser,
-          },
-        };
-        wss.clients.forEach((client) => {
-          client.send(JSON.stringify(event));
-        });
-        break;
-      }
-      case "NEW_MESSAGE": {
-        if (!loggedInUserId) {
-          return;
-        }
-        const message = {
-          _id: nanoid(),
-          userId: loggedInUserId,
-          timestamp: Date.now(),
-          text: action.payload.text,
-        };
-        const { serverId, channelId } = action.payload;
-        await addMessage(message, serverId, channelId);
-        const event = {
-          kind: "NEW_MESSAGE",
-          payload: {
-            serverId,
-            channelId,
-            message,
-          },
-        };
-        wss.clients.forEach((client) => {
-          client.send(JSON.stringify(event));
-        });
-        break;
-      }
-      case "EDIT_MESSAGE": {
-        const { serverId, channelId, messageId, text } = action.payload;
-        await editMessage(serverId, channelId, messageId, text);
-        const event = {
-          kind: "EDIT_MESSAGE",
-          payload: {
-            serverId,
-            channelId,
-            messageId,
-            text,
-          },
-        };
-        wss.clients.forEach((client) => {
-          client.send(JSON.stringify(event));
-        });
-        break;
-      }
-      case "DELETE_MESSAGE": {
-        const { serverId, channelId, messageId } = action.payload;
-        await deleteMessage(serverId, channelId, messageId);
-        const event = {
-          kind: "DELETE_MESSAGE",
-          payload: {
-            serverId,
-            channelId,
-            messageId,
-          },
-        };
-        wss.clients.forEach((client) => {
-          client.send(JSON.stringify(event));
-        });
-        break;
-      }
       case "REGISTER": {
         const { name, email, password, dateOfBirth } = action.payload;
         const { _id, desiredOnlineStatus } = await newUser(
@@ -217,15 +98,12 @@ wss.on("connection", async (ws) => {
           password,
           dateOfBirth
         );
-        loggedInUserId = _id;
         const cookie = nanoid();
-        await addUserCookie(cookie, loggedInUserId);
-        await sendState(ws, cookie, loggedInUserId);
-        await updateOnlineStatus(
-          wss.clients,
-          loggedInUserId,
-          desiredOnlineStatus
-        );
+        ws.userId = _id;
+        await addUserCookie(cookie, ws.userId);
+        await sendState(ws, cookie, ws.userId);
+        await updateOnlineStatus(ws.userId, desiredOnlineStatus);
+        return;
       }
       case "LOGIN": {
         const user = await getUserByEmail(action.payload.email);
@@ -236,71 +114,266 @@ wss.on("connection", async (ws) => {
         if (action.payload.password !== password) {
           return;
         }
-        loggedInUserId = _id;
         const cookie = nanoid();
-        await addUserCookie(cookie, loggedInUserId);
-        await sendState(ws, cookie, loggedInUserId);
-        await updateOnlineStatus(
-          wss.clients,
-          loggedInUserId,
-          desiredOnlineStatus
-        );
-        break;
-      }
-      case "REQUEST_LOGIN_CODE": {
-        const loginCode = nanoid();
-        mapLoginCodeToClient.set(loginCode, ws);
-        ws.send(
-          JSON.stringify({
-            kind: "SET_LOGIN_CODE",
-            payload: {
-              loginCode,
-            },
-          })
-        );
-        break;
-      }
-      case "CONFIRM_LOGIN_CODE": {
-        if (!loggedInUserId) {
-          return;
-        }
-        const { loginCode } = action.payload;
-        const client = mapLoginCodeToClient.get(loginCode);
-        const cookie = nanoid();
-        await addUserCookie(cookie, loggedInUserId);
-        await sendState(client, cookie, loggedInUserId);
-        ws.send(
-          JSON.stringify({
-            kind: "SET_LOGIN_CODE_STATUS",
-            payload: {
-              status: "successful",
-            },
-          })
-        );
+        ws.userId = _id;
+        await addUserCookie(cookie, ws.userId);
+        await sendState(ws, cookie, ws.userId);
+        await updateOnlineStatus(ws.userId, desiredOnlineStatus);
+        return;
       }
       case "VERIFY_COOKIE": {
         const userCookie = await getUserCookie(action.payload.cookie);
         if (userCookie === null) {
           return;
         }
-        const { _id: cookie } = userCookie;
-        loggedInUserId = userCookie.userId;
-        await sendState(ws, cookie, loggedInUserId);
-        const { desiredOnlineStatus } = await getUser(loggedInUserId);
-        await updateOnlineStatus(
-          wss.clients,
-          loggedInUserId,
-          desiredOnlineStatus
-        );
-        break;
+        const { _id: cookie, userId } = userCookie;
+        ws.userId = userId;
+        await sendState(ws, cookie, ws.userId);
+        const { desiredOnlineStatus } = await getUser(ws.userId);
+        await updateOnlineStatus(ws.userId, desiredOnlineStatus);
+        return;
       }
-      case "TYPING_INDICATOR_CHANGED": {
-        if (!loggedInUserId) {
-          return;
+      case "REQUEST_LOGIN_CODE": {
+        const loginCode = nanoid();
+        mapLoginCodeToClient.set(loginCode, ws);
+        sendTo(ws, {
+          kind: "SET_LOGIN_CODE",
+          payload: {
+            loginCode,
+          },
+        });
+        return;
+      }
+    }
+
+    // Are we logged in + in the app?
+    if (!ws.userId) {
+      return;
+    }
+
+    switch (action.kind) {
+      case "CONFIRM_LOGIN_CODE": {
+        const { loginCode } = action.payload;
+        const client = mapLoginCodeToClient.get(loginCode);
+        const cookie = nanoid();
+        client.userId = ws.userId;
+        await addUserCookie(cookie, client.userId);
+        await sendState(client, cookie, client.userId);
+        sendTo(ws, {
+          kind: "SET_LOGIN_CODE_STATUS",
+          payload: {
+            status: "successful",
+          },
+        });
+        return;
+      }
+
+      case "EDIT_USER": {
+        const { updatedUser } = action.payload;
+        await updateUser(ws.userId, updatedUser);
+        broadcast({
+          kind: "EDIT_USER",
+          payload: {
+            userId: ws.userId,
+            updatedUser,
+          },
+        });
+        return;
+      }
+      case "SET_ONLINE_STATUS": {
+        const { userId, desiredOnlineStatus } = action.payload;
+        await setDesiredOnlineStatus(userId, desiredOnlineStatus);
+        await updateOnlineStatus(userId, desiredOnlineStatus);
+        return;
+      }
+
+      case "NEW_SERVER": {
+        const { name } = action.payload;
+        const server = await newServer(name, ws.userId);
+        broadcast({
+          kind: "NEW_SERVER",
+          payload: {
+            server,
+          },
+        });
+        return;
+      }
+      case "EDIT_SERVER": {
+        const { serverId, updatedServer } = action.payload;
+        await updateServer(serverId, updatedServer);
+        broadcast({
+          kind: "EDIT_SERVER",
+          payload: {
+            serverId,
+            updatedServer,
+          },
+        });
+        return;
+      }
+      case "DELETE_SERVER": {
+        const { serverId } = action.payload;
+        await deleteServer(serverId);
+        broadcast({
+          kind: "DELETE_SERVER",
+          payload: {
+            serverId,
+          },
+        });
+        return;
+      }
+
+      case "NEW_MESSAGE": {
+        const { serverId, channelId, text } = action.payload;
+        const message = await addMessage(serverId, channelId, text, ws.userId);
+        broadcast({
+          kind: "NEW_MESSAGE",
+          payload: {
+            serverId,
+            channelId,
+            message,
+          },
+        });
+        return;
+      }
+      case "EDIT_MESSAGE": {
+        const { serverId, channelId, messageId, text } = action.payload;
+        await editMessage(serverId, channelId, messageId, text);
+        broadcast({
+          kind: "EDIT_MESSAGE",
+          payload: {
+            serverId,
+            channelId,
+            messageId,
+            text,
+          },
+        });
+        return;
+      }
+      case "DELETE_MESSAGE": {
+        const { serverId, channelId, messageId } = action.payload;
+        await deleteMessage(serverId, channelId, messageId);
+        broadcast({
+          kind: "DELETE_MESSAGE",
+          payload: {
+            serverId,
+            channelId,
+            messageId,
+          },
+        });
+        return;
+      }
+
+      case "USER_JOINED_SERVER": {
+        const { serverId } = action.payload;
+        const serverUser = await addUserToServer(ws.userId, serverId);
+        const user = await getUser(ws.userId);
+        broadcast({
+          kind: "USER_JOINED_SERVER",
+          payload: {
+            serverId,
+            user,
+            serverUser,
+          },
+        });
+        return;
+      }
+      case "USER_LEFT_SERVER":
+      case "KICK_USER": {
+        let { serverId, userId } = action.payload;
+        if (!userId) {
+          userId = ws.userId;
         }
+        await removeUserFromServer(serverId, userId);
+        broadcast({
+          kind: "USER_LEFT_SERVER",
+          payload: {
+            serverId,
+            userId,
+          },
+        });
+        return;
+      }
+
+      case "ADD_CATEGORY": {
+        const { serverId, name } = action.payload;
+        const category = await addCategory(serverId, name);
+        broadcast({
+          kind: "ADD_CATEGORY",
+          payload: {
+            serverId,
+            category,
+          },
+        });
+        return;
+      }
+      case "EDIT_CATEGORY": {
+        const { serverId, categoryId, updatedCategory } = action.payload;
+        await editCategory(serverId, categoryId, updatedCategory);
+        broadcast({
+          kind: "EDIT_CATEGORY",
+          payload: {
+            serverId,
+            categoryId,
+            updatedCategory,
+          },
+        });
+        return;
+      }
+      case "DELETE_CATEGORY": {
+        const { serverId, categoryId } = action.payload;
+        await deleteCategory(serverId, categoryId);
+        broadcast({
+          kind: "DELETE_CATEGORY",
+          payload: {
+            serverId,
+            categoryId,
+          },
+        });
+        return;
+      }
+
+      case "ADD_CHANNEL": {
+        const { serverId, categoryId, name } = action.payload;
+        const channel = await addChannel(serverId, categoryId, name);
+        broadcast({
+          kind: "ADD_CHANNEL",
+          payload: {
+            serverId,
+            channel,
+          },
+        });
+        return;
+      }
+      case "EDIT_CHANNEL": {
+        const { serverId, channelId, updatedChannel } = action.payload;
+        await editChannel(serverId, channelId, updatedChannel);
+        broadcast({
+          kind: "EDIT_CHANNEL",
+          payload: {
+            serverId,
+            channelId,
+            updatedChannel,
+          },
+        });
+        return;
+      }
+      case "DELETE_CHANNEL": {
+        const { serverId, channelId } = action.payload;
+        await deleteChannel(serverId, channelId);
+        broadcast({
+          kind: "DELETE_CHANNEL",
+          payload: {
+            serverId,
+            channelId,
+          },
+        });
+        return;
+      }
+
+      case "TYPING_INDICATOR_CHANGED": {
         const { serverId, channelId, typingStatus } = action.payload;
         if (typingStatus) {
-          const savedLoggedInUserId = loggedInUserId;
+          const savedLoggedInUserId = ws.userId;
           const key = `${serverId}-${channelId}-${savedLoggedInUserId}`;
           if (typingTimeouts[key]) {
             clearTimeout(typingTimeouts[key]);
@@ -312,264 +385,96 @@ wss.on("connection", async (ws) => {
               savedLoggedInUserId,
               false
             );
-            wss.clients.forEach((client) => {
-              client.send(
-                JSON.stringify({
-                  kind: "TYPING_INDICATOR_CHANGED",
-                  payload: {
-                    serverId,
-                    channelId,
-                    userId: savedLoggedInUserId,
-                    typingStatus: false,
-                  },
-                })
-              );
-            });
-          }, 5000);
-        }
-        await setTypingUserStatus(
-          serverId,
-          channelId,
-          loggedInUserId,
-          typingStatus
-        );
-        wss.clients.forEach((client) => {
-          client.send(
-            JSON.stringify({
+            broadcast({
               kind: "TYPING_INDICATOR_CHANGED",
               payload: {
                 serverId,
                 channelId,
-                userId: loggedInUserId,
-                typingStatus,
+                userId: savedLoggedInUserId,
+                typingStatus: false,
               },
-            })
-          );
-        });
-        break;
-      }
-      case "USER_JOINED_SERVER": {
-        if (!loggedInUserId) {
-          return;
+            });
+          }, 5000);
         }
-        const { serverId } = action.payload;
-        const serverUser = await addUserToServer(loggedInUserId, serverId);
-        const user = await getUser(loggedInUserId);
-        wss.clients.forEach((client) => {
-          client.send(
-            JSON.stringify({
-              kind: "USER_JOINED_SERVER",
-              payload: {
-                serverId,
-                user,
-                serverUser,
-              },
-            })
-          );
-        });
-        break;
-      }
-      case "USER_LEFT_SERVER":
-      case "KICK_USER": {
-        if (!loggedInUserId) {
-          return;
-        }
-        let { serverId, userId } = action.payload;
-        if (!userId) {
-          userId = loggedInUserId;
-        }
-        await removeUserFromServer(serverId, userId);
-        wss.clients.forEach((client) => {
-          client.send(
-            JSON.stringify({
-              kind: "USER_LEFT_SERVER",
-              payload: {
-                serverId,
-                userId,
-              },
-            })
-          );
-        });
-        break;
-      }
-      case "ADD_CATEGORY": {
-        const { serverId, name } = action.payload;
-        const category = await addCategory(serverId, name);
-        wss.clients.forEach((client) => {
-          client.send(
-            JSON.stringify({
-              kind: "ADD_CATEGORY",
-              payload: {
-                serverId,
-                category,
-              },
-            })
-          );
-        });
-        break;
-      }
-      case "EDIT_CATEGORY": {
-        const { serverId, categoryId, updatedCategory } = action.payload;
-        await editCategory(serverId, categoryId, updatedCategory);
-        const event = {
-          kind: "EDIT_CATEGORY",
-          payload: {
-            serverId,
-            categoryId,
-            updatedCategory,
-          },
-        };
-        wss.clients.forEach((client) => {
-          client.send(JSON.stringify(event));
-        });
-        break;
-      }
-      case "DELETE_CATEGORY": {
-        const { serverId, categoryId } = action.payload;
-        await deleteCategory(serverId, categoryId);
-        const event = {
-          kind: "DELETE_CATEGORY",
-          payload: {
-            serverId,
-            categoryId,
-          },
-        };
-        wss.clients.forEach((client) => {
-          client.send(JSON.stringify(event));
-        });
-        break;
-      }
-      case "ADD_CHANNEL": {
-        const { serverId, categoryId, name } = action.payload;
-        const channel = await addChannel(serverId, categoryId, name);
-        const event = {
-          kind: "ADD_CHANNEL",
-          payload: {
-            serverId,
-            channel,
-          },
-        };
-        wss.clients.forEach((client) => {
-          client.send(JSON.stringify(event));
-        });
-        break;
-      }
-      case "EDIT_CHANNEL": {
-        const { serverId, channelId, updatedChannel } = action.payload;
-        await editChannel(serverId, channelId, updatedChannel);
-        const event = {
-          kind: "EDIT_CHANNEL",
+        await setTypingUserStatus(serverId, channelId, ws.userId, typingStatus);
+        broadcast({
+          kind: "TYPING_INDICATOR_CHANGED",
           payload: {
             serverId,
             channelId,
-            updatedChannel,
+            userId: ws.userId,
+            typingStatus,
           },
-        };
-        wss.clients.forEach((client) => {
-          client.send(JSON.stringify(event));
         });
-        break;
+        return;
       }
-      case "DELETE_CHANNEL": {
-        const { serverId, channelId } = action.payload;
-        await deleteChannel(serverId, channelId);
-        const event = {
-          kind: "DELETE_CHANNEL",
-          payload: {
-            serverId,
-            channelId,
-          },
-        };
-        wss.clients.forEach((client) => {
-          client.send(JSON.stringify(event));
-        });
-        break;
-      }
+
       case "ADD_ROLE": {
         const { serverId } = action.payload;
         const role = await addRole(serverId);
-        const event = {
+        broadcast({
           kind: "ADD_ROLE",
           payload: {
             serverId,
             role,
           },
-        };
-        wss.clients.forEach((client) => {
-          client.send(JSON.stringify(event));
         });
-        break;
+        return;
       }
       case "EDIT_ROLE": {
         const { serverId, roleId, updatedRole } = action.payload;
         await editRole(serverId, roleId, updatedRole);
-        const event = {
+        broadcast({
           kind: "EDIT_ROLE",
           payload: {
             serverId,
             roleId,
             updatedRole,
           },
-        };
-        wss.clients.forEach((client) => {
-          client.send(JSON.stringify(event));
         });
-        break;
+        return;
       }
       case "DELETE_ROLE": {
         const { serverId, roleId } = action.payload;
         await removeRoleFromAllUsers(serverId, roleId);
         await deleteRole(serverId, roleId);
-        const event = {
+        broadcast({
           kind: "DELETE_ROLE",
           payload: {
             serverId,
             roleId,
           },
-        };
-        wss.clients.forEach((client) => {
-          client.send(JSON.stringify(event));
         });
-        break;
+        return;
       }
+
       case "ADD_ROLE_TO_USER": {
         const { serverId, userId, roleId } = action.payload;
         await addRoleToUser(serverId, userId, roleId);
-        const event = {
+        broadcast({
           kind: "ADD_ROLE_TO_USER",
           payload: {
             serverId,
             userId,
             roleId,
           },
-        };
-        wss.clients.forEach((client) => {
-          client.send(JSON.stringify(event));
         });
-        break;
+        return;
       }
       case "REMOVE_ROLE_FROM_USER": {
         const { serverId, userId, roleId } = action.payload;
         await removeRoleFromUser(serverId, userId, roleId);
-        const event = {
+        broadcast({
           kind: "REMOVE_ROLE_FROM_USER",
           payload: {
             serverId,
             userId,
             roleId,
           },
-        };
-        wss.clients.forEach((client) => {
-          client.send(JSON.stringify(event));
         });
-        break;
+        return;
       }
-      case "SET_ONLINE_STATUS": {
-        const { userId, desiredOnlineStatus } = action.payload;
-        await setDesiredOnlineStatus(userId, desiredOnlineStatus);
-        updateOnlineStatus(wss.clients, userId, desiredOnlineStatus);
-        break;
-      }
+
       default:
         console.error("unexpected action: " + JSON.stringify(action));
     }
