@@ -6,6 +6,7 @@ export const Container = styled.div`
   min-width: 85px;
   overflow-y: auto;
   overflow-x: hidden;
+  scrollbar-color: transparent transparent;
 `;
 
 export const Item = styled.div`

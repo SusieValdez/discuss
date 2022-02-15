@@ -32,11 +32,26 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+*::-webkit-scrollbar {
+  width: 8px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: #202225;
+  border-radius: 20px;
+}
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
   font-family: var(--main-font);
+  scrollbar-width: thin;
+  scrollbar-color: #202225 #36393f;
 }
 
 html,
