@@ -52,6 +52,9 @@ export const UserTag = styled.div`
     cursor: pointer;
     color: #fff;
     font-weight: 600px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
   }
 
   p {
