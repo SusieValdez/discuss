@@ -50,6 +50,12 @@ const broadcast = (event) => {
   });
 };
 
+const secureUser = (user) => ({
+  ...user,
+  desiredOnlineStatus: undefined,
+  password: undefined,
+});
+
 const sendState = async (client, cookie, userId) => {
   sendTo(client, {
     kind: "SET_STATE",
@@ -58,7 +64,7 @@ const sendState = async (client, cookie, userId) => {
       state: {
         userId,
         servers: await getServers(),
-        users: await getUsers(),
+        users: (await getUsers()).map((user) => secureUser(user)),
       },
     },
   });
@@ -271,7 +277,7 @@ wss.on("connection", async (ws) => {
           kind: "USER_JOINED_SERVER",
           payload: {
             serverId,
-            user,
+            user: secureUser(user),
             serverUser,
           },
         });
