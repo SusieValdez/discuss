@@ -40,6 +40,10 @@ const Chat = ({
     setUserModalData(undefined);
   };
 
+  if (!activeChannel) {
+    return <></>;
+  }
+
   const typingUsers = activeChannel.typingUsers
     .filter(
       (userId) => userId !== localUser._id && userMap[userId] !== undefined

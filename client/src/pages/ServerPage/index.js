@@ -48,12 +48,14 @@ function ServerPage({
     const topChannel = channels.find(
       (channel) => channel.categoryId === categories[0]._id
     );
-    return (
-      <Navigate
-        to={`/servers/${serverId}/channels/${topChannel._id}`}
-        replace={true}
-      />
-    );
+    if (topChannel) {
+      return (
+        <Navigate
+          to={`/servers/${serverId}/channels/${topChannel._id}`}
+          replace={true}
+        />
+      );
+    }
   }
 
   const serverUserMap = arrayToMap(serverUserInfo, "userId");
@@ -70,10 +72,10 @@ function ServerPage({
   };
   const userMap = arrayToMap(serverUsers);
 
-  const expandedActiveChannel = {
+  const expandedActiveChannel = activeChannel && {
     ...activeChannel,
     ...channels.find((channel) => channel._id === channelId),
-    messages: activeChannel.messages.map((message) => ({
+    messages: activeChannel?.messages.map((message) => ({
       ...message,
       user: userMap[message.userId],
     })),
