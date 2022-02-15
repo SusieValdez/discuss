@@ -132,11 +132,12 @@ const Message = ({
             onKeyDown={onKeyDownEditedMessage}
           />
         ) : (
-          <div>
-            <Content
-              style={{
-                fontSize: isAllEmojis(text) ? "48px" : "16px",
-              }}
+          <Content
+            style={{
+              fontSize: isAllEmojis(text) ? "48px" : "16px",
+            }}
+          >
+            <div
               dangerouslySetInnerHTML={{
                 __html: marked.parse(text, { breaks: true }),
               }}
@@ -146,7 +147,7 @@ const Message = ({
                 <img key={i} src={src} alt={src} />
               ))}
             </div>
-          </div>
+          </Content>
         )}
       </div>
       <Menu
