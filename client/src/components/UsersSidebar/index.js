@@ -1,6 +1,7 @@
 import { MenuItem, useMenuState } from "@szhsin/react-menu";
 import React, { useState } from "react";
 import { Menu } from "../../ui/Menus";
+import Tooltip from "../../ui/Tooltip";
 import { topRoleColor, userHasPermission } from "../../utils";
 // Styles
 import {
@@ -139,7 +140,9 @@ const User = ({
           src={avatarUrl || "/default-user-logo.svg"}
           style={{ opacity }}
         />
-        {<OnlineStatusIndicatorIcon className={onlineStatus} />}
+        <Tooltip title={onlineStatus}>
+          <OnlineStatusIndicatorIcon className={onlineStatus} />
+        </Tooltip>
       </div>
       <UserContent style={{ opacity }}>
         <Username color={topRoleColor({ roles })}>{name}</Username>

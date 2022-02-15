@@ -1,5 +1,6 @@
 import React, { useRef } from "react";
 import Modal from "react-modal";
+import Tooltip from "../../ui/Tooltip";
 import {
   Container,
   Banner,
@@ -88,7 +89,9 @@ const MiniUserProfileModal = ({ closeModal, data }) => {
             alt="user avatar"
           />
         </Banner>
-        {<OnlineStatusIndicatorIcon className={user.onlineStatus} />}
+        <Tooltip title={user.onlineStatus}>
+          <OnlineStatusIndicatorIcon className={user.onlineStatus} />
+        </Tooltip>
         <Header>
           <h2>{user.name}</h2>
           <p>{user.legend}</p>

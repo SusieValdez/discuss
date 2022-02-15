@@ -264,7 +264,9 @@ const Sidebar = ({
             ref={statusRef}
             onClick={onClickStatusProfilePic}
           />
-          {<OnlineStatusIndicatorIcon className={localUser.onlineStatus} />}
+          <Tooltip title={localUser.onlineStatus}>
+            <OnlineStatusIndicatorIcon className={localUser.onlineStatus} />
+          </Tooltip>
           <Menu
             state={statusMenu.state}
             endTransition={statusMenu.endTransition}

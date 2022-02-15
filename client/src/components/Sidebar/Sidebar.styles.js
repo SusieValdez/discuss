@@ -84,6 +84,7 @@ export const OnlineStatusIndicatorIcon = styled.div`
   right: 10px;
   top: 12px;
   border: 3px solid #2f3136;
+  cursor: pointer;
 
   &.online {
     background-color: #3ba55d;
