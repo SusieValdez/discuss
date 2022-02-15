@@ -94,8 +94,8 @@ const UserProfile = ({ user, onEditUserAccount }) => {
             />
             <h3>About Me</h3>
             <AboutMe>
-              {newAboutMe.split("\n").map((row) => (
-                <p>{row}</p>
+              {newAboutMe.split("\n").map((row, i) => (
+                <p key={i}>{row}</p>
               ))}
             </AboutMe>
           </MiniUserProfile>
