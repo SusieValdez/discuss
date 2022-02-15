@@ -30,6 +30,9 @@ export const Content = styled.div`
     line-height: 20px;
     font-weight: var(--font-weight-regular);
     margin-bottom: 10px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 `;
 
