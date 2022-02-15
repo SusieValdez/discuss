@@ -14,6 +14,7 @@ export const Title = styled.div`
   height: 48px;
   padding: 16px;
   box-shadow: var(--box-shadow);
+  margin-bottom: 1px;
   display: flex;
   align-items: center;
   justify-content: space-between;
