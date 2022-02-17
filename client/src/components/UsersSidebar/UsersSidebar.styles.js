@@ -79,6 +79,7 @@ export const OnlineStatusIndicatorIcon = styled.div`
 export const UserContent = styled.div`
   display: flex;
   flex-direction: column;
+  justify-content: center;
   height: 100%;
   width: 225px;
   pointer-events: none;
