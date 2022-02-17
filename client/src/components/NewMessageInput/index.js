@@ -12,7 +12,7 @@ const NewMessageInput = ({
   const inputRef = useRef(null);
   useEffect(() => {
     inputRef.current?.focus();
-  });
+  }, [activeChannel._id]);
 
   const onChangeNewMessage = (e) => {
     const changedNewMessage = e.target.value;
@@ -34,7 +34,7 @@ const NewMessageInput = ({
       <Input
         ref={inputRef}
         type="text"
-        placeholder={`Message #${activeChannel}`}
+        placeholder={`Message #${activeChannel.name}`}
         value={newMessage}
         onChange={onChangeNewMessage}
         onKeyDown={onKeyDownNewMessage}

@@ -90,7 +90,7 @@ const Chat = ({
             onClickDeleteMessage={onClickDeleteMessage}
           />
           <NewMessageInput
-            activeChannel={activeChannel.name}
+            activeChannel={activeChannel}
             onNewMessage={onNewMessage}
             onTypingIndicatorChanged={onTypingIndicatorChanged}
           />
