@@ -25,8 +25,6 @@ export const Container = styled.div`
 export const UserContainer = styled.div`
   height: 42px;
   display: flex;
-  align-items: center;
-  justify-content: center;
   margin-right: 12px;
   margin-top: 10px;
   border-radius: 4px;
@@ -38,15 +36,17 @@ export const UserContainer = styled.div`
   }
 `;
 
-export const ProfileImage = styled.img`
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  flex: 0 0 auto;
-  margin-right: 12px;
-  margin-top: 10px;
-  background-color: ${(props) => props.backgroundColor};
-  pointer-events: none;
+export const ProfileImage = styled.div`
+  img {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    flex: 0 0 auto;
+    margin-right: 12px;
+    margin-top: 5px;
+    background-color: ${(props) => props.backgroundColor};
+    pointer-events: none;
+  }
 `;
 
 export const OnlineStatusIndicatorIcon = styled.div`

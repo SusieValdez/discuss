@@ -134,16 +134,16 @@ const User = ({
 
   return (
     <UserContainer onClick={openUserModal} onContextMenu={onRightClickUser}>
-      <div>
-        <ProfileImage
-          backgroundColor={avatarUrl ? "none" : bannerColor}
+      <ProfileImage backgroundColor={avatarUrl ? "none" : bannerColor}>
+        <img
           src={avatarUrl || "/default-user-logo.svg"}
           style={{ opacity }}
+          alt=""
         />
         <Tooltip title={onlineStatus}>
           <OnlineStatusIndicatorIcon className={onlineStatus} />
         </Tooltip>
-      </div>
+      </ProfileImage>
       <UserContent style={{ opacity }}>
         <Username color={topRoleColor({ roles })}>{name}</Username>
         <Legend>{legend}</Legend>
