@@ -1,4 +1,8 @@
-import { WebSocketServer } from "ws";
+import express from "express";
+import fetch from "node-fetch";
+import cors from "cors";
+import expressWs from "express-ws";
+
 import {
   addCategory,
   addChannel,
@@ -35,11 +39,14 @@ import {
 } from "./db.js";
 import { getId, hash } from "./utils.js";
 
+const app = express();
+const wsInstance = expressWs(app);
+
 const mapLoginCodeToClient = new Map();
 
 const typingTimeouts = {};
 
-const wss = new WebSocketServer({ port: 8080 });
+const wss = wsInstance.getWss();
 
 const sendTo = (client, event) => {
   client.send(JSON.stringify(event));
@@ -101,7 +108,9 @@ const updateTypingUserStatus = async (
   });
 };
 
-wss.on("connection", async (ws) => {
+app.use(cors());
+
+app.ws("/", async (ws, req) => {
   ws.on("close", async () => {
     if (!ws.userId) {
       return;
@@ -508,3 +517,14 @@ wss.on("connection", async (ws) => {
     }
   });
 });
+
+app.get("/proxy/:url", async (req, res) => {
+  const url = decodeURIComponent(req.params.url);
+  console.log("proxying:", url);
+  const response = await fetch(url);
+  response.headers.forEach((value, key) => res.set(key, value));
+  const buffer = await response.arrayBuffer();
+  res.status(200).end(Buffer.from(buffer));
+});
+
+app.listen(8080);

@@ -54,10 +54,13 @@ const Message = ({
     const links = text.split(" ").filter(isLink);
     links.forEach(async (link) => {
       try {
-        const response = await fetch(link);
+        const proxiedLink = `http://${
+          window.location.hostname
+        }:8080/proxy/${encodeURIComponent(link)}`;
+        const response = await fetch(proxiedLink);
         const contentType = response.headers.get("content-type");
         if (contentType && contentType.split("/")[0] === "image") {
-          setImages((images) => [...images, link]);
+          setImages((images) => [...images, proxiedLink]);
         }
       } catch {}
     });
