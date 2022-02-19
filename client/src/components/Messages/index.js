@@ -50,6 +50,7 @@ const Messages = ({
   onClickDeleteMessage,
 }) => {
   const messagesRef = useRef(null);
+  const lastMessage = messages[messages.length - 1];
   useEffect(() => {
     // Wait until images have loaded in each Message
     // This is a bit of a hack
@@ -61,7 +62,7 @@ const Messages = ({
         behavior: "smooth",
       });
     }, 300);
-  }, [messages]);
+  }, [lastMessage?._id]);
 
   const dailyMessages = groupMessagesByDay(messages);
 
