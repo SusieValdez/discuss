@@ -82,6 +82,24 @@ const updateOnlineStatus = async (userId, onlineStatus) => {
   });
 };
 
+const updateTypingUserStatus = async (
+  serverId,
+  channelId,
+  userId,
+  typingStatus
+) => {
+  await setTypingUserStatus(serverId, channelId, userId, typingStatus);
+  broadcast({
+    kind: "TYPING_INDICATOR_CHANGED",
+    payload: {
+      serverId,
+      channelId,
+      userId,
+      typingStatus,
+    },
+  });
+};
+
 wss.on("connection", async (ws) => {
   ws.on("close", async () => {
     if (!ws.userId) {
@@ -384,35 +402,21 @@ wss.on("connection", async (ws) => {
           const key = `${serverId}-${channelId}-${savedLoggedInUserId}`;
           if (typingTimeouts[key]) {
             clearTimeout(typingTimeouts[key]);
+          } else {
+            await updateTypingUserStatus(serverId, channelId, ws.userId, true);
           }
           typingTimeouts[key] = setTimeout(async () => {
-            await setTypingUserStatus(
+            await updateTypingUserStatus(
               serverId,
               channelId,
               savedLoggedInUserId,
               false
             );
-            broadcast({
-              kind: "TYPING_INDICATOR_CHANGED",
-              payload: {
-                serverId,
-                channelId,
-                userId: savedLoggedInUserId,
-                typingStatus: false,
-              },
-            });
+            typingTimeouts[key] = undefined;
           }, 5000);
+        } else {
+          await updateTypingUserStatus(serverId, channelId, ws.userId, false);
         }
-        await setTypingUserStatus(serverId, channelId, ws.userId, typingStatus);
-        broadcast({
-          kind: "TYPING_INDICATOR_CHANGED",
-          payload: {
-            serverId,
-            channelId,
-            userId: ws.userId,
-            typingStatus,
-          },
-        });
         return;
       }
 
