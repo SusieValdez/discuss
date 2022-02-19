@@ -59,6 +59,13 @@ const useWsActions = (
   }, [cookie, wsReadyState, send]);
 
   return {
+    logout: () => {
+      send({
+        kind: "LOGOUT",
+        payload: {},
+      });
+    },
+
     onClickRegister: (payload) => {
       send({
         kind: "REGISTER",

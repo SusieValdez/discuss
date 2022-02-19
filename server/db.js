@@ -222,6 +222,10 @@ export async function addUserCookie(cookie, userId) {
   await db.collection("cookies").insertOne({ _id: cookie, userId });
 }
 
+export async function deleteUserCookie(cookie) {
+  await db.collection("cookies").deleteOne({ _id: cookie });
+}
+
 export async function getUserCookie(cookie) {
   return await db.collection("cookies").findOne({ _id: cookie });
 }

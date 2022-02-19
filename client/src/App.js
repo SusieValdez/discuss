@@ -29,6 +29,7 @@ function App() {
   });
 
   const onClickLogout = () => {
+    actions.logout();
     localStorage.removeItem("cookie");
     setCookie(undefined);
   };

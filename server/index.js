@@ -4,6 +4,7 @@ import {
   addChannel,
   addMessage,
   addUserCookie,
+  deleteUserCookie,
   deleteCategory,
   deleteChannel,
   deleteMessage,
@@ -105,6 +106,7 @@ wss.on("connection", async (ws) => {
     if (!ws.userId) {
       return;
     }
+    // TODO: Only set a user to offline when they are not online on any other devices
     await updateOnlineStatus(ws.userId, "offline");
     ws.userId = undefined;
   });
@@ -124,6 +126,7 @@ wss.on("connection", async (ws) => {
         );
         const cookie = getId();
         ws.userId = _id;
+        ws.cookie = cookie;
         await addUserCookie(cookie, ws.userId);
         await sendState(ws, cookie, ws.userId);
         await updateOnlineStatus(ws.userId, desiredOnlineStatus);
@@ -141,6 +144,7 @@ wss.on("connection", async (ws) => {
         }
         const cookie = getId();
         ws.userId = _id;
+        ws.cookie = cookie;
         await addUserCookie(cookie, ws.userId);
         await sendState(ws, cookie, ws.userId);
         await updateOnlineStatus(ws.userId, desiredOnlineStatus);
@@ -157,6 +161,7 @@ wss.on("connection", async (ws) => {
         }
         const { _id: cookie, userId } = userCookie;
         ws.userId = userId;
+        ws.cookie = cookie;
         await sendState(ws, cookie, ws.userId);
         const { desiredOnlineStatus } = await getUser(ws.userId);
         await updateOnlineStatus(ws.userId, desiredOnlineStatus);
@@ -181,11 +186,19 @@ wss.on("connection", async (ws) => {
     }
 
     switch (action.kind) {
+      case "LOGOUT": {
+        await deleteUserCookie(ws.cookie);
+        // TODO: Only set a user to offline when they are not online on any other devices
+        await updateOnlineStatus(ws.userId, "offline");
+        break;
+      }
+
       case "CONFIRM_LOGIN_CODE": {
         const { loginCode } = action.payload;
         const client = mapLoginCodeToClient.get(loginCode);
         const cookie = getId();
         client.userId = ws.userId;
+        client.cookie = cookie;
         await addUserCookie(cookie, client.userId);
         await sendState(client, cookie, client.userId);
         sendTo(ws, {
