@@ -19,6 +19,7 @@ import {
 } from "./ServerDiscoveryPage.styles";
 // Assets
 import HeroImage from "../../assets/login-background.svg";
+import Sidebar from "../../components/Sidebar";
 
 // const hasSubstring = (str1, str2) => str1.search(str2) !== -1;
 
@@ -27,6 +28,9 @@ const ServerDiscoveryPage = ({
   servers,
   onUserJoinedServer,
   userMap,
+  onEditUserAccount,
+  onClickLogout,
+  onChangeOnlineStatus,
 }) => {
   const navigate = useNavigate();
   const [serverModalData, setServerModalData] = useState(undefined);
@@ -102,6 +106,12 @@ const ServerDiscoveryPage = ({
           </ModalContainer>
         )}
       </Modal>
+      <Sidebar
+        localUser={localUser}
+        onEditUserAccount={onEditUserAccount}
+        onClickLogout={onClickLogout}
+        onChangeOnlineStatus={onChangeOnlineStatus(localUser._id)}
+      />
       <PageContent>
         <DiscoveryHeroImage background={HeroImage}>
           <input

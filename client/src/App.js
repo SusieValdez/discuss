@@ -87,6 +87,9 @@ function App() {
       servers={state.servers}
       userMap={userMap}
       onUserJoinedServer={actions.onUserJoinedServer}
+      onEditUserAccount={actions.onEditUserAccount}
+      onClickLogout={onClickLogout}
+      onChangeOnlineStatus={actions.onChangeOnlineStatus}
     />
   );
 

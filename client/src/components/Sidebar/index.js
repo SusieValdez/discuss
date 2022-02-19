@@ -32,8 +32,8 @@ import UserLegendModal from "../UserLegendModal";
 const Sidebar = ({
   server,
   serverUsers,
-  categories,
-  channels,
+  categories = [],
+  channels = [],
   activeChannel,
   localUser,
   onUserLeftServer,
@@ -201,52 +201,56 @@ const Sidebar = ({
         onEditUserAccount={onEditUserAccount}
       />
       <div>
-        <Tooltip
-          open={copiedServerInviteTooltipIsOpen}
-          title="Copied!"
-          placement="bottom-end"
-          arrow={false}
-        >
-          <Header onClick={onClickHeader} ref={headerRef}>
-            {server.name}
-          </Header>
-        </Tooltip>
-        <Menu
-          state={headerMenu.state}
-          endTransition={headerMenu.endTransition}
-          anchorRef={headerRef}
-          onClose={() => {
-            setTimeout(() => {
-              setCopiedServerInviteTooltipOpen(false);
-            }, 1000);
-            setHeaderMenuIsOpen(false);
-            headerMenu.toggleMenu(false);
-          }}
-          offsetY={10}
-          offsetX={10}
-        >
-          <MenuItem onClick={onClickInvitePeople}>Invite People</MenuItem>
-          {userHasPermission(localUser, server, "manage-server") && (
-            <>
-              <MenuItem onClick={() => setServerSettingsModalData({})}>
-                Server Settings
+        {server && (
+          <>
+            <Tooltip
+              open={copiedServerInviteTooltipIsOpen}
+              title="Copied!"
+              placement="bottom-end"
+              arrow={false}
+            >
+              <Header onClick={onClickHeader} ref={headerRef}>
+                {server.name}
+              </Header>
+            </Tooltip>
+            <Menu
+              state={headerMenu.state}
+              endTransition={headerMenu.endTransition}
+              anchorRef={headerRef}
+              onClose={() => {
+                setTimeout(() => {
+                  setCopiedServerInviteTooltipOpen(false);
+                }, 1000);
+                setHeaderMenuIsOpen(false);
+                headerMenu.toggleMenu(false);
+              }}
+              offsetY={10}
+              offsetX={10}
+            >
+              <MenuItem onClick={onClickInvitePeople}>Invite People</MenuItem>
+              {userHasPermission(localUser, server, "manage-server") && (
+                <>
+                  <MenuItem onClick={() => setServerSettingsModalData({})}>
+                    Server Settings
+                  </MenuItem>
+                </>
+              )}
+              {userHasPermission(localUser, server, "manage-channels") && (
+                <>
+                  <MenuItem onClick={() => setNewChannelModalData({})}>
+                    Create Channel
+                  </MenuItem>
+                  <MenuItem onClick={() => setNewCategoryModalData({})}>
+                    Create Category
+                  </MenuItem>
+                </>
+              )}
+              <MenuItem onClick={onClickLeaveServer} color="red">
+                Leave Server
               </MenuItem>
-            </>
-          )}
-          {userHasPermission(localUser, server, "manage-channels") && (
-            <>
-              <MenuItem onClick={() => setNewChannelModalData({})}>
-                Create Channel
-              </MenuItem>
-              <MenuItem onClick={() => setNewCategoryModalData({})}>
-                Create Category
-              </MenuItem>
-            </>
-          )}
-          <MenuItem onClick={onClickLeaveServer} color="red">
-            Leave Server
-          </MenuItem>
-        </Menu>
+            </Menu>
+          </>
+        )}
         {loneChannels.map((channel) => (
           <ChannelTitle
             key={channel._id}

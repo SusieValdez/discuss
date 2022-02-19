@@ -1,9 +1,10 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
+  display: flex;
+  justify-content: column;
   height: 100vh;
   width: 100%;
-  padding: 20px;
   background-color: var(--bg-chat-area);
 
   > div {
@@ -22,6 +23,7 @@ export const Container = styled.div`
 `;
 
 export const PageContent = styled.div`
+  padding: 20px;
   display: flex;
   flex-direction: column;
   justify-content: center;
