@@ -20,6 +20,10 @@ const useWsActions = (
           setLoginCodeStatus(event.payload.status);
           return;
         }
+        if (event.kind === "INVALID_COOKIE") {
+          localStorage.setItem("cookie", undefined);
+          setCookie(undefined);
+        }
         if (!cookie && event.kind === "SET_STATE") {
           localStorage.setItem("cookie", event.payload.cookie);
           setCookie(event.payload.cookie);

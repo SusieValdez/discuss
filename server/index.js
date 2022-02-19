@@ -149,6 +149,10 @@ wss.on("connection", async (ws) => {
       case "VERIFY_COOKIE": {
         const userCookie = await getUserCookie(action.payload.cookie);
         if (userCookie === null) {
+          sendTo(ws, {
+            kind: "INVALID_COOKIE",
+            payload: {},
+          });
           return;
         }
         const { _id: cookie, userId } = userCookie;
