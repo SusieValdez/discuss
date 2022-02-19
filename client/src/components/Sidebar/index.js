@@ -251,38 +251,48 @@ const Sidebar = ({
             </Menu>
           </>
         )}
-        {loneChannels.map((channel) => (
-          <ChannelTitle
-            key={channel._id}
-            {...channel}
-            localUser={localUser}
-            server={server}
-            isActive={isActiveChannel(activeChannel)(channel)}
-            onClickEditChannel={() => setEditChannelModalData({ channel })}
-            onClickDeleteChannel={() => setDeleteChannelModalData({ channel })}
-          />
-        ))}
-        {Object.values(channelsByCategory).map(({ category, channels }) => (
-          <ChannelCategory
-            key={category._id}
-            name={category.name}
-            localUser={localUser}
-            server={server}
-            channels={channels}
-            activeChannel={activeChannel}
-            onClickNewChannel={() => setNewChannelModalData({ category })}
-            onClickEditChannel={(channel) =>
-              setEditChannelModalData({ channel })
-            }
-            onClickDeleteChannel={(channel) =>
-              setDeleteChannelModalData({ channel })
-            }
-            onClickEditCategory={() => setEditCategoryModalData({ category })}
-            onClickDeleteCategory={() =>
-              setDeleteCategoryModalData({ category })
-            }
-          />
-        ))}
+        <div
+          style={{
+            overflowY: "auto",
+            height: "calc(100vh - 53px - 48px)",
+            scrollbarColor: "#202225 #2f3136",
+          }}
+        >
+          {loneChannels.map((channel) => (
+            <ChannelTitle
+              key={channel._id}
+              {...channel}
+              localUser={localUser}
+              server={server}
+              isActive={isActiveChannel(activeChannel)(channel)}
+              onClickEditChannel={() => setEditChannelModalData({ channel })}
+              onClickDeleteChannel={() =>
+                setDeleteChannelModalData({ channel })
+              }
+            />
+          ))}
+          {Object.values(channelsByCategory).map(({ category, channels }) => (
+            <ChannelCategory
+              key={category._id}
+              name={category.name}
+              localUser={localUser}
+              server={server}
+              channels={channels}
+              activeChannel={activeChannel}
+              onClickNewChannel={() => setNewChannelModalData({ category })}
+              onClickEditChannel={(channel) =>
+                setEditChannelModalData({ channel })
+              }
+              onClickDeleteChannel={(channel) =>
+                setDeleteChannelModalData({ channel })
+              }
+              onClickEditCategory={() => setEditCategoryModalData({ category })}
+              onClickDeleteCategory={() =>
+                setDeleteCategoryModalData({ category })
+              }
+            />
+          ))}
+        </div>
       </div>
       <UserPanel>
         <UserTag>

@@ -7,6 +7,7 @@ export const Container = styled.div`
   background-color: #2f3136;
   flex-direction: column;
   padding-left: 8px;
+  overflow-y: auto;
 
   h2 {
     color: #8e9297;
